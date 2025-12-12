@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { ArrowUpRight, X, ExternalLink, Code2 } from 'lucide-react';
 import { Project } from '../types';
 
 const projects: Project[] = [
@@ -31,10 +31,10 @@ const projects: Project[] = [
 ];
 
 const Works: React.FC = () => {
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
-    <section id="works" className="py-32 px-5 md:px-10 lg:px-20 max-w-[1400px] mx-auto">
+    <section id="works" className="relative py-32 px-5 md:px-10 lg:px-20 max-w-[1400px] mx-auto z-20">
        <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
          <div>
             <span className="font-mono text-accent mb-4 block text-lg">03. Works</span>
@@ -47,14 +47,115 @@ const Works: React.FC = () => {
 
       <div className="flex flex-col gap-32">
         {projects.map((project, index) => (
-          <ProjectCard key={project.id} project={project} index={index} />
+          <ProjectCard 
+            key={project.id} 
+            project={project} 
+            index={index} 
+            onClick={() => setSelectedProject(project)}
+          />
         ))}
       </div>
+
+      {/* Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
+              className="fixed inset-0 bg-black/90 z-[60] backdrop-blur-sm cursor-pointer"
+            />
+            
+            {/* Modal Content */}
+            <motion.div
+              layoutId={`project-${selectedProject.id}`}
+              className="fixed inset-0 z-[61] flex items-center justify-center pointer-events-none p-4 md:p-10"
+            >
+              <div 
+                className="pointer-events-auto w-full max-w-5xl bg-surface border border-white/10 overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
+                onClick={(e) => e.stopPropagation()}
+              >
+                 {/* Image Side */}
+                 <div className="w-full md:w-1/2 h-[40vh] md:h-auto relative overflow-hidden">
+                     <motion.img 
+                        layoutId={`project-img-${selectedProject.id}`}
+                        src={selectedProject.image} 
+                        className="w-full h-full object-cover"
+                     />
+                     <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent md:hidden" />
+                 </div>
+
+                 {/* Content Side */}
+                 <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col overflow-y-auto">
+                    <div className="flex justify-between items-start mb-8">
+                       <div>
+                         <motion.p 
+                           initial={{ opacity: 0, y: 20 }}
+                           animate={{ opacity: 1, y: 0 }}
+                           transition={{ delay: 0.2 }}
+                           className="text-accent font-mono text-sm mb-2"
+                         >
+                           {selectedProject.category}
+                         </motion.p>
+                         <motion.h2 
+                           initial={{ opacity: 0, y: 20 }}
+                           animate={{ opacity: 1, y: 0 }}
+                           transition={{ delay: 0.3 }}
+                           className="text-4xl md:text-5xl font-display font-bold text-white"
+                         >
+                           {selectedProject.title}
+                         </motion.h2>
+                       </div>
+                       <button onClick={() => setSelectedProject(null)} className="text-secondary hover:text-white">
+                         <X size={32} />
+                       </button>
+                    </div>
+
+                    <motion.p 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                      className="text-secondary leading-relaxed mb-8"
+                    >
+                      A comprehensive solution designed to tackle scalability challenges. 
+                      Built with modern technologies to ensure performance, accessibility, and a seamless user experience. 
+                      This project involved deep research into user behaviors and iterative design sprints.
+                    </motion.p>
+
+                    <div className="mt-auto grid grid-cols-2 gap-4">
+                       <motion.a 
+                         href="#" 
+                         initial={{ opacity: 0, y: 20 }}
+                         animate={{ opacity: 1, y: 0 }}
+                         transition={{ delay: 0.5 }}
+                         className="flex items-center justify-center gap-2 py-4 bg-white text-black font-bold hover:bg-accent transition-colors"
+                       >
+                          Live Site <ExternalLink size={18} />
+                       </motion.a>
+                       <motion.a 
+                         href="#" 
+                         initial={{ opacity: 0, y: 20 }}
+                         animate={{ opacity: 1, y: 0 }}
+                         transition={{ delay: 0.6 }}
+                         className="flex items-center justify-center gap-2 py-4 border border-white/20 text-white font-bold hover:bg-white hover:text-black transition-colors"
+                       >
+                          Code <Code2 size={18} />
+                       </motion.a>
+                    </div>
+                 </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
 
-const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
+const ProjectCard: React.FC<{ project: Project; index: number; onClick: () => void }> = ({ project, index, onClick }) => {
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -71,7 +172,10 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.8 }}
-            className="group"
+            className="group cursor-pointer"
+            onClick={onClick}
+            layoutId={`project-${project.id}`}
+            data-cursor-text="VIEW CASE" // Added for cursor interaction
         >
              {/* Info Header */}
              <div className="flex justify-between items-end mb-6 px-2">
@@ -94,7 +198,8 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
             {/* Image Container */}
             <div className="relative w-full aspect-[16/9] overflow-hidden bg-surface">
                 <motion.div style={{ y }} className="w-full h-[120%] -mt-[10%]">
-                    <img
+                    <motion.img
+                        layoutId={`project-img-${project.id}`}
                         src={project.image}
                         alt={project.title}
                         className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700 grayscale group-hover:grayscale-0"
@@ -103,13 +208,6 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                 
                 {/* Overlay Flash */}
                 <div className="absolute inset-0 bg-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay pointer-events-none" />
-                
-                {/* Mobile Icon */}
-                <div className="absolute bottom-4 right-4 md:hidden">
-                    <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center">
-                         <ArrowUpRight className="text-black" size={20} />
-                    </div>
-                </div>
             </div>
         </motion.div>
     );

@@ -1,7 +1,8 @@
 import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, MessageCircle, Twitter } from 'lucide-react';
-import Scene from './Scene';
+import { ArrowDown, Github, Linkedin, MessageCircle, Twitter, ArrowRight } from 'lucide-react';
+import { Scene } from './Scene';
+import Magnetic from './Magnetic';
 
 const Hero: React.FC = () => {
   return (
@@ -32,32 +33,49 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Center Content */}
-        <div className="flex flex-col items-center text-center justify-center h-full">
+        <div className="flex flex-col items-center text-center justify-center h-full pointer-events-auto">
            
-           {/* Intro Text */}
-           <motion.p
+           {/* Pill Badge */}
+           <motion.div
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.8, delay: 0.2 }}
-             className="text-lg md:text-xl font-sans text-white/80 mb-6"
+             className="mb-8 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md"
            >
-             Hi! I'm Dinesh
-           </motion.p>
+             <span className="text-sm font-sans text-white/80">Hi, I'm Dinesh</span>
+           </motion.div>
 
            {/* Big Headline */}
            <motion.div
              initial={{ opacity: 0, scale: 0.9 }}
              animate={{ opacity: 1, scale: 1 }}
              transition={{ duration: 0.8, delay: 0.3 }}
-             className="relative"
+             className="relative mb-10"
            >
-             <h1 className="text-5xl md:text-7xl lg:text-9xl font-display font-medium text-white tracking-tight leading-[1.1]">
-               Full-stack Developer
+             <h1 className="text-5xl md:text-7xl lg:text-9xl font-display font-bold text-white tracking-tight leading-[1.1]">
+               FULL-STACK <br /> DEVELOPER
              </h1>
-             <h1 className="text-5xl md:text-7xl lg:text-9xl font-display font-medium text-white tracking-tight leading-[1.1]">
-               UI & UX Designer<span className="text-accent">.</span>
+             <h1 
+               className="text-5xl md:text-7xl lg:text-9xl font-display font-bold text-transparent tracking-tight leading-[1.1]"
+               style={{ WebkitTextStroke: '1px #F4F4F5' }}
+             >
+               UI & UX DESIGNER<span className="text-accent">.</span>
              </h1>
            </motion.div>
+
+           {/* CTA Button */}
+           <Magnetic strength={30}>
+            <motion.a
+              href="#works"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="group flex items-center gap-3 px-8 py-4 bg-accent text-black font-bold rounded-full hover:bg-white transition-colors duration-300"
+            >
+              See My Work
+              <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+            </motion.a>
+           </Magnetic>
         </div>
 
         {/* Right Sidebar: Vertical Name */}
@@ -81,6 +99,7 @@ const Hero: React.FC = () => {
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50 pointer-events-auto"
       >
         <span className="text-sm font-light tracking-widest lowercase">scroll down</span>
+        <ArrowDown size={16} className="animate-bounce" />
       </motion.div>
 
     </section>

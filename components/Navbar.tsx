@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Magnetic from './Magnetic';
 
 const navLinks = [
   { name: 'Home', href: '#home' },
@@ -35,35 +36,42 @@ const Navbar: React.FC = () => {
           transition-all duration-300
           ${isScrolled ? 'w-[90%] md:w-[600px] bg-white/5 backdrop-blur-xl border border-white/10 shadow-lg' : 'w-[95%] md:w-[1400px] bg-transparent'}
         `}>
-          <a href="#" className="text-xl font-display font-bold text-white tracking-tight">
-            D<span className="text-accent">.</span>
-          </a>
+          <Magnetic strength={20}>
+            <a href="#" className="block p-2 text-xl font-display font-bold text-white tracking-tight">
+              D<span className="text-accent">.</span>
+            </a>
+          </Magnetic>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-2">
             {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-xs font-medium uppercase tracking-widest text-secondary hover:text-accent transition-colors"
-              >
-                {link.name}
-              </a>
+              <Magnetic key={link.name} strength={15}>
+                <a
+                  href={link.href}
+                  className="px-4 py-2 text-xs font-medium uppercase tracking-widest text-secondary hover:text-white transition-colors"
+                >
+                  {link.name}
+                </a>
+              </Magnetic>
             ))}
           </nav>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            className="md:hidden text-white"
-            onClick={() => setIsMobileMenuOpen(true)}
-          >
-            <Menu size={20} />
-          </button>
-          
-           {/* CTA on Navbar */}
-           <a href="#contact" className="hidden md:block text-xs font-bold bg-white text-black px-4 py-2 rounded-full hover:bg-accent transition-colors">
-             Let's Talk
-           </a>
+          <div className="flex items-center gap-4">
+             {/* CTA on Navbar */}
+             <Magnetic strength={40}>
+               <a href="#contact" className="hidden md:flex items-center justify-center text-xs font-bold bg-white text-black px-6 py-3 rounded-full hover:bg-accent transition-colors">
+                 Let's Talk
+               </a>
+             </Magnetic>
+
+             {/* Mobile Menu Toggle */}
+             <button
+               className="md:hidden text-white p-2"
+               onClick={() => setIsMobileMenuOpen(true)}
+             >
+               <Menu size={20} />
+             </button>
+          </div>
         </div>
       </header>
 
@@ -79,7 +87,7 @@ const Navbar: React.FC = () => {
           >
             <button
               onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute top-8 right-8 text-white p-2 hover:text-accent transition-colors"
+              className="absolute top-8 right-8 text-white p-4 hover:text-accent transition-colors"
             >
               <X size={32} />
             </button>

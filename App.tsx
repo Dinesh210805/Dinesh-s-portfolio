@@ -16,25 +16,62 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (isLoading) return;
+
+    // Initialize Lenis for smooth momentum scrolling
     const lenis = new Lenis({
       duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential easing
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
     });
 
+    // Integrate with Request Animation Frame
+    let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
+    rafId = requestAnimationFrame(raf);
 
-    requestAnimationFrame(raf);
+    // Intercept all anchor clicks to use Lenis smooth scroll instead of native jump
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest('a');
+      
+      if (anchor) {
+        const href = anchor.getAttribute('href');
+        // Only handle internal links
+        if (href?.startsWith('#')) {
+          e.preventDefault();
+          
+          if (href === '#home' || href === '#') {
+            lenis.scrollTo(0, { duration: 1.5 });
+          } else {
+            const element = document.querySelector(href);
+            if (element) {
+              lenis.scrollTo(element as HTMLElement, {
+                offset: 0,
+                duration: 1.5,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+              });
+            }
+          }
+        }
+      }
+    };
+
+    document.addEventListener('click', handleAnchorClick);
 
     return () => {
       lenis.destroy();
+      cancelAnimationFrame(rafId);
+      document.removeEventListener('click', handleAnchorClick);
     };
-  }, []);
+  }, [isLoading]);
 
   return (
     <>
@@ -46,25 +83,31 @@ const App: React.FC = () => {
       </AnimatePresence>
 
       {!isLoading && (
-        <main className="w-full min-h-screen bg-background text-primary selection:bg-accent selection:text-black">
+        <main className="w-full min-h-screen text-primary selection:bg-accent selection:text-black">
           <Navbar />
           
-          <div className="relative z-10 shadow-2xl shadow-black">
+          {/* 
+            Content Wrapper: 
+            z-10 and bg-background ensure this sits ON TOP of the footer.
+            Shadow adds depth when revealing the footer.
+          */}
+          <div className="relative z-10 bg-background shadow-2xl shadow-black">
              <Hero />
              <Marquee />
-             
-             {/* Main Content Area */}
-             <div className="relative bg-background pb-20">
-               <BioStats />
-               <Services />
-               <Works />
-               <Experience />
-               
-               {/* Spacer for Parallax Footer */}
-               <div className="w-full h-[100vh] pointer-events-none" />
-             </div>
+             <BioStats />
+             <Services />
+             <Works />
+             <Experience />
           </div>
 
+          {/* 
+             Transparent Spacer:
+             This allows the page to scroll past the content wrapper, 
+             revealing the fixed footer (z-0) underneath through the transparency.
+          */}
+          <div className="relative z-10 w-full h-[100vh] pointer-events-none" />
+
+          {/* Footer sits fixed at the bottom with z-0 */}
           <Footer />
         </main>
       )}
