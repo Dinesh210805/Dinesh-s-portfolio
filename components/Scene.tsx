@@ -74,31 +74,54 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
       const beta = event.beta || 0;  // -180 to 180 (front to back tilt)
       const gamma = event.gamma || 0; // -90 to 90 (left to right tilt)
 
-      try {
-        // Map orientation to mouse position (normalized -1 to 1)
-        const x = Math.max(-1, Math.min(1, gamma / 45));  // Normalize to -1 to 1
-        const y = Math.max(-1, Math.min(1, (beta - 45) / 45)); // Adjust beta offset
+      console.log('Orientation:', { beta, gamma }); // Debug log
 
-        // Simulate mouse movement for Spline
+      try {
         const splineElement = splineRef.current;
-        if (splineElement && splineElement.emitEvent) {
-          // Map to viewport coordinates (0 to 1)
-          const mouseX = (x + 1) / 2;
-          const mouseY = (y + 1) / 2;
-          
-          splineElement.emitEvent('mouseMove', { x: mouseX, y: mouseY });
-        }
+        
+        // Map orientation to pixel coordinates
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        // Normalize gamma (-90 to 90) to screen width
+        const x = ((gamma + 90) / 180) * width;
+        
+        // Normalize beta (-180 to 180) to screen height
+        const y = ((beta + 90) / 180) * height;
+        
+        console.log('Mapped coordinates:', { x, y }); // Debug log
+
+        // Dispatch mousemove event
+        const rect = splineElement.getBoundingClientRect();
+        const evt = new MouseEvent('mousemove', {
+          clientX: x,
+          clientY: y,
+          bubbles: true,
+          cancelable: true,
+          view: window
+        });
+        splineElement.dispatchEvent(evt);
       } catch (error) {
         console.error('Error updating spline orientation:', error);
       }
     };
 
-    window.addEventListener('deviceorientation', handleOrientation);
+    window.addEventListener('deviceorientation', handleOrientation, true);
     
     return () => {
-      window.removeEventListener('deviceorientation', handleOrientation);
+      window.removeEventListener('deviceorientation', handleOrientation, true);
     };
   };
+
+  useEffect(() => {
+    let cleanup: (() => void) | undefined;
+    if (sensorPermission === 'granted') {
+      cleanup = enableSensorControls();
+    }
+    return () => {
+      if (cleanup) cleanup();
+    };
+  }, [sensorPermission]);
 
   const dismissPermissionPrompt = () => {
     setShowPermissionPrompt(false);
@@ -107,6 +130,49 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-background">
+      {/* Sensor Permission Prompt */}
+      <AnimatePresence>
+        {showPermissionPrompt && isMobile && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-6 pointer-events-auto"
+            style={{ top: 0, left: 0, right: 0, bottom: 0 }}
+          >
+            {/* Backdrop */}
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={dismissPermissionPrompt} />
+            
+            {/* Modal */}
+            <div className="relative bg-[#0a0a0a] border border-accent/30 backdrop-blur-xl p-6 rounded-sm max-w-sm w-full mx-4">
+              <div className="flex items-center gap-3 mb-4">
+                <Smartphone size={20} className="text-accent" />
+                <h3 className="font-mono text-sm text-white uppercase tracking-wider">
+                  Sensor Access
+                </h3>
+              </div>
+              <p className="text-xs text-white/60 mb-6 leading-relaxed">
+                Allow device orientation access to control the 3D model by tilting your phone.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={requestSensorPermission}
+                  className="flex-1 bg-accent text-black font-mono text-xs uppercase tracking-wider py-3 px-4 hover:bg-accent/80 transition-colors font-bold"
+                >
+                  Allow
+                </button>
+                <button
+                  onClick={dismissPermissionPrompt}
+                  className="flex-1 bg-white/5 text-white/60 font-mono text-xs uppercase tracking-wider py-3 px-4 hover:bg-white/10 transition-colors border border-white/10"
+                >
+                  Deny
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <AnimatePresence mode="wait">
         {isInView ? (
           <motion.div 
@@ -128,42 +194,6 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
 
             {/* Shield Spline Watermark */}
             <div className="absolute bottom-0 right-0 w-36 h-14 bg-background z-20 pointer-events-none" />
-
-            {/* Sensor Permission Prompt */}
-            {showPermissionPrompt && isMobile && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-auto"
-              >
-                <div className="bg-black/90 border border-accent/30 backdrop-blur-xl p-6 rounded-sm max-w-xs">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Smartphone size={20} className="text-accent" />
-                    <h3 className="font-mono text-sm text-white uppercase tracking-wider">
-                      Sensor Access
-                    </h3>
-                  </div>
-                  <p className="text-xs text-white/60 mb-6 leading-relaxed">
-                    Allow device orientation access to control the 3D model by tilting your phone.
-                  </p>
-                  <div className="flex gap-3">
-                    <button
-                      onClick={requestSensorPermission}
-                      className="flex-1 bg-accent text-black font-mono text-xs uppercase tracking-wider py-2.5 px-4 hover:bg-accent/80 transition-colors"
-                    >
-                      Allow
-                    </button>
-                    <button
-                      onClick={dismissPermissionPrompt}
-                      className="flex-1 bg-white/5 text-white/60 font-mono text-xs uppercase tracking-wider py-2.5 px-4 hover:bg-white/10 transition-colors border border-white/10"
-                    >
-                      Deny
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            )}
           </motion.div>
         ) : (
           /* Static Image Fallback: Consumes 0% GPU */
