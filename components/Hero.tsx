@@ -64,11 +64,11 @@ const Hero: React.FC = () => {
       {/* Main Content Layer */}
       <div className="relative z-20 w-full h-full max-w-[1600px] mx-auto px-6 md:px-12 py-20 flex flex-col justify-between pointer-events-none">
         
-        <div className="h-12 md:h-20" />
+        <div className="h-32 md:h-20" />
 
         <motion.div 
           style={{ y, opacity }}
-          className="flex flex-col items-start text-left max-w-2xl lg:max-w-3xl"
+          className="flex flex-col items-start text-left max-w-2xl lg:max-w-3xl mt-32 md:mt-0"
         >
           <div className="flex flex-col gap-0 mb-8 md:mb-12 select-none w-full">
             <motion.div
