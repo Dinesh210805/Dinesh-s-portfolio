@@ -48,7 +48,13 @@ const ChatBot: React.FC = () => {
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
     try {
-      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      
+      if (!apiKey) {
+        throw new Error('API key not configured. Please check environment variables.');
+      }
+      
+      const ai = new GoogleGenAI({ apiKey });
       const chat = ai.chats.create({
         model: 'gemini-2.5-flash',
         config: { 
@@ -59,9 +65,10 @@ const ChatBot: React.FC = () => {
       
       const response = await chat.sendMessage({ message: userMessage });
       setMessages(prev => [...prev, { role: 'ai', content: response.text || "I'm sorry, I couldn't process that request." }]);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Gemini API Error:", error);
-      setMessages(prev => [...prev, { role: 'ai', content: "Connection error. Please try again." }]);
+      const errorMessage = error?.message || "Connection error. Please try again.";
+      setMessages(prev => [...prev, { role: 'ai', content: `Error: ${errorMessage}` }]);
     } finally {
       setIsLoading(false);
     }
