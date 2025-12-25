@@ -8,6 +8,7 @@ const Contact: React.FC = () => {
   const [formState, setFormState] = useState<'IDLE' | 'SENDING' | 'SUCCESS'>('IDLE');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -18,13 +19,32 @@ const Contact: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormState('SENDING');
-    // Simulate API call
-    setTimeout(() => {
-      setFormState('SUCCESS');
-    }, 2000);
+    
+    try {
+      const formData = new FormData(formRef.current!);
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setFormState('SUCCESS');
+        formRef.current?.reset();
+      } else {
+        console.error('Form submission failed:', data);
+        setFormState('IDLE');
+        alert('Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setFormState('IDLE');
+      alert('Network error. Please check your connection and try again.');
+    }
   };
 
   return (
@@ -143,20 +163,28 @@ const Contact: React.FC = () => {
               ) : (
                 <motion.form 
                   key="form"
+                  ref={formRef}
                   onSubmit={handleSubmit}
                   initial={{ opacity: 1 }}
                   exit={{ opacity: 0, x: 20 }}
                   className="space-y-12 bg-white/[0.01] border border-white/5 p-8 md:p-12 backdrop-blur-sm"
                 >
+                  {/* Web3Forms Access Key */}
+                  <input type="hidden" name="access_key" value={import.meta.env.VITE_WEB3FORMS_ACCESS_KEY} />
+                  <input type="hidden" name="subject" value="New Contact from Portfolio" />
+                  <input type="hidden" name="from_name" value="Portfolio Contact Form" />
+                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                     <InputField 
                       label="Identity_Source" 
+                      name="name"
                       placeholder="Your Name" 
                       type="text" 
                       required 
                     />
                     <InputField 
                       label="Return_Path" 
+                      name="email"
                       placeholder="email@example.com" 
                       type="email" 
                       required 
@@ -165,6 +193,7 @@ const Contact: React.FC = () => {
                   
                   <InputField 
                     label="Project_Scope" 
+                    name="subject"
                     placeholder="Subject / Company" 
                     type="text" 
                   />
@@ -175,6 +204,7 @@ const Contact: React.FC = () => {
                       <span className="font-mono text-[7px] text-white/20 uppercase">Size_Limit: 4.2kb</span>
                     </div>
                     <textarea 
+                      name="message"
                       placeholder="Brief your requirements..."
                       rows={5}
                       required
@@ -220,7 +250,7 @@ const Contact: React.FC = () => {
   );
 };
 
-const InputField: React.FC<{ label: string; placeholder: string; type: string; required?: boolean }> = ({ label, placeholder, type, required }) => {
+const InputField: React.FC<{ label: string; name: string; placeholder: string; type: string; required?: boolean }> = ({ label, name, placeholder, type, required }) => {
   return (
     <div className="relative space-y-3 group">
       <div className="flex items-center gap-2">
@@ -230,6 +260,7 @@ const InputField: React.FC<{ label: string; placeholder: string; type: string; r
         </label>
       </div>
       <input 
+        name={name}
         type={type} 
         required={required}
         placeholder={placeholder}

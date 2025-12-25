@@ -18,6 +18,7 @@ import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import Preloader from './components/Preloader';
 import ChatBot from './components/ChatBot';
+import SectionTransition from './components/SectionTransition';
 
 declare global {
   interface Window {
@@ -32,14 +33,16 @@ const App: React.FC = () => {
     if (isLoading) return;
 
     const lenis = new Lenis({
-      duration: 1.5,
+      duration: 1.8,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.1,
-      touchMultiplier: 1.5,
-      lerp: 0.08,
+      wheelMultiplier: 0.8,
+      touchMultiplier: 2,
+      infinite: false,
+      lerp: 0.05,
+      syncTouch: true,
     });
 
     window.lenis = lenis;
@@ -75,16 +78,36 @@ const App: React.FC = () => {
           <Navbar />
           
           <main className="relative z-20 bg-background shadow-[0_50px_100px_rgba(0,0,0,0.9)]">
-             <Hero />
-             <Marquee />
-             <ProfileHeader />
-             <BioStats />
-             <Achievements />
-             <Services />
-             <Works />
-             <Certifications />
-             <Experience />
-             <Contact />
+             <SectionTransition>
+               <Hero />
+             </SectionTransition>
+             <SectionTransition delay={0.1}>
+               <Marquee />
+             </SectionTransition>
+             <SectionTransition delay={0.1}>
+               <ProfileHeader />
+             </SectionTransition>
+             <SectionTransition delay={0.1}>
+               <BioStats />
+             </SectionTransition>
+             <SectionTransition delay={0.1}>
+               <Achievements />
+             </SectionTransition>
+             <SectionTransition delay={0.1}>
+               <Services />
+             </SectionTransition>
+             <SectionTransition delay={0.1}>
+               <Works />
+             </SectionTransition>
+             <SectionTransition delay={0.1}>
+               <Certifications />
+             </SectionTransition>
+             <SectionTransition delay={0.1}>
+               <Experience />
+             </SectionTransition>
+             <SectionTransition delay={0.1}>
+               <Contact />
+             </SectionTransition>
           </main>
 
           <Footer />

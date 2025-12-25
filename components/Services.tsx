@@ -135,11 +135,25 @@ const Services: React.FC = () => {
         </div>
 
         {/* COMPONENT BLOCKS */}
-        <div className="space-y-20">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.15
+              }
+            }
+          }}
+          className="space-y-20"
+        >
           {technicalSystems.map((system, idx) => (
             <CapabilityBlock key={system.id} system={system} index={idx} />
           ))}
-        </div>
+        </motion.div>
         
         {/* FOOTER DECAL */}
         <div className="mt-40 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
@@ -155,10 +169,17 @@ const Services: React.FC = () => {
 const CapabilityBlock: React.FC<{ system: any, index: number }> = ({ system, index }) => {
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay: index * 0.1 }}
+      variants={{
+        hidden: { opacity: 0, y: 60 },
+        visible: { 
+          opacity: 1, 
+          y: 0,
+          transition: { 
+            duration: 0.7, 
+            ease: [0.16, 1, 0.3, 1] 
+          }
+        }
+      }}
       className="group relative"
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-white/5 bg-[#080808]/50 backdrop-blur-sm hover:border-accent/20 transition-all duration-700">

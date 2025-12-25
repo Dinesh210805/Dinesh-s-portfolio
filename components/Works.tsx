@@ -62,11 +62,26 @@ const Works: React.FC = () => {
           </h2>
         </div>
 
-        <div className="space-y-60">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.15
+              }
+            }
+          }}
+          className="space-y-60"
+        >
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -78,7 +93,7 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start end", "end start"] });
   
   // Parallax adjustment for smoother feel and no edge revealing
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
 
   // Image carousel state
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -102,9 +117,17 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
   return (
     <motion.div
       ref={containerRef}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      variants={{
+        hidden: { opacity: 0, y: 100 },
+        visible: { 
+          opacity: 1, 
+          y: 0,
+          transition: { 
+            duration: 0.8, 
+            ease: [0.16, 1, 0.3, 1] 
+          }
+        }
+      }}
       className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center"
     >
       <div className={`lg:col-span-5 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}>

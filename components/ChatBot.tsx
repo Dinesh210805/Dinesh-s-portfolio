@@ -48,7 +48,7 @@ const ChatBot: React.FC = () => {
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
       const chat = ai.chats.create({
         model: 'gemini-3-pro-preview',
         config: { systemInstruction: SYSTEM_INSTRUCTION, temperature: 0.1 },

@@ -113,11 +113,26 @@ const Achievements: React.FC = () => {
           </div>
         </div>
 
-        <div className="space-y-40 md:space-y-60 lg:space-y-80">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.1
+              }
+            }
+          }}
+          className="space-y-40 md:space-y-60 lg:space-y-80"
+        >
           {achievements.map((ach, idx) => (
             <ArchiveEntry key={ach.id} ach={ach} index={idx} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -127,7 +142,7 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "-15%" });
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start end", "end start"] });
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
 
   const isEven = index % 2 === 0;
   

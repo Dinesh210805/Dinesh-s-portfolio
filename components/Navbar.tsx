@@ -7,7 +7,9 @@ const navLinks = [
   { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
   { name: 'Awards', href: '#achievements' },
+  { name: 'Skills', href: '#capabilities' },
   { name: 'Works', href: '#works' },
+  { name: 'Certs', href: '#certifications' },
   { name: 'History', href: '#experience' },
   { name: 'Contact', href: '#contact' },
 ];
@@ -32,13 +34,14 @@ const Navbar: React.FC = () => {
     const targetId = href.replace('#', '');
     
     if (href === '#home' || href === '#') {
-      window.lenis?.scrollTo(0, { duration: 1.5 });
+      window.lenis?.scrollTo(0, { duration: 2, easing: (t) => 1 - Math.pow(1 - t, 4) });
     } else {
       const element = document.getElementById(targetId);
       if (element) {
         window.lenis?.scrollTo(element, {
-          offset: 0,
-          duration: 1.5,
+          offset: -20,
+          duration: 2,
+          easing: (t) => 1 - Math.pow(1 - t, 4),
         });
       }
     }
@@ -58,8 +61,8 @@ const Navbar: React.FC = () => {
           flex items-center justify-between
           px-6 py-3
           rounded-full
-          transition-all duration-300
-          ${isScrolled ? 'w-[90%] md:w-[700px] bg-white/5 backdrop-blur-xl border border-white/10 shadow-lg' : 'w-[95%] md:w-[1400px] bg-transparent'}
+          transition-all duration-500 ease-out
+          ${isScrolled ? 'w-[90%] md:w-[750px] bg-white/5 backdrop-blur-xl border border-white/10 shadow-lg' : 'w-[95%] md:w-[1400px] bg-transparent'}
         `}>
           <Magnetic strength={20}>
             <a 

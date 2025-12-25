@@ -9,10 +9,10 @@ const ProfileHeader: React.FC = () => {
     offset: ["start end", "end start"]
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [-40, 40]);
+  const y = useTransform(scrollYProgress, [0, 1], [-60, 60]);
   const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]);
-  const textY = useTransform(scrollYProgress, [0, 0.5], [30, 0]);
+  const textY = useTransform(scrollYProgress, [0, 0.5], [50, 0]);
 
   return (
     <section ref={containerRef} className="relative py-24 md:py-32 px-6 md:px-10 lg:px-20 overflow-hidden bg-background">

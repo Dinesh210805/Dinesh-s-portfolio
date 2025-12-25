@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
   const [is3DEnabled, setIs3DEnabled] = useState(true);
 
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 800], [0, -120]);
+  const y = useTransform(scrollY, [0, 800], [0, -200]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
 
   const handleScrollToWorks = (e: React.MouseEvent) => {
