@@ -58,30 +58,40 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
 
   // Handle device orientation for gyroscope control
   useEffect(() => {
-    if (!isMobile || !hasGyroPermission || !isInView || !splineRef.current) return;
+    if (!isMobile || !hasGyroPermission || !isInView) return;
 
     const handleOrientation = (event: DeviceOrientationEvent) => {
+      if (!splineRef.current) return;
+
       const beta = event.beta || 0;   // X-axis rotation (-180 to 180)
       const gamma = event.gamma || 0;  // Y-axis rotation (-90 to 90)
 
-      // Map device orientation to rotation values
-      // Normalize and invert for natural movement
-      const normalizedX = (beta - 90) / 90; // -1 to 1
-      const normalizedY = gamma / 90;       // -1 to 1
+      // Map device orientation to normalized values
+      // Convert to screen coordinates
+      const normalizedX = Math.max(-1, Math.min(1, gamma / 45)); // -1 to 1
+      const normalizedY = Math.max(-1, Math.min(1, (beta - 45) / 45)); // -1 to 1
 
-      rotationX.set(normalizedX * 30); // Scale to reasonable rotation range
-      rotationY.set(normalizedY * 30);
+      rotationX.set(normalizedY * 30);
+      rotationY.set(normalizedX * 30);
 
-      // Apply rotation to Spline viewer if available
-      if (splineRef.current) {
-        const splineElement = splineRef.current as any;
-        if (splineElement.emitEvent) {
-          splineElement.emitEvent('mouseMove', {
-            x: 0.5 + normalizedY * 0.3,
-            y: 0.5 + normalizedX * 0.3
-          });
-        }
-      }
+      // Simulate mouse position based on device tilt
+      // Convert to viewport coordinates
+      const viewportX = (normalizedX + 1) * 0.5; // 0 to 1
+      const viewportY = (normalizedY + 1) * 0.5; // 0 to 1
+
+      const splineElement = splineRef.current as any;
+      const rect = splineElement.getBoundingClientRect();
+      
+      // Create and dispatch synthetic mousemove event
+      const mouseEvent = new MouseEvent('mousemove', {
+        clientX: rect.left + (viewportX * rect.width),
+        clientY: rect.top + (viewportY * rect.height),
+        bubbles: true,
+        cancelable: true,
+        view: window
+      });
+      
+      splineElement.dispatchEvent(mouseEvent);
     };
 
     window.addEventListener('deviceorientation', handleOrientation);
@@ -90,21 +100,11 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
 
   // Handle cursor movement for desktop
   useEffect(() => {
-    if (isMobile || !isInView || !splineRef.current) return;
+    if (isMobile || !isInView) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!splineRef.current) return;
-      
-      const splineElement = splineRef.current as any;
-      const rect = splineElement.getBoundingClientRect();
-      
-      // Calculate normalized position (0 to 1)
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      
-      if (splineElement.emitEvent) {
-        splineElement.emitEvent('mouseMove', { x, y });
-      }
+      // Cursor movement is handled natively by Spline viewer
+      // No additional processing needed for desktop
     };
 
     window.addEventListener('mousemove', handleMouseMove);
@@ -129,8 +129,8 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
               ref={splineRef}
               url="https://prod.spline.design/UTIsnsf41Ax0oLMK/scene.splinecode"
               loading-anim-type="none"
-              className={`w-full h-full pointer-events-auto ${
-                isMobile ? 'scale-[0.6] md:scale-105' : 'scale-105'
+              className={`w-full h-full pointer-events-auto transition-transform duration-300 ${
+                isMobile ? 'scale-[0.55] sm:scale-[0.65] md:scale-105' : 'scale-105'
               }`}
             />
 
@@ -168,9 +168,15 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
         )}
       </AnimatePresence>
       
-      {/* Cinematic Overlays */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(5,5,5,0.4)_70%,rgba(5,5,5,0.9)_100%)] pointer-events-none z-10" />
-      <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
+      {/* Cinematic Overlays - Reduced on mobile to show full model */}
+      <div className={`absolute inset-0 pointer-events-none z-10 ${
+        isMobile 
+          ? 'bg-[radial-gradient(circle_at_center,transparent_0%,rgba(5,5,5,0.2)_85%,rgba(5,5,5,0.6)_100%)]'
+          : 'bg-[radial-gradient(circle_at_center,transparent_0%,rgba(5,5,5,0.4)_70%,rgba(5,5,5,0.9)_100%)]'
+      }`} />
+      <div className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background to-transparent pointer-events-none z-10 ${
+        isMobile ? 'h-32' : 'h-64'
+      }`} />
     </div>
   );
 };
