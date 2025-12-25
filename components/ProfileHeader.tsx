@@ -34,7 +34,7 @@ const ProfileHeader: React.FC = () => {
           >
             <motion.img 
               style={{ y }}
-              src="/DineshProfile.jpg" 
+              src="/DineshProfile2.jpeg" 
               alt="Dinesh Kumar C"
               className="w-full h-[115%] object-cover transition-all duration-700 ease-out group-hover:scale-105"
             />
