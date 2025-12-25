@@ -13,14 +13,14 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
       <AnimatePresence mode="wait">
         {isInView ? (
           <motion.div 
-            key="spline-active-container" // Key change forces fresh mount/unmount
+            key="spline-active"
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.9 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="relative w-full h-full flex items-center justify-center pointer-events-auto"
+            transition={{ duration: 0.8 }}
+            className="relative w-full h-full flex items-center justify-center"
           >
-            {/* The Spline Viewer - Physically removed from DOM when isInView is false */}
+            {/* The Spline Viewer - Hard unmount when isInView is false */}
             {/* @ts-ignore */}
             <spline-viewer 
               url="https://prod.spline.design/UTIsnsf41Ax0oLMK/scene.splinecode"
@@ -28,16 +28,28 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
               className="w-full h-full scale-105 pointer-events-auto"
             />
 
-            {/* WATERMARK SHIELD: Masks the Spline logo at bottom-right */}
+            {/* Shield Spline Watermark */}
             <div className="absolute bottom-0 right-0 w-36 h-14 bg-background z-20 pointer-events-none" />
           </motion.div>
         ) : (
-          /* Placeholder strictly replaces the WebGL element */
-          <div key="spline-idle-placeholder" className="w-full h-full bg-background" />
+          /* Static Image Fallback: Consumes 0% GPU */
+          <motion.div 
+            key="static-fallback"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.4 }}
+            className="w-full h-full bg-background flex items-center justify-center overflow-hidden"
+          >
+             <img 
+               src="https://images.unsplash.com/photo-1546776310-eef45dd6d63c?q=80&w=2000&auto=format&fit=crop" 
+               className="w-full h-full object-cover grayscale opacity-20 blur-sm scale-110"
+               alt="Static Environment"
+             />
+             <div className="absolute inset-0 bg-background/60" />
+          </motion.div>
         )}
       </AnimatePresence>
       
-      {/* Cinematic Overlays - Lightweight CSS based visuals */}
+      {/* Cinematic Overlays */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(5,5,5,0.4)_70%,rgba(5,5,5,0.9)_100%)] pointer-events-none z-10" />
       <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
     </div>

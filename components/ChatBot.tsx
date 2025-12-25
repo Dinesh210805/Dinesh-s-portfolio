@@ -1,12 +1,8 @@
 
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Terminal, Activity, User, Cpu, Sparkles, Database, ShieldAlert, Zap, Radio } from 'lucide-react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { MeshDistortMaterial, Sphere, Torus, Points, PointMaterial } from '@react-three/drei';
+import { X, Send, MessageSquare, Activity, Info } from 'lucide-react';
 import { GoogleGenAI } from "@google/genai";
-import * as THREE from 'three';
-import '../types';
 
 interface Message {
   role: 'user' | 'ai';
@@ -23,63 +19,22 @@ PROJECTS: GravitycARgo, EcoBot, The Light, Langlearn.
 `;
 
 const SYSTEM_INSTRUCTION = `
-You are "DK_SENTINEL", the high-performance AI for Dinesh Kumar C.
-Use futuristic language (e.g., 'Neural Substrate', 'Query Executed').
-Provide email (dinesh210805@gmail.com) if needed.
+You are a professional assistant for Dinesh Kumar C's portfolio.
+Be helpful, concise, and professional. 
+Refer to Dinesh in the third person or as "the developer".
+Contact: dinesh210805@gmail.com
 
-CONTEXT DATA:
+CONTEXT:
 ${RESUME_DATA}
 `;
-
-const CyberHead = ({ active }: { active: boolean }) => {
-  const groupRef = useRef<THREE.Group>(null);
-  const headRef = useRef<THREE.Mesh>(null);
-  const { invalidate } = useThree();
-
-  const points = useMemo(() => {
-    const p = new Float32Array(50 * 3);
-    for (let i = 0; i < 50; i++) {
-      p[i * 3] = (Math.random() - 0.5) * 4;
-      p[i * 3 + 1] = (Math.random() - 0.5) * 4;
-      p[i * 3 + 2] = (Math.random() - 0.5) * 4;
-    }
-    return p;
-  }, []);
-
-  useFrame((state) => {
-    if (active) invalidate();
-    const t = state.clock.getElapsedTime();
-    if (groupRef.current) {
-      groupRef.current.rotation.y = Math.sin(t * 1.5) * 0.2;
-      groupRef.current.position.y = Math.sin(t * 2) * 0.1;
-    }
-    if (headRef.current) headRef.current.rotation.y += 0.005;
-  });
-
-  return (
-    <group ref={groupRef}>
-      <Torus args={[1.2, 0.02, 16, 100]} rotation={[Math.PI / 2, 0, 0]}>
-        <meshStandardMaterial color="#CCFF00" emissive="#CCFF00" emissiveIntensity={2} transparent opacity={0.5} />
-      </Torus>
-      <Sphere ref={headRef} args={[0.8, 32, 32]}>
-        <MeshDistortMaterial color={active ? "#CCFF00" : "#222222"} speed={2} distort={0.3} radius={1} emissive={active ? "#CCFF00" : "#111111"} emissiveIntensity={1} />
-      </Sphere>
-      <Points positions={points}>
-        <PointMaterial transparent color="#CCFF00" size={0.05} sizeAttenuation={true} depthWrite={false} opacity={0.4} />
-      </Points>
-      <pointLight position={[2, 2, 2]} intensity={2} color="#CCFF00" />
-    </group>
-  );
-};
 
 const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'ai', content: "CONNECTIVITY_ESTABLISHED. I am DK_SENTINEL." }
+    { role: 'ai', content: "Hello. I'm Dinesh's assistant. How can I help you today?" }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -93,9 +48,7 @@ const ChatBot: React.FC = () => {
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
     try {
-      // Fix: Create a new GoogleGenAI instance right before making an API call to ensure use of the most up-to-date API key
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      // Start a chat session with the appropriate model and system context
       const chat = ai.chats.create({
         model: 'gemini-3-pro-preview',
         config: { systemInstruction: SYSTEM_INSTRUCTION, temperature: 0.1 },
@@ -104,82 +57,111 @@ const ChatBot: React.FC = () => {
           parts: [{ text: m.content }]
         }))
       });
-      // Send the message and wait for the response
       const response = await chat.sendMessage({ message: userMessage });
-      // Fix: Correctly access the .text property from the GenerateContentResponse object
-      setMessages(prev => [...prev, { role: 'ai', content: response.text || "SYS_ERR: NULL_PAYLOAD" }]);
+      setMessages(prev => [...prev, { role: 'ai', content: response.text || "I'm sorry, I couldn't process that request." }]);
     } catch (error) {
       console.error("Gemini API Error:", error);
-      setMessages(prev => [...prev, { role: 'ai', content: "CORE_FAILURE: INF_ERR_V_0x21" }]);
+      setMessages(prev => [...prev, { role: 'ai', content: "Connection error. Please try again." }]);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end gap-6">
+    <div className="fixed bottom-10 right-10 z-[300] flex flex-col items-end gap-6">
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 100, scale: 0.9 }}
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 60, scale: 0.9 }}
-            className="w-[95vw] md:w-[480px] h-[700px] bg-black/90 backdrop-blur-3xl border border-white/20 flex flex-col overflow-hidden"
+            exit={{ opacity: 0, y: 30, scale: 0.95 }}
+            className="w-[90vw] md:w-[380px] h-[500px] bg-[#0c0c0c] border border-white/10 flex flex-col overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.8)] rounded-lg"
           >
-            <div className="p-8 border-b border-white/10 flex justify-between items-center">
-              <div className="flex items-center gap-4">
-                <Zap size={20} className="text-accent animate-pulse" />
-                <span className="font-mono text-[12px] font-black text-white tracking-[0.4em] uppercase">SENTINEL_v2.5</span>
+            {/* Header */}
+            <div className="p-5 border-b border-white/10 flex justify-between items-center bg-white/[0.02]">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                <span className="font-display text-[11px] font-bold text-white tracking-widest uppercase">Portfolio AI</span>
               </div>
-              <button onClick={() => setIsOpen(false)} className="p-4 hover:text-accent transition-colors"><X size={18} /></button>
+              <button 
+                onClick={() => setIsOpen(false)} 
+                className="p-1 text-white/40 hover:text-accent transition-colors"
+              >
+                <X size={18} />
+              </button>
             </div>
-            <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar">
+
+            {/* Messages */}
+            <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-5 bg-black/40 custom-scrollbar">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`p-6 font-mono text-[12px] border ${msg.role === 'user' ? 'bg-white/5 border-white/20' : 'bg-accent/5 border-accent/30 text-accent'}`}>{msg.content}</div>
+                  <div className={`
+                    max-w-[85%] p-3.5 text-[12px] leading-relaxed
+                    ${msg.role === 'user' 
+                      ? 'bg-white/5 border border-white/10 text-white rounded-bl-xl rounded-tl-xl rounded-tr-xl' 
+                      : 'bg-accent/5 border border-accent/20 text-accent/90 rounded-br-xl rounded-tr-xl rounded-tl-xl'}
+                  `}>
+                    {msg.content}
+                  </div>
                 </div>
               ))}
-              {isLoading && <div className="text-accent font-mono text-[9px] animate-pulse">QUERY_ANALYZING...</div>}
+              {isLoading && (
+                <div className="flex items-center gap-2 text-accent/40 font-mono text-[8px] animate-pulse">
+                  <Activity size={10} />
+                  PROCESSING...
+                </div>
+              )}
             </div>
-            <div className="p-8 border-t border-white/10">
+
+            {/* Input Area */}
+            <div className="p-5 border-t border-white/10">
               <div className="relative">
                 <input 
-                  type="text" value={input}
+                  type="text" 
+                  value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Ask Sentinel..."
-                  className="w-full bg-black border-2 border-white/10 py-5 pl-8 pr-16 font-mono text-[11px] text-white focus:border-accent outline-none"
+                  placeholder="Ask about my projects..."
+                  className="w-full bg-black/50 border border-white/10 py-3.5 pl-5 pr-12 text-[12px] text-white focus:border-accent outline-none transition-all placeholder:text-white/20 rounded-md"
                 />
-                <button onClick={handleSend} className="absolute right-3 top-1/2 -translate-y-1/2 p-3 bg-accent text-black"><Send size={18} /></button>
+                <button 
+                  onClick={handleSend} 
+                  disabled={isLoading}
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 p-2 text-accent hover:scale-110 active:scale-95 transition-all disabled:opacity-50"
+                >
+                  <Send size={16} />
+                </button>
+              </div>
+              <div className="mt-3 flex items-center justify-between opacity-30">
+                <div className="flex items-center gap-2">
+                  <Info size={8} className="text-white" />
+                  <span className="text-[7px] text-white uppercase tracking-widest font-mono">Gemini_Powered</span>
+                </div>
+                <span className="text-[7px] text-white uppercase tracking-widest font-mono">v2.1</span>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          onClick={() => setIsOpen(!isOpen)}
-          className={`w-28 h-28 rounded-full flex items-center justify-center transition-all duration-700 relative z-10 ${isOpen ? 'bg-black border-2 border-white/20' : ''}`}
-        >
-          <div className="absolute inset-0 w-full h-full pointer-events-none">
-            {/* 
-               CRITICAL: Completely unmount the Canvas when not in use.
-               This kills the WebGL context entirely to save 100% GPU background usage.
-            */}
-            {(isOpen || isHovering) && (
-              <Canvas camera={{ position: [0, 0, 4] }} dpr={1} frameloop="always">
-                <ambientLight intensity={0.5} />
-                <CyberHead active={true} />
-              </Canvas>
-            )}
-          </div>
-          <Activity size={32} className={`transition-all relative z-20 text-accent ${isOpen ? 'opacity-100' : 'opacity-0'}`} />
-        </motion.button>
-      </div>
+      {/* Simplified Launcher Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`
+          w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 relative border
+          ${isOpen ? 'bg-white text-black border-white' : 'bg-accent text-black border-accent'}
+        `}
+      >
+        {isOpen ? <X size={22} /> : <MessageSquare size={22} />}
+        {!isOpen && (
+          <div className="absolute inset-0 bg-accent rounded-full animate-ping opacity-20 pointer-events-none" />
+        )}
+      </button>
 
-      <style>{`.custom-scrollbar::-webkit-scrollbar { width: 4px; } .custom-scrollbar::-webkit-scrollbar-thumb { background: #CCFF0033; }`}</style>
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 3px; } 
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(204, 255, 0, 0.1); }
+      `}</style>
     </div>
   );
 };

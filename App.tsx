@@ -13,6 +13,7 @@ import Works from './components/Works';
 import Experience from './components/Experience';
 import Achievements from './components/Achievements';
 import Certifications from './components/Certifications';
+import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import Preloader from './components/Preloader';
@@ -70,7 +71,6 @@ const App: React.FC = () => {
         <div className="w-full bg-background selection:bg-accent selection:text-black">
           <Navbar />
           
-          {/* Main Content: High Z-Index to scroll over footer */}
           <main className="relative z-20 bg-background shadow-[0_50px_100px_rgba(0,0,0,0.9)]">
              <Hero />
              <Marquee />
@@ -81,9 +81,9 @@ const App: React.FC = () => {
              <Works />
              <Certifications />
              <Experience />
+             <Contact />
           </main>
 
-          {/* Footer: Reveal Effect */}
           <Footer />
           <ChatBot />
         </div>

@@ -9,31 +9,35 @@ const ProfileHeader: React.FC = () => {
     offset: ["start end", "end start"]
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [-100, 100]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [0.85, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
-  const textY = useTransform(scrollYProgress, [0, 0.5], [50, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [-40, 40]);
+  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]);
+  const textY = useTransform(scrollYProgress, [0, 0.5], [30, 0]);
 
   return (
-    <section ref={containerRef} className="relative py-32 px-5 md:px-10 lg:px-20 overflow-hidden bg-background">
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-[0.02] select-none">
-        <div className="text-[30vw] font-display font-black leading-none whitespace-nowrap -ml-20">
-          ARCHITECT ARCHITECT
+    <section ref={containerRef} className="relative py-24 md:py-32 px-6 md:px-10 lg:px-20 overflow-hidden bg-background">
+      {/* Background Ghost Text - Hidden on mobile if it risks causing horizontal scroll */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-[0.02] md:opacity-[0.03] select-none flex items-center">
+        <div 
+          className="text-[25vw] font-display font-black leading-none whitespace-nowrap -ml-10 uppercase text-transparent"
+          style={{ WebkitTextStroke: '2px rgba(255, 255, 255, 0.5)' }}
+        >
+          DINESH KUMAR
         </div>
       </div>
 
-      <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-16 lg:gap-24 relative z-10">
+      <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-24 relative z-10">
         
         <div className="w-full lg:w-1/2 relative">
           <motion.div 
             style={{ scale, opacity }}
-            className="relative z-10 w-full aspect-[4/5] overflow-hidden border border-white/5 bg-surface shadow-2xl group isolation-isolate"
+            className="relative z-10 w-full aspect-[4/5] md:aspect-[4/5] overflow-hidden border border-white/10 bg-surface shadow-[0_0_50px_rgba(0,0,0,0.5)] group isolation-isolate"
           >
             <motion.img 
               style={{ y }}
-              src="DinesProfile.jpg" 
+              src="./DineshProfile.jpg" 
               alt="Dinesh Kumar C"
-              className="w-full h-[130%] -mt-[15%] object-cover transition-all duration-1000 ease-in-out group-hover:scale-105"
+              className="w-full h-[115%] object-cover transition-all duration-700 ease-out group-hover:scale-105"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1500&auto=format&fit=crop";
@@ -42,35 +46,29 @@ const ProfileHeader: React.FC = () => {
 
             <motion.div 
               animate={{ top: ['-5%', '105%'] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              className="absolute left-0 right-0 h-[1px] bg-accent/60 shadow-[0_0_20px_rgba(204,255,0,0.9)] z-20 pointer-events-none"
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              className="absolute left-0 right-0 h-[2px] bg-accent/40 shadow-[0_0_15px_rgba(204,255,0,0.8)] z-20 pointer-events-none"
             />
-            
-            <div className="absolute top-0 left-0 w-12 h-12 border-t border-l border-accent/40" />
-            <div className="absolute bottom-0 right-0 w-12 h-12 border-b border-r border-accent/40" />
           </motion.div>
 
+          {/* Floating Status HUD - Adjusted for mobile */}
           <motion.div 
-            initial={{ x: 50, opacity: 0 }}
+            initial={{ x: 20, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
-            className="absolute -bottom-8 -right-4 md:-right-12 z-20 bg-surface/90 backdrop-blur-2xl border border-white/10 p-6 min-w-[240px]"
+            className="absolute -bottom-6 -right-2 md:-bottom-8 md:-right-12 z-40 bg-surface/90 backdrop-blur-3xl border border-white/10 p-4 md:p-6 min-w-[200px] md:min-w-[260px] shadow-2xl"
           >
-            <div className="flex flex-col gap-4 font-mono">
+            <div className="flex flex-col gap-3 md:gap-4 font-mono">
               <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                <span className="text-[10px] text-secondary uppercase">Status</span>
-                <span className="text-[10px] text-accent flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                  AVAILABLE_FOR_WORK
+                <span className="text-[8px] md:text-[10px] text-secondary uppercase tracking-widest font-bold">Status</span>
+                <span className="text-[8px] md:text-[10px] text-accent flex items-center gap-2 font-bold">
+                  <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-accent animate-pulse" />
+                  AVAILABLE
                 </span>
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] text-secondary">PRIMARY_STACK</p>
-                <p className="text-xs text-white">GEN_AI / ML / FULL_STACK</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-[10px] text-secondary">COORDINATES</p>
-                <p className="text-xs text-white">11.9416° N, 79.8083° E</p>
+                <p className="text-[8px] text-secondary tracking-widest uppercase">Specialization</p>
+                <p className="text-[10px] md:text-[11px] text-white font-bold">GEN_AI / ML ARCHITECT</p>
               </div>
             </div>
           </motion.div>
@@ -78,29 +76,29 @@ const ProfileHeader: React.FC = () => {
 
         <div className="w-full lg:w-1/2">
           <motion.div style={{ y: textY }}>
-            <div className="flex items-center gap-4 mb-8">
-              <span className="w-12 h-[1px] bg-accent" />
-              <span className="font-mono text-accent text-sm tracking-[0.4em] uppercase">Who I Am</span>
+            <div className="flex items-center gap-4 mb-6 md:mb-8">
+              <span className="w-8 md:w-12 h-[1px] bg-accent" />
+              <span className="font-mono text-accent text-[9px] md:text-[10px] tracking-[0.4em] md:tracking-[0.5em] uppercase font-bold">Identity</span>
             </div>
             
-            <h2 className="text-5xl md:text-7xl font-display font-bold text-white leading-[1.1] mb-10">
+            <h2 className="text-4xl md:text-6xl lg:text-8xl font-display font-bold text-white leading-[1.1] md:leading-[0.9] mb-8 md:mb-12 uppercase tracking-tighter break-words">
               Architecting <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>Cognitive</span> <br /> Solutions.
             </h2>
 
-            <div className="space-y-8 max-w-lg">
-              <p className="text-secondary text-xl leading-relaxed font-light">
+            <div className="space-y-8 md:space-y-10 max-w-lg">
+              <p className="text-secondary text-base md:text-xl leading-relaxed font-light">
                 I am a specialized developer focused on bridging the gap between <span className="text-white font-medium">Generative AI</span> and <span className="text-white font-medium">Practical Systems</span>. My approach combines deep technical rigor with intuitive user experiences.
               </p>
               
-              <div className="p-6 border-l-2 border-accent bg-white/[0.02]">
-                <p className="italic text-secondary text-lg">
+              <div className="p-6 md:p-8 border-l-2 border-accent bg-accent/[0.02] backdrop-blur-sm">
+                <p className="italic text-secondary text-base md:text-lg leading-relaxed">
                   "Complexity is easy; simplicity is the ultimate sophistication in engineering."
                 </p>
               </div>
 
-              <div className="pt-4 flex flex-wrap gap-4">
+              <div className="pt-4 flex flex-wrap gap-3 md:gap-4">
                 {['ML_VISION', 'LLM_OPS', 'REACT_3D', 'SYSTEM_ARCH'].map((tag) => (
-                  <span key={tag} className="px-4 py-2 bg-white/5 rounded-full text-[10px] font-mono tracking-widest text-secondary hover:text-white hover:bg-white/10 transition-colors">
+                  <span key={tag} className="px-3 py-1.5 md:px-5 md:py-2.5 bg-white/[0.03] border border-white/5 rounded-none text-[8px] md:text-[10px] font-mono tracking-[0.2em] text-white/40 hover:text-accent hover:border-accent/40 transition-all duration-300">
                     {tag}
                   </span>
                 ))}
