@@ -1,52 +1,10 @@
-<<<<<<< HEAD
-import React, { Suspense, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, MessageCircle, Twitter, ArrowRight } from 'lucide-react';
-=======
 import React, { Suspense, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { ArrowDown, Github, Linkedin, MessageCircle, ArrowRight } from 'lucide-react';
->>>>>>> 8795f5ff4bf77324dbe5dc6c0a3eae323b003b2c
 import { Scene } from './Scene';
 import Magnetic from './Magnetic';
 
 const Hero: React.FC = () => {
-<<<<<<< HEAD
-  const [use3D, setUse3D] = useState(false);
-  const [videoFailed, setVideoFailed] = useState(false);
-
-  useEffect(() => {
-    const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const lowSpec = typeof navigator !== 'undefined' && navigator.hardwareConcurrency ? navigator.hardwareConcurrency <= 4 : false;
-    const enable3DFlag = import.meta.env.VITE_ENABLE_3D === 'true';
-
-    // Default to video to minimize GPU; enable 3D only when explicitly allowed and the device looks capable.
-    setUse3D(enable3DFlag && !prefersReduce && !lowSpec);
-  }, []);
-
-  return (
-    <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-background">
-      {/* Background: lightweight looping video by default, opt-in 3D when enabled */}
-      {use3D ? (
-        <Suspense fallback={<div className="absolute inset-0 bg-background" />}>
-          <Scene />
-        </Suspense>
-      ) : (
-        <>
-          <video
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-            src="/hero-loop.webm"
-            autoPlay
-            loop
-            muted
-            playsInline
-            onError={() => setVideoFailed(true)}
-          />
-          {videoFailed && <div className="absolute inset-0 bg-gradient-to-b from-[#0b0b0b] via-[#090909] to-[#050505]" />}
-          <div className="absolute inset-0 bg-black/40 pointer-events-none" />
-        </>
-      )}
-=======
   const containerRef = useRef<HTMLElement>(null);
   const isInView = useInView(containerRef); // Detects if Hero section is visible
 
@@ -65,7 +23,6 @@ const Hero: React.FC = () => {
         {/* Pass isInView prop to pause rendering when scrolled away */}
         <Scene isInView={isInView} />
       </Suspense>
->>>>>>> 8795f5ff4bf77324dbe5dc6c0a3eae323b003b2c
 
       {/* Grid Layout Container */}
       <div className="relative z-10 w-full h-full max-w-[1600px] px-6 md:px-10 lg:px-12 grid grid-cols-[auto_1fr_auto] items-center pointer-events-none">
