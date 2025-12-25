@@ -1,7 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Smartphone } from 'lucide-react';
 import '../types';
 
 interface SceneProps {
@@ -10,8 +9,6 @@ interface SceneProps {
 
 export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
   const splineRef = useRef<any>(null);
-  const [sensorPermission, setSensorPermission] = useState<'pending' | 'granted' | 'denied'>('pending');
-  const [showPermissionPrompt, setShowPermissionPrompt] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -25,155 +22,101 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
   }, []);
 
   useEffect(() => {
-    if (!isMobile || !isInView) return;
+    if (!isMobile || !isInView || !splineRef.current) return;
 
-    // Show permission prompt after 2 seconds on mobile
-    const timer = setTimeout(() => {
-      if (sensorPermission === 'pending') {
-        setShowPermissionPrompt(true);
-      }
-    }, 2000);
+    let permissionGranted = false;
 
-    return () => clearTimeout(timer);
-  }, [isMobile, isInView, sensorPermission]);
-
-  const requestSensorPermission = async () => {
-    if (typeof DeviceOrientationEvent === 'undefined') {
-      setSensorPermission('denied');
-      setShowPermissionPrompt(false);
-      return;
-    }
-
-    try {
-      // @ts-ignore - iOS 13+ requires permission
-      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        const permission = await DeviceOrientationEvent.requestPermission();
-        if (permission === 'granted') {
-          setSensorPermission('granted');
-          enableSensorControls();
+    const requestPermission = async () => {
+      try {
+        // @ts-ignore - iOS 13+ requires permission
+        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+          const permission = await DeviceOrientationEvent.requestPermission();
+          permissionGranted = permission === 'granted';
         } else {
-          setSensorPermission('denied');
+          permissionGranted = true;
         }
-      } else {
-        // Android or older browsers
-        setSensorPermission('granted');
-        enableSensorControls();
+      } catch (error) {
+        console.error('Error requesting sensor permission:', error);
       }
-    } catch (error) {
-      console.error('Error requesting sensor permission:', error);
-      setSensorPermission('denied');
-    }
-    setShowPermissionPrompt(false);
-  };
+    };
 
-  const enableSensorControls = () => {
     const handleOrientation = (event: DeviceOrientationEvent) => {
-      if (!splineRef.current) return;
+      if (!splineRef.current || !permissionGranted) return;
 
-      // Get device orientation values
       const beta = event.beta || 0;  // -180 to 180 (front to back tilt)
       const gamma = event.gamma || 0; // -90 to 90 (left to right tilt)
 
-      console.log('Orientation:', { beta, gamma }); // Debug log
-
       try {
         const splineElement = splineRef.current;
-        const rect = splineElement.getBoundingClientRect();
         
-        // Increase sensitivity by using smaller divisors (30 instead of 90/180)
-        // This makes even slight movements more noticeable
-        const normalizedX = Math.max(0, Math.min(1, (gamma + 30) / 60));
-        const normalizedY = Math.max(0, Math.min(1, (beta + 30) / 60));
+        // Map device orientation to viewport coordinates with high sensitivity
+        // Center around 0, with 20 degree range for full movement
+        const normalizedX = Math.max(0, Math.min(1, (gamma + 20) / 40));
+        const normalizedY = Math.max(0, Math.min(1, (beta - 30) / 40));
         
-        // Convert to coordinates relative to the Spline viewer element
-        const x = rect.left + (normalizedX * rect.width);
-        const y = rect.top + (normalizedY * rect.height);
+        const width = window.innerWidth;
+        const height = window.innerHeight;
         
-        console.log('Mapped coordinates:', { x, y, normalizedX, normalizedY }); // Debug log
+        const x = normalizedX * width;
+        const y = normalizedY * height;
 
-        // Create a synthetic mouse event that only affects the Spline viewer
-        const syntheticEvent = new MouseEvent('mousemove', {
+        // Try multiple approaches to control Spline
+        // Approach 1: Direct property setting if available
+        if (splineElement.setMousePosition) {
+          splineElement.setMousePosition(normalizedX, normalizedY);
+        }
+        
+        // Approach 2: Mouse event with pointer properties
+        const mouseEvent = new PointerEvent('pointermove', {
           clientX: x,
           clientY: y,
-          bubbles: false, // Don't let it bubble up
+          bubbles: true,
           cancelable: true,
-          view: window
+          pointerType: 'mouse',
+          isPrimary: true
         });
-        
-        // Dispatch only on the spline element
-        splineElement.dispatchEvent(syntheticEvent);
+        splineElement.dispatchEvent(mouseEvent);
+
+        // Approach 3: Touch event for mobile
+        const touch = new Touch({
+          identifier: Date.now(),
+          target: splineElement,
+          clientX: x,
+          clientY: y,
+          radiusX: 2.5,
+          radiusY: 2.5,
+          rotationAngle: 0,
+          force: 0.5,
+        });
+
+        const touchEvent = new TouchEvent('touchmove', {
+          cancelable: true,
+          bubbles: true,
+          touches: [touch],
+          targetTouches: [touch],
+          changedTouches: [touch],
+        });
+        splineElement.dispatchEvent(touchEvent);
+
       } catch (error) {
         console.error('Error updating spline orientation:', error);
       }
     };
 
-    window.addEventListener('deviceorientation', handleOrientation, true);
-    
-    return () => {
-      window.removeEventListener('deviceorientation', handleOrientation, true);
-    };
-  };
+    // Auto-request permission and start listening
+    requestPermission().then(() => {
+      if (permissionGranted || typeof DeviceOrientationEvent.requestPermission !== 'function') {
+        window.addEventListener('deviceorientation', handleOrientation);
+      }
+    });
 
-  useEffect(() => {
-    let cleanup: (() => void) | undefined;
-    if (sensorPermission === 'granted') {
-      cleanup = enableSensorControls();
-    }
     return () => {
-      if (cleanup) cleanup();
+      window.removeEventListener('deviceorientation', handleOrientation);
     };
-  }, [sensorPermission]);
-
-  const dismissPermissionPrompt = () => {
-    setShowPermissionPrompt(false);
-    setSensorPermission('denied');
-  };
+  }, [isMobile, isInView]);
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-background">
-      {/* Sensor Permission Prompt */}
-      <AnimatePresence>
-        {showPermissionPrompt && isMobile && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-6 pointer-events-auto"
-            style={{ top: 0, left: 0, right: 0, bottom: 0 }}
-          >
-            {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={dismissPermissionPrompt} />
-            
-            {/* Modal */}
-            <div className="relative bg-[#0a0a0a] border border-accent/30 backdrop-blur-xl p-6 rounded-sm max-w-sm w-full mx-4">
-              <div className="flex items-center gap-3 mb-4">
-                <Smartphone size={20} className="text-accent" />
-                <h3 className="font-mono text-sm text-white uppercase tracking-wider">
-                  Sensor Access
-                </h3>
-              </div>
-              <p className="text-xs text-white/60 mb-6 leading-relaxed">
-                Allow device orientation access to control the 3D model by tilting your phone.
-              </p>
-              <div className="flex gap-3">
-                <button
-                  onClick={requestSensorPermission}
-                  className="flex-1 bg-accent text-black font-mono text-xs uppercase tracking-wider py-3 px-4 hover:bg-accent/80 transition-colors font-bold"
-                >
-                  Allow
-                </button>
-                <button
-                  onClick={dismissPermissionPrompt}
-                  className="flex-1 bg-white/5 text-white/60 font-mono text-xs uppercase tracking-wider py-3 px-4 hover:bg-white/10 transition-colors border border-white/10"
-                >
-                  Deny
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <AnimatePresence mode="wait">
         {isInView ? (
           <motion.div 
