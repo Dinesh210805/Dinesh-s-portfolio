@@ -20,6 +20,7 @@ import Cursor from './components/Cursor';
 import Preloader from './components/Preloader';
 import ChatBot from './components/ChatBot';
 import SectionTransition from './components/SectionTransition';
+import ScrollToTop from './components/ScrollToTop';
 
 declare global {
   interface Window {
@@ -113,6 +114,7 @@ const App: React.FC = () => {
 
           <Footer />
           <ChatBot />
+          <ScrollToTop />
           <Analytics />
         </div>
       )}

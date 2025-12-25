@@ -1,6 +1,7 @@
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Smartphone } from 'lucide-react';
 import '../types';
 
 interface SceneProps {
@@ -8,6 +9,102 @@ interface SceneProps {
 }
 
 export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
+  const splineRef = useRef<any>(null);
+  const [sensorPermission, setSensorPermission] = useState<'pending' | 'granted' | 'denied'>('pending');
+  const [showPermissionPrompt, setShowPermissionPrompt] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile || !isInView) return;
+
+    // Show permission prompt after 2 seconds on mobile
+    const timer = setTimeout(() => {
+      if (sensorPermission === 'pending') {
+        setShowPermissionPrompt(true);
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [isMobile, isInView, sensorPermission]);
+
+  const requestSensorPermission = async () => {
+    if (typeof DeviceOrientationEvent === 'undefined') {
+      setSensorPermission('denied');
+      setShowPermissionPrompt(false);
+      return;
+    }
+
+    try {
+      // @ts-ignore - iOS 13+ requires permission
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        const permission = await DeviceOrientationEvent.requestPermission();
+        if (permission === 'granted') {
+          setSensorPermission('granted');
+          enableSensorControls();
+        } else {
+          setSensorPermission('denied');
+        }
+      } else {
+        // Android or older browsers
+        setSensorPermission('granted');
+        enableSensorControls();
+      }
+    } catch (error) {
+      console.error('Error requesting sensor permission:', error);
+      setSensorPermission('denied');
+    }
+    setShowPermissionPrompt(false);
+  };
+
+  const enableSensorControls = () => {
+    const handleOrientation = (event: DeviceOrientationEvent) => {
+      if (!splineRef.current) return;
+
+      // Get device orientation values
+      const beta = event.beta || 0;  // -180 to 180 (front to back tilt)
+      const gamma = event.gamma || 0; // -90 to 90 (left to right tilt)
+
+      try {
+        // Map orientation to mouse position (normalized -1 to 1)
+        const x = Math.max(-1, Math.min(1, gamma / 45));  // Normalize to -1 to 1
+        const y = Math.max(-1, Math.min(1, (beta - 45) / 45)); // Adjust beta offset
+
+        // Simulate mouse movement for Spline
+        const splineElement = splineRef.current;
+        if (splineElement && splineElement.emitEvent) {
+          // Map to viewport coordinates (0 to 1)
+          const mouseX = (x + 1) / 2;
+          const mouseY = (y + 1) / 2;
+          
+          splineElement.emitEvent('mouseMove', { x: mouseX, y: mouseY });
+        }
+      } catch (error) {
+        console.error('Error updating spline orientation:', error);
+      }
+    };
+
+    window.addEventListener('deviceorientation', handleOrientation);
+    
+    return () => {
+      window.removeEventListener('deviceorientation', handleOrientation);
+    };
+  };
+
+  const dismissPermissionPrompt = () => {
+    setShowPermissionPrompt(false);
+    setSensorPermission('denied');
+  };
+
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-background">
       <AnimatePresence mode="wait">
@@ -23,13 +120,50 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
             {/* The Spline Viewer - Hard unmount when isInView is false */}
             {/* @ts-ignore */}
             <spline-viewer 
+              ref={splineRef}
               url="https://prod.spline.design/UTIsnsf41Ax0oLMK/scene.splinecode"
               loading-anim-type="none"
-              className="w-full h-full scale-105 pointer-events-auto"
+              className={`w-full h-full pointer-events-auto ${isMobile ? 'scale-100' : 'scale-105'}`}
             />
 
             {/* Shield Spline Watermark */}
             <div className="absolute bottom-0 right-0 w-36 h-14 bg-background z-20 pointer-events-none" />
+
+            {/* Sensor Permission Prompt */}
+            {showPermissionPrompt && isMobile && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-auto"
+              >
+                <div className="bg-black/90 border border-accent/30 backdrop-blur-xl p-6 rounded-sm max-w-xs">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Smartphone size={20} className="text-accent" />
+                    <h3 className="font-mono text-sm text-white uppercase tracking-wider">
+                      Sensor Access
+                    </h3>
+                  </div>
+                  <p className="text-xs text-white/60 mb-6 leading-relaxed">
+                    Allow device orientation access to control the 3D model by tilting your phone.
+                  </p>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={requestSensorPermission}
+                      className="flex-1 bg-accent text-black font-mono text-xs uppercase tracking-wider py-2.5 px-4 hover:bg-accent/80 transition-colors"
+                    >
+                      Allow
+                    </button>
+                    <button
+                      onClick={dismissPermissionPrompt}
+                      className="flex-1 bg-white/5 text-white/60 font-mono text-xs uppercase tracking-wider py-2.5 px-4 hover:bg-white/10 transition-colors border border-white/10"
+                    >
+                      Deny
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         ) : (
           /* Static Image Fallback: Consumes 0% GPU */

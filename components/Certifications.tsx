@@ -9,7 +9,8 @@ import {
   Globe, 
   Hash,
   Database,
-  Lock
+  Lock,
+  BrainCircuit
 } from 'lucide-react';
 import { Certification } from '../types';
 
@@ -117,6 +118,7 @@ const CredentialModule: React.FC<{ cert: any; index: number }> = ({ cert, index 
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   const logoUrl = `https://cdn.simpleicons.org/${cert.slug}/CCFF00`;
+  const isAICert = cert.slug === 'linkedin';
 
   return (
     <motion.div
@@ -138,7 +140,11 @@ const CredentialModule: React.FC<{ cert: any; index: number }> = ({ cert, index 
           {/* HEADER AREA */}
           <div className="flex justify-between items-start">
             <div className="w-20 h-20 bg-accent/[0.03] border border-accent/10 flex items-center justify-center group-hover:bg-accent group-hover:text-black transition-all duration-500 rounded-none shadow-[inset_0_0_15px_rgba(204,255,0,0.05)]">
-              <img src={logoUrl} alt={cert.issuer} className="w-10 h-10 object-contain group-hover:invert transition-all" />
+              {isAICert ? (
+                <BrainCircuit size={40} className="text-accent group-hover:text-black transition-all" />
+              ) : (
+                <img src={logoUrl} alt={cert.issuer} className="w-10 h-10 object-contain group-hover:invert transition-all" />
+              )}
             </div>
             <div className="text-right">
               <div className="flex items-center justify-end gap-2 text-accent">
