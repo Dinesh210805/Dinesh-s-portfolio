@@ -1,15 +1,27 @@
-import React, { Suspense } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, MessageCircle, Twitter, ArrowRight } from 'lucide-react';
+import React, { Suspense, useRef } from 'react';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { ArrowDown, Github, Linkedin, MessageCircle, ArrowRight } from 'lucide-react';
 import { Scene } from './Scene';
 import Magnetic from './Magnetic';
 
 const Hero: React.FC = () => {
+  const containerRef = useRef<HTMLElement>(null);
+  const isInView = useInView(containerRef); // Detects if Hero section is visible
+
+  const { scrollY } = useScroll();
+  
+  // Adjusted parallax: 
+  // Before: [0, 500] -> [0, 200] (This made it scroll FASTER than the page)
+  // After: [0, 800] -> [0, -150] (This makes it scroll SLOWER/Resist the page, which is true parallax)
+  const y = useTransform(scrollY, [0, 800], [0, -150]);
+  const opacity = useTransform(scrollY, [0, 600], [1, 0]);
+
   return (
-    <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-background">
+    <section ref={containerRef} id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-background">
       {/* 3D Background */}
       <Suspense fallback={<div className="absolute inset-0 bg-background" />}>
-        <Scene />
+        {/* Pass isInView prop to pause rendering when scrolled away */}
+        <Scene isInView={isInView} />
       </Suspense>
 
       {/* Grid Layout Container */}
@@ -32,8 +44,11 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Center Content */}
-        <div className="flex flex-col items-center text-center justify-center h-full pointer-events-auto">
+        {/* Center Content with Parallax */}
+        <motion.div 
+          style={{ y, opacity }}
+          className="flex flex-col items-center text-center justify-center h-full pointer-events-auto"
+        >
            
            {/* Pill Badge */}
            <motion.div
@@ -76,7 +91,7 @@ const Hero: React.FC = () => {
               <ArrowRight className="group-hover:translate-x-1 transition-transform" />
             </motion.a>
            </Magnetic>
-        </div>
+        </motion.div>
 
         {/* Right Sidebar: Vertical Name */}
         <div className="hidden md:flex flex-col justify-center h-[60vh] pointer-events-auto">
@@ -96,6 +111,7 @@ const Hero: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 1 }}
+        style={{ opacity }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50 pointer-events-auto"
       >
         <span className="text-sm font-light tracking-widest lowercase">scroll down</span>

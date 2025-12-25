@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useInView, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView, useSpring, Variants } from 'framer-motion';
 
 const Counter = ({ value }: { value: number }) => {
   const ref = useRef<HTMLSpanElement>(null);
@@ -32,6 +32,26 @@ const BioStats: React.FC = () => {
 
   // Calculate path length for drawing animation
   const pathLength = useTransform(scrollYProgress, [0, 0.8], [0, 1]);
+
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.6, ease: "easeOut" } 
+    }
+  };
 
   return (
     <section id="about" ref={containerRef} className="relative py-40 px-5 md:px-10 lg:px-20 max-w-[1400px] mx-auto overflow-visible">
@@ -82,36 +102,36 @@ const BioStats: React.FC = () => {
 
         {/* Stats Grid */}
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
           className="relative grid grid-cols-2 gap-6"
         >
-          <div className="p-8 border border-white/10 bg-surface/50 backdrop-blur-sm rounded-none hover:border-accent/50 transition-colors duration-300">
+          <motion.div variants={itemVariants} className="p-8 border border-white/10 bg-surface/50 backdrop-blur-sm rounded-none hover:border-accent/50 transition-colors duration-300">
             <h4 className="text-6xl font-display font-bold text-white mb-2">
               <Counter value={4} />+
             </h4>
             <p className="font-mono text-secondary text-sm uppercase tracking-wider">Years Experience</p>
-          </div>
-          <div className="p-8 border border-white/10 bg-surface/50 backdrop-blur-sm rounded-none hover:border-accent/50 transition-colors duration-300">
+          </motion.div>
+          <motion.div variants={itemVariants} className="p-8 border border-white/10 bg-surface/50 backdrop-blur-sm rounded-none hover:border-accent/50 transition-colors duration-300">
             <h4 className="text-6xl font-display font-bold text-white mb-2">
               <Counter value={30} />+
             </h4>
             <p className="font-mono text-secondary text-sm uppercase tracking-wider">Projects Shipped</p>
-          </div>
-          <div className="p-8 border border-white/10 bg-surface/50 backdrop-blur-sm rounded-none hover:border-accent/50 transition-colors duration-300">
+          </motion.div>
+          <motion.div variants={itemVariants} className="p-8 border border-white/10 bg-surface/50 backdrop-blur-sm rounded-none hover:border-accent/50 transition-colors duration-300">
             <h4 className="text-6xl font-display font-bold text-white mb-2">
               <Counter value={15} />+
             </h4>
             <p className="font-mono text-secondary text-sm uppercase tracking-wider">Happy Clients</p>
-          </div>
-          <div className="p-8 border border-white/10 bg-surface/50 backdrop-blur-sm rounded-none hover:border-accent/50 transition-colors duration-300">
+          </motion.div>
+          <motion.div variants={itemVariants} className="p-8 border border-white/10 bg-surface/50 backdrop-blur-sm rounded-none hover:border-accent/50 transition-colors duration-300">
             <h4 className="text-6xl font-display font-bold text-white mb-2">
               <Counter value={100} />%
             </h4>
             <p className="font-mono text-secondary text-sm uppercase tracking-wider">Job Success</p>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
