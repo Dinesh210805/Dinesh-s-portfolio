@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Lenis from '@studio-freight/lenis';
 import { AnimatePresence } from 'framer-motion';
+import { Analytics } from '@vercel/analytics/react';
 import './types'; // Ensure global types are loaded
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -112,6 +113,7 @@ const App: React.FC = () => {
 
           <Footer />
           <ChatBot />
+          <Analytics />
         </div>
       )}
     </>
