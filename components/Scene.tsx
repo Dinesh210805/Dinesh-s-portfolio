@@ -78,29 +78,30 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
 
       try {
         const splineElement = splineRef.current;
-        
-        // Map orientation to pixel coordinates
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        
-        // Normalize gamma (-90 to 90) to screen width
-        const x = ((gamma + 90) / 180) * width;
-        
-        // Normalize beta (-180 to 180) to screen height
-        const y = ((beta + 90) / 180) * height;
-        
-        console.log('Mapped coordinates:', { x, y }); // Debug log
-
-        // Dispatch mousemove event
         const rect = splineElement.getBoundingClientRect();
-        const evt = new MouseEvent('mousemove', {
+        
+        // Increase sensitivity by using smaller divisors (30 instead of 90/180)
+        // This makes even slight movements more noticeable
+        const normalizedX = Math.max(0, Math.min(1, (gamma + 30) / 60));
+        const normalizedY = Math.max(0, Math.min(1, (beta + 30) / 60));
+        
+        // Convert to coordinates relative to the Spline viewer element
+        const x = rect.left + (normalizedX * rect.width);
+        const y = rect.top + (normalizedY * rect.height);
+        
+        console.log('Mapped coordinates:', { x, y, normalizedX, normalizedY }); // Debug log
+
+        // Create a synthetic mouse event that only affects the Spline viewer
+        const syntheticEvent = new MouseEvent('mousemove', {
           clientX: x,
           clientY: y,
-          bubbles: true,
+          bubbles: false, // Don't let it bubble up
           cancelable: true,
           view: window
         });
-        splineElement.dispatchEvent(evt);
+        
+        // Dispatch only on the spline element
+        splineElement.dispatchEvent(syntheticEvent);
       } catch (error) {
         console.error('Error updating spline orientation:', error);
       }
