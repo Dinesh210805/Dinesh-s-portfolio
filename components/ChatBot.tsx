@@ -50,14 +50,14 @@ const ChatBot: React.FC = () => {
     try {
       const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
       const chat = ai.chats.create({
-        model: 'gemini-2.0-flash-001',
+        model: 'gemini-2.5-flash',
         config: { 
           systemInstruction: SYSTEM_INSTRUCTION, 
           temperature: 0.1 
         },
       });
       
-      const response = await chat.sendMessage(userMessage);
+      const response = await chat.sendMessage({ message: userMessage });
       setMessages(prev => [...prev, { role: 'ai', content: response.text || "I'm sorry, I couldn't process that request." }]);
     } catch (error) {
       console.error("Gemini API Error:", error);
