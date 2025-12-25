@@ -72,7 +72,7 @@ const Certifications: React.FC = () => {
               className="flex items-center gap-4"
             >
               <div className="w-16 h-[1px] bg-accent" />
-              <span className="font-mono text-accent text-[10px] tracking-[0.6em] uppercase italic font-bold">Credential_Protocol_v4.1</span>
+              <span className="font-mono text-accent text-[10px] tracking-[0.6em] uppercase italic font-bold">Credential Protocol</span>
             </motion.div>
             <h2 className="text-7xl md:text-9xl font-display font-bold text-white tracking-tighter leading-[0.8] uppercase">
               VERIFIED <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #CCFF00' }}>ARCHIVE.</span>
@@ -102,10 +102,6 @@ const Certifications: React.FC = () => {
            <div className="flex gap-12 font-mono text-[8px] uppercase tracking-[0.4em]">
               <span className="flex items-center gap-2"><Globe size={10}/> Global_DNS_Ready</span>
               <span className="flex items-center gap-2"><Lock size={10}/> Encrypted_SSL_T1</span>
-           </div>
-           <div className="flex items-center gap-4">
-              <Fingerprint size={24} />
-              <span className="font-display font-black text-5xl italic tracking-tighter">CERTIFIED</span>
            </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { ArrowUpRight, Terminal, Layers } from 'lucide-react';
+import { ArrowUpRight, Terminal, Layers, ChevronRight } from 'lucide-react';
 
 const projects = [
   {
@@ -9,7 +9,7 @@ const projects = [
     title: 'GravitycARgo',
     category: 'LOGISTICS_AI',
     tech: ['YOLOv8', 'ARCore', 'React Native'],
-    image: 'https://images.unsplash.com/photo-1566633806327-68e152aaf26d?q=80&w=2070&auto=format&fit=crop',
+    images: ['/GravitycArgo.jpeg', '/GravitycArgo2.jpeg', '/GravitycArgo3.jpeg'],
     description: 'AI+AR integrated logistics ecosystem for container space optimization.',
     metrics: { efficiency: '+45%', latency: '24ms', precision: '0.98' }
   },
@@ -18,7 +18,8 @@ const projects = [
     title: 'EcoBot',
     category: 'VISION_COGNITION',
     tech: ['LLaMA-3', 'LangChain', 'ChromaDB'],
-    image: 'https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?q=80&w=2070&auto=format&fit=crop',
+    images: ['/ecobot.png'],
+    useContain: true,
     description: 'Autonomous waste classification architecture utilizing LLaMA vision models and RAG.',
     metrics: { accuracy: '94.2%', recall: '0.91', data: '4.2TB' }
   },
@@ -27,7 +28,7 @@ const projects = [
     title: 'The Light',
     category: 'ASSISTIVE_MFA',
     tech: ['OpenCV', 'SSFD', 'Android'],
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop',
+    images: ['/aventus1.jpg', '/aventus2.jpg'],
     description: 'Dedicated mobility assistant for visually impaired users with touch-based authentication.',
     metrics: { security: 'AES-256', users: 'BETA', type: 'CORE' }
   },
@@ -36,7 +37,7 @@ const projects = [
     title: 'Langlearn',
     category: 'NEURAL_NLP',
     tech: ['Whisper v3', 'Groq', 'LLaMA 3.3'],
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop',
+    images: ['/Langlearn.jpeg', '/Langlearn (2).jpeg', '/Langlearn (3).jpeg', '/Langlearn (4).jpeg', '/Langlearn (5).jpeg'],
     description: 'High-speed neural translation engine built for real-time multi-modal communication.',
     metrics: { speed: '120fps', voices: '30+', model: 'v3.3' }
   }
@@ -54,7 +55,7 @@ const Works: React.FC = () => {
             className="flex items-center gap-3 mb-6"
           >
             <div className="w-12 h-[1px] bg-accent" />
-            <span className="font-mono text-accent text-sm tracking-[0.4em] uppercase">Engineering_Archive</span>
+            <span className="font-mono text-accent text-sm tracking-[0.4em] uppercase">Project Archive</span>
           </motion.div>
           <h2 className="text-6xl md:text-8xl font-display font-bold text-white tracking-tighter leading-[0.9]">
             TECHNICAL <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>RECORDS.</span>
@@ -78,6 +79,25 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
   
   // Parallax adjustment for smoother feel and no edge revealing
   const imgY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+
+  // Image carousel state
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const images = project.images || [];
+  
+  // Auto-advance carousel every 3 seconds
+  useEffect(() => {
+    if (images.length <= 1) return;
+    
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+  };
 
   return (
     <motion.div
@@ -136,16 +156,48 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
 
       <div className={`lg:col-span-7 ${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'}`}>
         {/* Enforced isolation and overflow-hidden to prevent overlap */}
-        <div className="relative group overflow-hidden bg-surface border border-white/5 aspect-video w-full isolation-isolate">
+        <div className={`relative group overflow-hidden border border-white/5 aspect-video w-full isolation-isolate ${project.useContain ? 'bg-white' : 'bg-surface'}`}>
           <motion.img 
-            style={{ y: isInView ? imgY : 0, scale: 1.1 }}
-            src={project.image} 
-            className="w-full h-full object-cover grayscale brightness-[0.25] group-hover:grayscale-0 group-hover:brightness-90 transition-all duration-700 ease-out"
+            key={currentImageIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            style={{ y: isInView ? imgY : 0, scale: project.useContain ? 1 : 1.1 }}
+            src={images[currentImageIndex]} 
+            className={`w-full h-full ${project.useContain ? 'object-contain' : 'object-cover'} ${project.useContain ? 'brightness-100' : 'brightness-75 group-hover:brightness-100'} transition-all duration-700 ease-out`}
             alt={project.title}
             loading="lazy"
           />
           {/* Subtle Overlay */}
           <div className="absolute inset-0 bg-background/20 group-hover:opacity-0 transition-opacity pointer-events-none" />
+          
+          {/* Carousel controls - only show if multiple images */}
+          {images.length > 1 && (
+            <>
+              {/* Next button */}
+              <button
+                onClick={nextImage}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-accent/80 hover:bg-accent flex items-center justify-center transition-colors z-10"
+                aria-label="Next image"
+              >
+                <ChevronRight className="text-black" size={20} />
+              </button>
+              
+              {/* Progress indicators */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                {images.map((_: any, idx: number) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentImageIndex(idx)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      idx === currentImageIndex ? 'bg-accent w-6' : 'bg-white/30 hover:bg-white/50'
+                    }`}
+                    aria-label={`Go to image ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </motion.div>

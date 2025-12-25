@@ -46,10 +46,10 @@ const BioStats: React.FC = () => {
   };
 
   const stack = [
-    { cat: "AI/ML", items: ["PyTorch", "TensorFlow", "YOLOv8", "OpenCV", "Scikit-Learn"] },
-    { cat: "GenAI", items: ["LangChain", "RAG", "LLaMA-3", "Whisper", "ChromaDB"] },
-    { cat: "Web", items: ["React", "Three.js", "Flask", "Tailwind", "PostgreSQL"] },
-    { cat: "DevOps", items: ["Docker", "Git", "Cloud Run", "Weights & Biases"] }
+    { cat: "Languages", items: ["Python", "JavaScript", "TypeScript", "Java", "C", "SQL"] },
+    { cat: "AI/ML", items: ["LLMs", "RAG", "AI Agents", "VLM", "YOLO v8", "OpenCV", "LangChain"] },
+    { cat: "Frameworks", items: ["React", "Next.js", "Node.js", "Flask", "Flutter"] },
+    { cat: "Tools", items: ["Git", "Docker", "VS Code", "Jupyter"] }
   ];
 
   return (
@@ -90,13 +90,13 @@ const BioStats: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="space-y-6">
                 <p className="text-secondary text-lg leading-relaxed">
-                  My work is centered around the belief that AI should be more than just a chatbot. I build systems that process visual data, understand context, and solve logistics problems in the real world.
+                  Technology should solve real problems, not just generate responses. I build intelligent systems that bridge the gap between cutting-edge innovation and practical impact—turning complex challenges into elegant solutions.
                 </p>
                 <div className="p-6 border border-white/10 bg-surface/50 rounded-none relative overflow-hidden group">
                   <div className="absolute top-0 left-0 w-[2px] h-0 bg-accent group-hover:h-full transition-all duration-500" />
                   <span className="font-mono text-[10px] text-accent uppercase block mb-2">Academic Excellence</span>
                   <p className="text-white text-sm">
-                    Currently maintaining a <span className="font-bold">8.91 CGPA</span> at SMV Engineering College, specializing in Information Technology.
+                    Currently maintaining a <span className="font-bold">8.91 CGPA</span> at SMVEC, specializing in Information Technology.
                   </p>
                 </div>
               </div>
@@ -160,18 +160,18 @@ const BioStats: React.FC = () => {
       >
         <div className="flex flex-col gap-2">
           <span className="text-accent">[B.TECH]</span>
-          <span>SMV Engineering College</span>
+          <span>SMVEC</span>
           <span className="text-white">IT Specialization</span>
         </div>
         <div className="flex flex-col gap-2">
           <span className="text-accent">[HSC]</span>
-          <span>Amalorpavam HSS</span>
-          <span className="text-white">Score: 91.83%</span>
+          <span>Amalorpavam Higher Secondary School</span>
+          <span className="text-white">Percentage: 91.83%</span>
         </div>
         <div className="flex flex-col gap-2">
-          <span className="text-accent">[CERT]</span>
-          <span>Full Stack Diploma</span>
-          <span className="text-white">Specialist Level</span>
+          <span className="text-accent">[SSLC]</span>
+          <span>Amalorpavam Higher Secondary School</span>
+          <span className="text-white">Percentage: 86.2%</span>
         </div>
       </motion.div>
     </section>

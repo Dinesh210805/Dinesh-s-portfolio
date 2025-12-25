@@ -15,7 +15,7 @@
               surface: '#111111',
               primary: '#F4F4F5',
               secondary: '#A1A1AA',
-              accent: '#CCFF00', // Neon Lime
+              accent: '#CCFF00',
             },
             fontFamily: {
               sans: ['Manrope', 'sans-serif'],
@@ -69,7 +69,6 @@
         writing-mode: vertical-rl;
       }
 
-      /* Optimized Noise */
       .bg-noise {
         position: fixed;
         top: 0;
@@ -97,12 +96,6 @@
       .lenis.lenis-scrolling iframe {
         pointer-events: none;
       }
-
-      /* Hide Spline Logo */
-      spline-viewer {
-        width: 100%;
-        height: 100%;
-      }
     </style>
   <script type="importmap">
 {
@@ -124,5 +117,6 @@
 </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

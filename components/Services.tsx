@@ -18,6 +18,7 @@ import {
 interface Skill {
   name: string;
   slug: string; // Used for fetching logos from simpleicons.org
+  textOnly?: boolean; // For skills without icons (like soft skills)
 }
 
 const technicalSystems = [
@@ -29,9 +30,9 @@ const technicalSystems = [
       { name: 'Python', slug: 'python' },
       { name: 'JavaScript', slug: 'javascript' },
       { name: 'TypeScript', slug: 'typescript' },
-      { name: 'Java', slug: 'oracle' },
+      { name: 'Java', slug: 'openjdk' },
       { name: 'C', slug: 'c' },
-      { name: 'SQL', slug: 'mysql' },
+      { name: 'SQL', slug: 'postgresql' },
       { name: 'PHP', slug: 'php' },
       { name: 'HTML5', slug: 'html5' }
     ],
@@ -42,7 +43,7 @@ const technicalSystems = [
     id: 'SYS_02',
     description: 'Neural architectures and cognitive vision engines.',
     skills: [
-      { name: 'CNN', slug: 'pytorch' },
+      { name: 'CNN', slug: 'keras' },
       { name: 'YOLO v8', slug: 'opencv' },
       { name: 'TensorFlow', slug: 'tensorflow' },
       { name: 'OpenCV', slug: 'opencv' },
@@ -85,11 +86,11 @@ const technicalSystems = [
     id: 'SYS_05',
     description: 'Strategic leadership and system management.',
     skills: [
-      { name: 'Problem Solving', slug: 'intel' },
-      { name: 'Leadership', slug: 'target' },
-      { name: 'Project Mgmt', slug: 'trello' },
-      { name: 'Communication', slug: 'slack' },
-      { name: 'Adaptability', slug: 'fastly' }
+      { name: 'Problem Solving', slug: '', textOnly: true },
+      { name: 'Leadership', slug: '', textOnly: true },
+      { name: 'Project Mgmt', slug: '', textOnly: true },
+      { name: 'Communication', slug: '', textOnly: true },
+      { name: 'Adaptability', slug: '', textOnly: true }
     ],
     icon: <Users size={32} />,
   }
@@ -114,7 +115,7 @@ const Services: React.FC = () => {
               className="flex items-center gap-4"
             >
               <div className="w-12 h-[1px] bg-accent" />
-              <span className="font-mono text-accent text-[10px] tracking-[0.5em] uppercase italic">System_Substrate_v9.0</span>
+              <span className="font-mono text-accent text-[10px] tracking-[0.5em] uppercase italic">Technical Skills</span>
             </motion.div>
             <h2 className="text-7xl md:text-9xl font-display font-bold text-white tracking-tighter leading-[0.8] uppercase">
               TECHNICAL <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #CCFF00' }}>REGISTRY.</span>
@@ -143,13 +144,7 @@ const Services: React.FC = () => {
         {/* FOOTER DECAL */}
         <div className="mt-40 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
            <div className="flex items-center gap-8 font-mono text-[8px] text-white/20 uppercase tracking-[0.5em]">
-              <span>[CORE_LOADED]</span>
-              <span>[DK_BIO_VERIFIED]</span>
-              <span>[AUTH: ADMIN]</span>
-           </div>
-           <div className="flex items-center gap-4 opacity-10">
-              <Fingerprint size={32} className="text-accent" />
-              <span className="font-display font-black text-7xl text-white select-none italic">SECURE</span>
+              {/* Removed footer strings as per request */}
            </div>
         </div>
       </div>
@@ -219,7 +214,7 @@ const CapabilityBlock: React.FC<{ system: any, index: number }> = ({ system, ind
 const SkillCard: React.FC<{ skill: Skill, index: number }> = ({ skill, index }) => {
   // Simple Icons CDN allows us to fetch brand logos easily
   // Using custom color #CCFF00 (the Acid Lime) for the logos
-  const logoUrl = `https://cdn.simpleicons.org/${skill.slug}/CCFF00`;
+  const logoUrl = skill.textOnly ? '' : `https://cdn.simpleicons.org/${skill.slug}/CCFF00`;
 
   return (
     <motion.div
@@ -229,30 +224,41 @@ const SkillCard: React.FC<{ skill: Skill, index: number }> = ({ skill, index }) 
       viewport={{ once: true }}
       className="group/skill relative bg-[#0a0a0a] border border-white/5 p-6 flex flex-col items-center justify-center gap-5 hover:border-accent/40 hover:bg-accent/[0.02] transition-all duration-300 aspect-square text-center"
     >
-      {/* REAL LOGO */}
-      <div className="relative w-12 h-12 flex items-center justify-center grayscale group-hover/skill:grayscale-0 group-hover/skill:scale-110 transition-all duration-500">
-        <img 
-          src={logoUrl} 
-          alt={skill.name} 
-          className="w-full h-full object-contain opacity-50 group-hover/skill:opacity-100 transition-opacity"
-          onError={(e) => {
-            // Fallback for missing/broken slugs
-            (e.target as HTMLImageElement).src = 'https://cdn.simpleicons.org/v0/CCFF00';
-          }}
-        />
-        {/* Glow effect */}
-        <div className="absolute inset-0 bg-accent/20 blur-xl opacity-0 group-hover/skill:opacity-40 transition-opacity rounded-full" />
-      </div>
+      {!skill.textOnly ? (
+        <>
+          {/* REAL LOGO */}
+          <div className="relative w-12 h-12 flex items-center justify-center grayscale group-hover/skill:grayscale-0 group-hover/skill:scale-110 transition-all duration-500">
+            <img 
+              src={logoUrl} 
+              alt={skill.name} 
+              className="w-full h-full object-contain opacity-50 group-hover/skill:opacity-100 transition-opacity"
+              onError={(e) => {
+                // Fallback for missing/broken slugs
+                (e.target as HTMLImageElement).src = 'https://cdn.simpleicons.org/v0/CCFF00';
+              }}
+            />
+            {/* Glow effect */}
+            <div className="absolute inset-0 bg-accent/20 blur-xl opacity-0 group-hover/skill:opacity-40 transition-opacity rounded-full" />
+          </div>
 
-      <div className="space-y-1">
-        <span className="block font-mono text-[10px] md:text-xs font-bold text-white/40 group-hover/skill:text-accent transition-colors uppercase tracking-tight">
-          {skill.name}
-        </span>
-        <div className="flex justify-center items-center gap-1 opacity-0 group-hover/skill:opacity-100 transition-opacity">
-           <div className="w-1 h-1 bg-accent rounded-full animate-pulse" />
-           <span className="font-mono text-[7px] text-accent uppercase tracking-widest">Live_Link</span>
+          <div className="space-y-1">
+            <span className="block font-mono text-[10px] md:text-xs font-bold text-white/40 group-hover/skill:text-accent transition-colors uppercase tracking-tight">
+              {skill.name}
+            </span>
+            <div className="flex justify-center items-center gap-1 opacity-0 group-hover/skill:opacity-100 transition-opacity">
+               <div className="w-1 h-1 bg-accent rounded-full animate-pulse" />
+               <span className="font-mono text-[7px] text-accent uppercase tracking-widest">Live_Link</span>
+            </div>
+          </div>
+        </>
+      ) : (
+        /* TEXT ONLY for soft skills */
+        <div className="w-full h-full flex items-center justify-center">
+          <span className="font-mono text-sm md:text-base font-bold text-white/60 group-hover/skill:text-accent transition-colors uppercase tracking-wide text-center leading-tight">
+            {skill.name}
+          </span>
         </div>
-      </div>
+      )}
 
       {/* CARD DECOR */}
       <div className="absolute top-2 right-2 font-mono text-[6px] text-white/10 uppercase tracking-tighter">

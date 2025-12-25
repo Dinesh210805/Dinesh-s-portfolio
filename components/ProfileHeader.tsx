@@ -30,18 +30,13 @@ const ProfileHeader: React.FC = () => {
         
         <div className="w-full lg:w-1/2 relative">
           <motion.div 
-            style={{ scale, opacity }}
-            className="relative z-10 w-full aspect-[4/5] md:aspect-[4/5] overflow-hidden border border-white/10 bg-surface shadow-[0_0_50px_rgba(0,0,0,0.5)] group isolation-isolate"
+            className="relative z-10 w-full aspect-[4/5] md:aspect-[4/5] overflow-hidden border border-white/10 bg-gray-800 shadow-[0_0_50px_rgba(0,0,0,0.5)] group isolation-isolate"
           >
             <motion.img 
               style={{ y }}
-              src="./DineshProfile.jpg" 
+              src="/DineshProfile.jpg" 
               alt="Dinesh Kumar C"
               className="w-full h-[115%] object-cover transition-all duration-700 ease-out group-hover:scale-105"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1500&auto=format&fit=crop";
-              }}
             />
 
             <motion.div 
@@ -81,7 +76,7 @@ const ProfileHeader: React.FC = () => {
               <span className="font-mono text-accent text-[9px] md:text-[10px] tracking-[0.4em] md:tracking-[0.5em] uppercase font-bold">Identity</span>
             </div>
             
-            <h2 className="text-4xl md:text-6xl lg:text-8xl font-display font-bold text-white leading-[1.1] md:leading-[0.9] mb-8 md:mb-12 uppercase tracking-tighter break-words">
+            <h2 className="text-3xl md:text-5xl lg:text-7xl font-display font-bold text-white leading-[1.1] md:leading-[0.9] mb-8 md:mb-12 uppercase tracking-tighter break-words">
               Architecting <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>Cognitive</span> <br /> Solutions.
             </h2>
 
@@ -96,12 +91,10 @@ const ProfileHeader: React.FC = () => {
                 </p>
               </div>
 
-              <div className="pt-4 flex flex-wrap gap-3 md:gap-4">
-                {['ML_VISION', 'LLM_OPS', 'REACT_3D', 'SYSTEM_ARCH'].map((tag) => (
-                  <span key={tag} className="px-3 py-1.5 md:px-5 md:py-2.5 bg-white/[0.03] border border-white/5 rounded-none text-[8px] md:text-[10px] font-mono tracking-[0.2em] text-white/40 hover:text-accent hover:border-accent/40 transition-all duration-300">
-                    {tag}
-                  </span>
-                ))}
+              <div className="pt-4">
+                <p className="text-secondary text-sm md:text-base leading-relaxed font-light border-t border-white/10 pt-6">
+                  A developer deeply interested in Generative AI and ML, I build intelligent systems with a strong focus on usability, system design, and performance. Skilled in web development, I enjoy solving complex problems collaboratively continually iterating to create meaningful, scalable technology that delivers lasting impact in real-world contexts.
+                </p>
               </div>
             </div>
           </motion.div>

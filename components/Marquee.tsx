@@ -5,9 +5,10 @@ interface ParallaxTextProps {
   children: React.ReactNode;
   direction?: 'left' | 'right';
   duration?: number;
+  isAccent?: boolean;
 }
 
-const ParallaxText: React.FC<ParallaxTextProps> = ({ children, direction = 'left', duration = 20 }) => {
+const ParallaxText: React.FC<ParallaxTextProps> = ({ children, direction = 'left', duration = 20, isAccent = false }) => {
   const animationClass = direction === 'left' ? 'marquee-left' : 'marquee-right';
 
   return (
@@ -17,7 +18,7 @@ const ParallaxText: React.FC<ParallaxTextProps> = ({ children, direction = 'left
           <span 
             key={i} 
             className="text-6xl md:text-8xl font-display font-bold uppercase text-transparent mx-8"
-            style={{ WebkitTextStroke: '1px rgba(255,255,255,0.15)' }}
+            style={{ WebkitTextStroke: isAccent ? '1px #CCFF00' : '1.5px rgba(255,255,255,0.3)' }}
           >
             {children}
           </span>
@@ -46,11 +47,11 @@ const ParallaxText: React.FC<ParallaxTextProps> = ({ children, direction = 'left
 const Marquee: React.FC = () => {
   return (
     <div className="relative w-full py-10 bg-background overflow-hidden flex flex-col gap-2">
-       <ParallaxText direction="left" duration={30}>
+       <ParallaxText direction="left" duration={30} isAccent={true}>
          CREATIVE DEVELOPER • OPEN FOR WORK • DINESH KUMAR •
        </ParallaxText>
-       <ParallaxText direction="right" duration={40}>
-         UI/UX DESIGN • FULL STACK • WEBGL • EXPERIENCES •
+       <ParallaxText direction="right" duration={60}>
+         AI/ML ENGINEER • GENERATIVE AI • FULL STACK • PROBLEM SOLVER •
        </ParallaxText>
     </div>
   );

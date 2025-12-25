@@ -1,7 +1,7 @@
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { ShieldCheck, Trophy, Terminal, Fingerprint } from 'lucide-react';
+import { ShieldCheck, Trophy, Terminal, Fingerprint, ChevronRight } from 'lucide-react';
 
 const achievements = [
   {
@@ -9,9 +9,9 @@ const achievements = [
     rank: 'TOP 105 NATIONAL',
     title: 'Google Solution Challenge 2025',
     category: 'GLOBAL_LOGISTICS_AI',
-    authority: 'GOOGLE_DEVELOPERS',
-    description: 'Selected from 64,000+ national entries for pioneering GravitycARgo—an AI+AR integrated logistics ecosystem designed for global carbon footprint reduction and spatial optimization.',
-    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop',
+    authority: '2025',
+    description: 'GravitycARgo selected from 64,000+ National entries for its AI+AR logistics innovation.',
+    images: ['/googlesolchallenge.png'],
     tech: ['LLM', 'Python', 'Flask', 'Optigenix Algorithm', 'Unity', 'NumPy', 'scikit-learn'],
     date: 'MAR 2025',
     prestige: true
@@ -19,23 +19,23 @@ const achievements = [
   {
     id: 'VAL_25_FOW',
     rank: '2ND RUNNER UP',
-    title: 'Future of Work Hackathon',
+    title: 'The Future of Work Hackathon',
     category: 'WORKPLACE_EFFICIENCY',
-    authority: 'FUTURE_SUMMIT_25',
-    description: 'Recognized for GravitycARgo, an AI+AR driven logistics solution that redefines smarter, efficient packing strategies for modern warehouse and workspace management.',
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop',
+    authority: '2025',
+    description: 'Recognized for GravitycARgo, an AI+AR driven logistics solution for smarter, efficient packing strategies.',
+    images: ['/FutureOfWork01.jpg', '/FutureOfWork02.jpg'],
     tech: ['LLM', 'Python', 'Flask', 'Optigenix Algorithm', 'Unity', 'Plotly'],
     date: 'JUL 2025',
     prestige: true
   },
   {
     id: 'VAL_25_UNI',
-    rank: 'TOP 10 FINALIST',
+    rank: 'TOP 10',
     title: 'Unisys Innovation Program Y16',
     category: 'SUSTAINABLE_SYSTEMS',
-    authority: 'UNISYS_CORP',
-    description: 'Awarded for architectural excellence in GravitycARgo. The platform combines deep learning and spatial computing for enterprise freight optimization.',
-    image: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=2070&auto=format&fit=crop',
+    authority: '2025',
+    description: 'Recognized for GravitycARgo, an AI+AR driven sustainable logistics platform.',
+    images: ['/unisys.png'],
     tech: ['LLM', 'Python', 'Flask', 'Optigenix', 'Unity', 'scikit-learn'],
     date: 'JAN 2025',
     prestige: true
@@ -45,9 +45,9 @@ const achievements = [
     rank: 'FINALIST',
     title: '0x.day Hacksday Hackathon',
     category: 'CARBON_OPTIMIZATION',
-    authority: '0X_COMMUNITY',
-    description: 'Built Gravitycargo, an AI system focused on improving container space usage and reducing CO2 through a proprietary Optigenix optimization core.',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop',
+    authority: '2024',
+    description: 'Built GravitycARgo, an AI system improving container space usage and reducing CO2.',
+    images: ['/0xday1.JPG', '/0xday2.jpg'],
     tech: ['LLM', 'Python', 'Flask', 'Optigenix', 'NumPy', 'pandas', 'Plotly'],
     date: 'OCT 2024',
     prestige: false
@@ -57,9 +57,9 @@ const achievements = [
     rank: 'FINALIST',
     title: 'Aventus 2.0 Hackathon',
     category: 'ASSISTIVE_MFA_TECH',
-    authority: 'AVENTUS_LABS',
-    description: 'Developed "The Light", an assistive application for visually impaired users. Features touch-based secure authentication (SSFD) and computer vision navigation.',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop',
+    authority: '2024',
+    description: 'Developed The Light, Assistive app for the visually impaired with touch based secure authentication(SSFD).',
+    images: ['/aventus1.jpg', '/aventus2.jpg'],
     tech: ['Flutter', 'TensorFlow', 'YOLO', 'OpenCV', 'Python', 'Flask'],
     date: 'MAY 2024',
     prestige: false
@@ -67,11 +67,11 @@ const achievements = [
   {
     id: 'VAL_24_YTK',
     rank: 'REGIONAL PREFINALIST',
-    title: 'ICT Academy Youth Talk 2024',
+    title: 'Youth Talk 2024',
     category: 'TECHNICAL_LEADERSHIP',
-    authority: 'ICT_ACADEMY_TN',
-    description: 'Participated in the regional prefinals of ICT Academy Youth Talk Tamil Nadu, delivering vision-driven concepts on AI and modern society.',
-    image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop',
+    authority: '2024',
+    description: 'Participated in regional prefinals of ICT Academy Youth Talk Tamil Nadu.',
+    images: ['/youthtalk.png'],
     tech: ['Public Speaking', 'System Design', 'Visionary Delivery'],
     date: '2024',
     prestige: false
@@ -95,10 +95,10 @@ const Achievements: React.FC = () => {
               className="flex items-center gap-4 mb-8 md:mb-10"
             >
               <div className="w-10 md:w-16 h-[1px] bg-accent" />
-              <span className="font-mono text-accent text-[10px] md:text-sm tracking-[0.4em] md:tracking-[0.5em] uppercase">Honors_Ledger_v1.0</span>
+              <span className="font-mono text-accent text-[10px] md:text-sm tracking-[0.4em] md:tracking-[0.5em] uppercase">Honor Ledger</span>
             </motion.div>
             <h2 className="text-5xl md:text-7xl lg:text-9xl font-display font-bold text-white tracking-tighter leading-[1.1] md:leading-[0.8] uppercase">
-              GLOBAL <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>VALIDATION.</span>
+              RECOGNITION.
             </h2>
           </div>
           
@@ -130,6 +130,29 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
   const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
   const isEven = index % 2 === 0;
+  
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const hasMultipleImages = ach.images && ach.images.length > 1;
+
+  // Auto-advance images every 3 seconds
+  useEffect(() => {
+    if (!hasMultipleImages) return;
+    
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % ach.images.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [hasMultipleImages, ach.images.length]);
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % ach.images.length);
+  };
+
+  const currentImage = ach.images?.[currentImageIndex] || ach.images?.[0];
+  
+  // Apply cover mode for specific achievements
+  const shouldCover = ach.id === 'VAL_24_OXD' || ach.id === 'VAL_24_AVN';
 
   return (
     <motion.div
@@ -149,9 +172,13 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
       <div className={`lg:col-span-6 relative group ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
         <div className="relative overflow-hidden bg-surface border border-white/10 aspect-video w-full group shadow-2xl isolation-isolate">
           <motion.img 
-            style={{ y: imgY, scale: 1.15 }}
-            src={ach.image} 
-            className="w-full h-full object-cover grayscale brightness-[0.25] group-hover:grayscale-0 group-hover:brightness-75 transition-all duration-1000 ease-out"
+            key={currentImageIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            style={{ y: imgY, scale: shouldCover ? 1.15 : 1 }}
+            src={currentImage} 
+            className={`w-full h-full ${shouldCover ? 'object-cover' : 'object-contain'} bg-surface brightness-75 group-hover:brightness-90 transition-all duration-1000 ease-out`}
             alt={ach.title}
             loading="lazy"
           />
@@ -167,8 +194,30 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
             </div>
           </div>
 
+          {/* Image navigation - only show if multiple images */}
+          {hasMultipleImages && (
+            <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 flex items-center gap-3">
+              <button 
+                onClick={handleNextImage}
+                className="w-10 h-10 bg-accent/10 backdrop-blur-xl border border-accent/20 hover:bg-accent hover:border-accent flex items-center justify-center transition-all duration-300 group/btn"
+              >
+                <ChevronRight size={16} className="text-accent group-hover/btn:text-black transition-colors" />
+              </button>
+              <div className="flex gap-1.5">
+                {ach.images.map((_: any, idx: number) => (
+                  <div 
+                    key={idx}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      idx === currentImageIndex ? 'bg-accent w-6' : 'bg-white/20'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 text-right hidden md:block">
-             <div className="font-mono text-[8px] text-white/20 uppercase tracking-[0.4em] mb-1">Authority_Check</div>
+             <div className="font-mono text-[8px] text-white/20 uppercase tracking-[0.4em] mb-1">Year</div>
              <div className="font-mono text-[10px] text-accent font-bold uppercase">{ach.authority}</div>
           </div>
         </div>
@@ -207,14 +256,7 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
           </div>
 
           <div className="flex flex-wrap items-center gap-6 md:gap-10">
-            <div className="flex items-center gap-2 md:gap-3">
-               <ShieldCheck className="text-accent" size={14} />
-               <span className="font-mono text-[8px] md:text-[9px] text-white/40 uppercase tracking-widest">Registry_Confirmed</span>
-            </div>
-            <div className="flex items-center gap-2 md:gap-3">
-               <Fingerprint className="text-white/20" size={14} />
-               <span className="font-mono text-[8px] md:text-[9px] text-white/40 uppercase tracking-widest truncate max-w-[120px]">ID: {ach.id}</span>
-            </div>
+            {/* Removed Registry_Confirmed and ID as per request */}
           </div>
         </div>
       </div>

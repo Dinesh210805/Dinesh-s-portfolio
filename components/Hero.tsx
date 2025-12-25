@@ -27,7 +27,7 @@ const Hero: React.FC = () => {
       
       {/* 3D Scene Container */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-full lg:w-2/3 h-full">
+        <div className="absolute top-0 right-0 w-full md:w-3/4 lg:w-2/3 h-full">
            <Suspense fallback={<div className="absolute inset-0 bg-background" />}>
             <Scene isInView={isInView && is3DEnabled} />
           </Suspense>
@@ -68,7 +68,7 @@ const Hero: React.FC = () => {
 
         <motion.div 
           style={{ y, opacity }}
-          className="flex flex-col items-start text-left max-w-4xl"
+          className="flex flex-col items-start text-left max-w-2xl lg:max-w-3xl"
         >
           <div className="flex flex-col gap-0 mb-8 md:mb-12 select-none w-full">
             <motion.div
@@ -85,7 +85,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.4 }}
-              className="text-[14vw] md:text-[8vw] font-display font-black text-white leading-[0.9] tracking-tighter uppercase will-change-transform"
+              className="text-[11vw] md:text-[5.5vw] lg:text-[4.5vw] font-display font-black text-white leading-[0.9] tracking-tighter uppercase will-change-transform"
             >
               DINESH
             </motion.h1>
@@ -93,7 +93,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5 }}
-              className="text-[14vw] md:text-[8vw] font-display font-black text-transparent leading-[0.9] tracking-tighter uppercase will-change-transform"
+              className="text-[11vw] md:text-[5.5vw] lg:text-[4.5vw] font-display font-black text-transparent leading-[0.9] tracking-tighter uppercase will-change-transform"
               style={{ WebkitTextStroke: '1px rgba(255, 255, 255, 0.15)' }}
             >
               KUMAR
@@ -106,7 +106,7 @@ const Hero: React.FC = () => {
             transition={{ duration: 1, delay: 0.9 }}
             className="flex flex-col gap-4 md:gap-6"
           >
-            <span className="font-display text-2xl md:text-5xl text-white font-medium tracking-tight uppercase">
+            <span className="font-display text-xl md:text-3xl lg:text-4xl text-white font-medium tracking-tight uppercase">
               GEN AI & <span className="text-accent italic font-bold">ML ENGINEER</span>
             </span>
             <p className="font-mono text-[9px] md:text-[11px] text-white/30 uppercase tracking-[0.3em] md:tracking-[0.4em] max-w-xs md:max-w-sm leading-relaxed border-l border-accent/20 pl-4 md:pl-6">

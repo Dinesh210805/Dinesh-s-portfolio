@@ -79,7 +79,7 @@ const Experience: React.FC = () => {
           className="flex items-center gap-3 mb-6 md:mb-8"
         >
           <div className="w-8 md:w-12 h-[1px] bg-accent" />
-          <span className="font-mono text-accent text-[10px] md:text-sm tracking-[0.4em] uppercase">Progression_Matrix</span>
+          <span className="font-mono text-accent text-[10px] md:text-sm tracking-[0.4em] uppercase">Career Timeline</span>
         </motion.div>
         
         <h2 className="text-5xl md:text-7xl lg:text-9xl font-display font-bold text-white tracking-tighter leading-[1.1] md:leading-[0.8] mb-4 uppercase">
@@ -127,8 +127,27 @@ const TimelineNode: React.FC<{ exp: any, index: number }> = ({ exp, index }) => 
   const isEven = index % 2 === 0;
 
   return (
-    <div ref={ref} className="relative flex flex-col md:flex-row items-start md:items-center group">
+    <div ref={ref} className="relative flex flex-col md:flex-row items-start md:items-center group min-h-[400px]">
       
+      {/* Background Level Text - Animated & Glowing - Positioned in empty half */}
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
+        whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+        viewport={{ once: false, margin: "-20%" }}
+        transition={{ duration: 0.8 }}
+        className={`absolute inset-y-0 ${isEven ? 'left-0 md:left-[50%]' : 'right-0 md:right-[50%]'} w-full md:w-[50%] hidden md:flex justify-center items-center pointer-events-none select-none z-0`}
+      >
+         <span 
+           className="text-[2rem] md:text-[3rem] lg:text-[4rem] font-display font-black text-transparent leading-none uppercase tracking-tighter whitespace-nowrap"
+           style={{ 
+             WebkitTextStroke: '2px #CCFF00',
+             filter: 'drop-shadow(0 0 20px rgba(204, 255, 0, 0.8)) drop-shadow(0 0 40px rgba(204, 255, 0, 0.4))'
+           }}
+         >
+           LEVEL 0{exp.id}
+         </span>
+      </motion.div>
+
       <div className="absolute left-6 md:left-1/2 top-0 md:top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
         <motion.div 
           animate={isInView ? { scale: 1.1, backgroundColor: '#CCFF00', borderColor: '#CCFF00' } : { scale: 1, backgroundColor: '#050505', borderColor: 'rgba(255,255,255,0.1)' }}

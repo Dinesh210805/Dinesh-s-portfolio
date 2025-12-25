@@ -39,10 +39,13 @@ const App: React.FC = () => {
       smoothWheel: true,
       wheelMultiplier: 1.1,
       touchMultiplier: 1.5,
-      lerp: 0.08, // Increased smoothness
+      lerp: 0.08,
     });
 
     window.lenis = lenis;
+
+    // Ensure smooth scroll container is positioned
+    document.documentElement.style.position = 'relative';
 
     let rafId: number;
     function raf(time: number) {
