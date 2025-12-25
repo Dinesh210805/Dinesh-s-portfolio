@@ -21,10 +21,11 @@ const LiquidSphere = () => {
 
   return (
     <Float speed={2} rotationIntensity={1.5} floatIntensity={2}>
-      <Sphere ref={meshRef} args={[1, 128, 128]} scale={2.8}>
+      {/* Reduced geometry segments from 128 to 64 for performance */}
+      <Sphere ref={meshRef} args={[1, 64, 64]} scale={2.8}>
         <MeshTransmissionMaterial
           backside
-          samples={16}
+          samples={6} // Reduced from 16 to 6 to save GPU
           thickness={2}
           roughness={0}
           iridescence={1}
@@ -33,27 +34,38 @@ const LiquidSphere = () => {
           clearcoat={1}
           clearcoatRoughness={0}
           transmission={1}
-          chromaticAberration={1} // High value for the rainbow edges
-          anisotropy={0.5}
-          distortion={0.6} // Key for the liquid look
+          chromaticAberration={0.8} // Slightly reduced
+          anisotropy={0.2}
+          distortion={0.6}
           distortionScale={0.5}
           temporalDistortion={0.2}
           ior={1.5}
           color="#ffffff"
           background={new THREE.Color('#050505')}
+          resolution={512} // Limit transmission buffer resolution
         />
       </Sphere>
     </Float>
   );
 };
 
-export const Scene: React.FC = () => {
+interface SceneProps {
+  isInView?: boolean;
+}
+
+export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
   return (
     <div className="absolute inset-0 z-0 pointer-events-none">
-      <Canvas camera={{ position: [0, 0, 6], fov: 45 }} gl={{ alpha: true, antialias: true }} dpr={[1, 2]}>
+      <Canvas 
+        camera={{ position: [0, 0, 6], fov: 45 }} 
+        gl={{ alpha: true, antialias: false, powerPreference: "high-performance" }} 
+        dpr={[1, 1.5]} // Cap DPR at 1.5 to avoid quadrupling pixels on Retina screens
+        frameloop={isInView ? "always" : "never"} // Stop rendering when out of view
+      >
         <TColor attach="background" args={['#050505']} />
         
-        <Environment resolution={512}>
+        {/* Reduced environment resolution */}
+        <Environment resolution={256}>
            <TGroup rotation={[-Math.PI / 3, 0, 1]}>
             <Lightformer form="circle" intensity={4} rotation-x={Math.PI / 2} position={[0, 5, -9]} scale={2} />
             <Lightformer form="circle" intensity={2} rotation-y={Math.PI / 2} position={[-5, 1, -1]} scale={2} />
