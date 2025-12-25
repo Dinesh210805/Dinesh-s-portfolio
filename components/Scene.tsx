@@ -1,6 +1,7 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Spline from '@splinetool/react-spline';
 import '../types';
 
 interface SceneProps {
@@ -8,11 +9,9 @@ interface SceneProps {
 }
 
 export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
-  const splineRef = useRef<any>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Check if device is mobile
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -20,100 +19,6 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  useEffect(() => {
-    if (!isMobile || !isInView || !splineRef.current) return;
-
-    let permissionGranted = false;
-
-    const requestPermission = async () => {
-      try {
-        // @ts-ignore - iOS 13+ requires permission
-        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-          const permission = await DeviceOrientationEvent.requestPermission();
-          permissionGranted = permission === 'granted';
-        } else {
-          permissionGranted = true;
-        }
-      } catch (error) {
-        console.error('Error requesting sensor permission:', error);
-      }
-    };
-
-    const handleOrientation = (event: DeviceOrientationEvent) => {
-      if (!splineRef.current || !permissionGranted) return;
-
-      const beta = event.beta || 0;  // -180 to 180 (front to back tilt)
-      const gamma = event.gamma || 0; // -90 to 90 (left to right tilt)
-
-      try {
-        const splineElement = splineRef.current;
-        
-        // Map device orientation to viewport coordinates with high sensitivity
-        // Center around 0, with 20 degree range for full movement
-        const normalizedX = Math.max(0, Math.min(1, (gamma + 20) / 40));
-        const normalizedY = Math.max(0, Math.min(1, (beta - 30) / 40));
-        
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        
-        const x = normalizedX * width;
-        const y = normalizedY * height;
-
-        // Try multiple approaches to control Spline
-        // Approach 1: Direct property setting if available
-        if (splineElement.setMousePosition) {
-          splineElement.setMousePosition(normalizedX, normalizedY);
-        }
-        
-        // Approach 2: Mouse event with pointer properties
-        const mouseEvent = new PointerEvent('pointermove', {
-          clientX: x,
-          clientY: y,
-          bubbles: true,
-          cancelable: true,
-          pointerType: 'mouse',
-          isPrimary: true
-        });
-        splineElement.dispatchEvent(mouseEvent);
-
-        // Approach 3: Touch event for mobile
-        const touch = new Touch({
-          identifier: Date.now(),
-          target: splineElement,
-          clientX: x,
-          clientY: y,
-          radiusX: 2.5,
-          radiusY: 2.5,
-          rotationAngle: 0,
-          force: 0.5,
-        });
-
-        const touchEvent = new TouchEvent('touchmove', {
-          cancelable: true,
-          bubbles: true,
-          touches: [touch],
-          targetTouches: [touch],
-          changedTouches: [touch],
-        });
-        splineElement.dispatchEvent(touchEvent);
-
-      } catch (error) {
-        console.error('Error updating spline orientation:', error);
-      }
-    };
-
-    // Auto-request permission and start listening
-    requestPermission().then(() => {
-      if (permissionGranted || typeof DeviceOrientationEvent.requestPermission !== 'function') {
-        window.addEventListener('deviceorientation', handleOrientation);
-      }
-    });
-
-    return () => {
-      window.removeEventListener('deviceorientation', handleOrientation);
-    };
-  }, [isMobile, isInView]);
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-background">
@@ -127,12 +32,9 @@ export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
             transition={{ duration: 0.8 }}
             className="relative w-full h-full flex items-center justify-center"
           >
-            {/* The Spline Viewer - Hard unmount when isInView is false */}
-            {/* @ts-ignore */}
-            <spline-viewer 
-              ref={splineRef}
-              url="https://prod.spline.design/UTIsnsf41Ax0oLMK/scene.splinecode"
-              loading-anim-type="none"
+            {/* React Spline Component */}
+            <Spline
+              scene="https://prod.spline.design/UTIsnsf41Ax0oLMK/scene.splinecode"
               className={`w-full h-full pointer-events-auto ${isMobile ? 'scale-100' : 'scale-105'}`}
             />
 
