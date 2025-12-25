@@ -21,6 +21,7 @@ import Preloader from './components/Preloader';
 import ChatBot from './components/ChatBot';
 import SectionTransition from './components/SectionTransition';
 import ScrollToTop from './components/ScrollToTop';
+import useDynamicFavicon from './hooks/useDynamicFavicon';
 
 declare global {
   interface Window {
@@ -30,6 +31,9 @@ declare global {
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
+
+  // Set favicon dynamically based on profile image
+  useDynamicFavicon();
 
   useEffect(() => {
     if (isLoading) return;

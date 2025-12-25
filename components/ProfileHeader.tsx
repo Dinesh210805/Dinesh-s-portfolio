@@ -1,6 +1,7 @@
 
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { PROFILE_IMAGE, PROFILE_NAME } from '../constants/profile';
 
 const ProfileHeader: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -22,7 +23,7 @@ const ProfileHeader: React.FC = () => {
           className="text-[25vw] font-display font-black leading-none whitespace-nowrap -ml-10 uppercase text-transparent"
           style={{ WebkitTextStroke: '2px rgba(255, 255, 255, 0.5)' }}
         >
-          DINESH KUMAR
+          {PROFILE_NAME}
         </div>
       </div>
 
@@ -34,8 +35,8 @@ const ProfileHeader: React.FC = () => {
           >
             <motion.img 
               style={{ y }}
-              src="/DineshProfile2.jpeg" 
-              alt="Dinesh Kumar C"
+              src={PROFILE_IMAGE} 
+              alt={PROFILE_NAME}
               className="w-full h-[115%] object-cover transition-all duration-700 ease-out group-hover:scale-105"
             />
 
