@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { ArrowUpRight, Github, Linkedin, Mail, Phone } from 'lucide-react';
+import { ArrowUpRight, Github, Linkedin, Mail } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const [time, setTime] = useState<string>('');
@@ -21,12 +22,11 @@ const Footer: React.FC = () => {
   return (
     <footer 
       id="contact" 
-      className="fixed bottom-0 left-0 right-0 h-[100vh] z-0 bg-[#020202] flex flex-col justify-between pt-32 px-5 md:px-10 lg:px-20 overflow-hidden"
+      className="sticky bottom-0 left-0 right-0 h-screen z-10 bg-[#020202] flex flex-col justify-between pt-32 px-5 md:px-10 lg:px-20 overflow-hidden"
     >
-      
       <div className="max-w-[1400px] w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
         <div>
-          <h2 className="text-6xl md:text-8xl lg:text-9xl font-display font-bold text-white uppercase leading-[0.9] tracking-tighter">
+          <h2 className="text-6xl md:text-8xl lg:text-9xl font-display font-bold text-white uppercase leading-[0.9] tracking-tighter will-change-transform">
             INITIATE <br/> <span className="text-accent">CONTACT</span> <br/> 0x21
           </h2>
         </div>
@@ -80,7 +80,8 @@ const Footer: React.FC = () => {
          </div>
 
          <div className="relative w-full overflow-hidden select-none">
-           <h1 className="text-[15vw] md:text-[18vw] font-display font-bold text-[#111] leading-none text-center tracking-tighter mix-blend-difference">
+           {/* Optimized large text rendering */}
+           <h1 className="text-[15vw] md:text-[18vw] font-display font-bold text-[#111] leading-none text-center tracking-tighter mix-blend-difference will-change-transform">
              DINESH
            </h1>
          </div>

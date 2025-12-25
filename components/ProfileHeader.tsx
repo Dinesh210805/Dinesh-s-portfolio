@@ -1,3 +1,4 @@
+
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
@@ -15,7 +16,6 @@ const ProfileHeader: React.FC = () => {
 
   return (
     <section ref={containerRef} className="relative py-32 px-5 md:px-10 lg:px-20 overflow-hidden bg-background">
-      {/* Background Decorative Text */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-[0.02] select-none">
         <div className="text-[30vw] font-display font-black leading-none whitespace-nowrap -ml-20">
           ARCHITECT ARCHITECT
@@ -24,11 +24,10 @@ const ProfileHeader: React.FC = () => {
 
       <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-16 lg:gap-24 relative z-10">
         
-        {/* Left Side: Image with Technical Frame */}
         <div className="w-full lg:w-1/2 relative">
           <motion.div 
             style={{ scale, opacity }}
-            className="relative z-10 w-full aspect-[4/5] overflow-hidden border border-white/5 bg-surface shadow-2xl group"
+            className="relative z-10 w-full aspect-[4/5] overflow-hidden border border-white/5 bg-surface shadow-2xl group isolation-isolate"
           >
             <motion.img 
               style={{ y }}
@@ -37,23 +36,20 @@ const ProfileHeader: React.FC = () => {
               className="w-full h-[130%] -mt-[15%] object-cover transition-all duration-1000 ease-in-out group-hover:scale-105"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.src = "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1500&auto=format&fit=crop";
+                target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1500&auto=format&fit=crop";
               }}
             />
 
-            {/* Scanning Effect Overlay */}
             <motion.div 
               animate={{ top: ['-5%', '105%'] }}
               transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
               className="absolute left-0 right-0 h-[1px] bg-accent/60 shadow-[0_0_20px_rgba(204,255,0,0.9)] z-20 pointer-events-none"
             />
             
-            {/* Corner Accents */}
             <div className="absolute top-0 left-0 w-12 h-12 border-t border-l border-accent/40" />
             <div className="absolute bottom-0 right-0 w-12 h-12 border-b border-r border-accent/40" />
           </motion.div>
 
-          {/* Floated Stats Box */}
           <motion.div 
             initial={{ x: 50, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -80,7 +76,6 @@ const ProfileHeader: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Right Side: Content */}
         <div className="w-full lg:w-1/2">
           <motion.div style={{ y: textY }}>
             <div className="flex items-center gap-4 mb-8">
@@ -113,7 +108,6 @@ const ProfileHeader: React.FC = () => {
             </div>
           </motion.div>
         </div>
-
       </div>
     </section>
   );

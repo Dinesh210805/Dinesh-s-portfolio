@@ -1,3 +1,4 @@
+
 export interface Project {
   id: number;
   title: string;
@@ -41,4 +42,40 @@ export interface Certification {
   issuer: string;
   image: string;
   date?: string;
+}
+
+// Global JSX augmentation for custom and third-party elements
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'spline-viewer': any;
+      ambientLight: any;
+      pointLight: any;
+      group: any;
+      meshStandardMaterial: any;
+      meshBasicMaterial: any;
+      torusGeometry: any;
+      sphereGeometry: any;
+    }
+  }
+}
+
+// Ensure compatible namespace augmentation for modern React JSX transforms
+// Fix: Use declare module 'react' instead of declare namespace React to avoid conflict with imports
+declare module 'react' {
+  namespace JSX {
+    interface IntrinsicElements {
+      'spline-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & {
+        url?: string;
+        'loading-anim-type'?: string;
+      }, HTMLElement>;
+      ambientLight: any;
+      pointLight: any;
+      group: any;
+      meshStandardMaterial: any;
+      meshBasicMaterial: any;
+      torusGeometry: any;
+      sphereGeometry: any;
+    }
+  }
 }

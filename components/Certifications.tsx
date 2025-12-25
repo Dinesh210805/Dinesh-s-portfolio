@@ -1,34 +1,52 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ShieldCheck, ExternalLink, Award, CheckCircle2 } from 'lucide-react';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { 
+  ShieldCheck, 
+  ExternalLink, 
+  Award, 
+  Fingerprint, 
+  Cpu, 
+  Globe, 
+  Hash,
+  Database,
+  Lock
+} from 'lucide-react';
 import { Certification } from '../types';
 
-const certifications: Certification[] = [
+const certifications: (Certification & { slug: string; id_hex: string })[] = [
   {
     id: 'CERT_01',
+    id_hex: '0x_FS_772',
     title: 'Diploma in Full Stack Development',
     issuer: 'I Shine Info Tech',
+    slug: 'icloud',
     image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000&auto=format&fit=crop',
     date: '2023'
   },
   {
     id: 'CERT_02',
+    id_hex: '0x_AI_991',
     title: 'Career Essentials in Generative AI',
     issuer: 'Microsoft & LinkedIn',
+    slug: 'microsoft',
     image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1000&auto=format&fit=crop',
     date: '2024'
   },
   {
     id: 'CERT_03',
+    id_hex: '0x_JV_441',
     title: 'Programming in Java (NPTEL)',
     issuer: 'NPTEL / IIT Madras',
+    slug: 'java',
     image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000&auto=format&fit=crop',
     date: '2023'
   },
   {
     id: 'CERT_04',
+    id_hex: '0x_DB_220',
     title: 'Database Management System (NPTEL)',
     issuer: 'NPTEL / IIT Kharagpur',
+    slug: 'sqlite',
     image: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=1000&auto=format&fit=crop',
     date: '2023'
   }
@@ -36,80 +54,145 @@ const certifications: Certification[] = [
 
 const Certifications: React.FC = () => {
   return (
-    <section id="certifications" className="py-40 bg-background relative overflow-hidden">
-      {/* Background Tech Decor */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-[0.02]">
-        <div className="absolute top-[-10%] right-[-10%] w-[60%] aspect-square border border-accent rounded-full" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[40%] aspect-square border border-white rounded-full" />
+    <section id="certifications" className="py-40 bg-[#050505] relative overflow-hidden">
+      {/* BACKGROUND GRID ARCHIVE */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#CCFF00_1px,transparent_1px)] [background-size:40px_40px]" />
       </div>
 
-      <div className="px-5 md:px-10 lg:px-20 max-w-[1400px] mx-auto relative z-10">
-        <div className="mb-32">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="flex items-center gap-3 mb-6"
-          >
-            <div className="w-12 h-[1px] bg-accent" />
-            <span className="font-mono text-accent text-sm tracking-[0.4em] uppercase">Verified_Credentials</span>
-          </motion.div>
-          <h2 className="text-6xl md:text-8xl font-display font-bold text-white tracking-tighter leading-[0.9]">
-            SKILL <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>CERTIFIED.</span>
-          </h2>
+      <div className="px-5 md:px-10 lg:px-20 max-w-[1600px] mx-auto relative z-10">
+        
+        {/* VAULT HEADER */}
+        <div className="mb-32 flex flex-col lg:flex-row lg:items-end justify-between gap-12">
+          <div className="space-y-6">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-4"
+            >
+              <div className="w-16 h-[1px] bg-accent" />
+              <span className="font-mono text-accent text-[10px] tracking-[0.6em] uppercase italic font-bold">Credential_Protocol_v4.1</span>
+            </motion.div>
+            <h2 className="text-7xl md:text-9xl font-display font-bold text-white tracking-tighter leading-[0.8] uppercase">
+              VERIFIED <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #CCFF00' }}>ARCHIVE.</span>
+            </h2>
+          </div>
+
+          <div className="flex flex-col gap-6 font-mono border-l border-white/10 pl-8 lg:max-w-[320px]">
+            <div className="flex items-center gap-3">
+              <ShieldCheck size={16} className="text-accent" />
+              <span className="text-[10px] text-white/40 tracking-[0.3em] uppercase">Auth_Status: Level_5</span>
+            </div>
+            <p className="text-[10px] text-secondary leading-relaxed uppercase tracking-widest">
+              Digital twin verification of all industrial certifications. Every module is hashed and stored within the DK_Vault substrate.
+            </p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10">
+        {/* VAULT MODULES */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {certifications.map((cert, index) => (
-            <CertificationCard key={cert.id} cert={cert} index={index} />
+            <CredentialModule key={cert.id} cert={cert} index={index} />
           ))}
+        </div>
+
+        {/* BOTTOM SCAN STATUS */}
+        <div className="mt-32 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 opacity-20">
+           <div className="flex gap-12 font-mono text-[8px] uppercase tracking-[0.4em]">
+              <span className="flex items-center gap-2"><Globe size={10}/> Global_DNS_Ready</span>
+              <span className="flex items-center gap-2"><Lock size={10}/> Encrypted_SSL_T1</span>
+           </div>
+           <div className="flex items-center gap-4">
+              <Fingerprint size={24} />
+              <span className="font-display font-black text-5xl italic tracking-tighter">CERTIFIED</span>
+           </div>
         </div>
       </div>
     </section>
   );
 };
 
-const CertificationCard: React.FC<{ cert: Certification; index: number }> = ({ cert, index }) => {
+const CredentialModule: React.FC<{ cert: any; index: number }> = ({ cert, index }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const logoUrl = `https://cdn.simpleicons.org/${cert.slug}/CCFF00`;
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, delay: index * 0.1 }}
-      className="group bg-background p-10 flex flex-col justify-between aspect-square relative overflow-hidden"
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.95, y: 30 }}
+      animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      className="group relative bg-[#0a0a0a] border border-white/5 p-1 hover:border-accent/40 transition-all duration-700 overflow-hidden"
     >
-      {/* Interactive Background */}
-      <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/5 transition-all duration-700" />
-      <div className="absolute bottom-[-50%] right-[-50%] w-full h-full bg-accent/10 blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+      <div className="bg-[#080808] p-8 lg:p-12 h-full flex flex-col justify-between relative overflow-hidden">
+        
+        {/* HUD DECORATIVE OVERLAY */}
+        <div className="absolute top-4 right-4 flex flex-col items-end gap-1 opacity-10 group-hover:opacity-30 transition-opacity">
+          <Hash size={12} className="text-white" />
+          <span className="font-mono text-[7px] text-white uppercase tracking-widest">{cert.id_hex}</span>
+        </div>
 
-      <div className="relative z-10">
-        <div className="flex justify-between items-start mb-12">
-          <div className="w-12 h-12 border border-white/10 flex items-center justify-center text-secondary group-hover:text-accent group-hover:border-accent transition-all duration-500">
-            <ShieldCheck size={24} />
+        <div className="space-y-12 relative z-10">
+          {/* HEADER AREA */}
+          <div className="flex justify-between items-start">
+            <div className="w-20 h-20 bg-accent/[0.03] border border-accent/10 flex items-center justify-center group-hover:bg-accent group-hover:text-black transition-all duration-500 rounded-none shadow-[inset_0_0_15px_rgba(204,255,0,0.05)]">
+              <img src={logoUrl} alt={cert.issuer} className="w-10 h-10 object-contain group-hover:invert transition-all" />
+            </div>
+            <div className="text-right">
+              <div className="flex items-center justify-end gap-2 text-accent">
+                <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                <span className="font-mono text-[8px] font-bold tracking-[0.3em] uppercase">Status: Verified</span>
+              </div>
+              <span className="font-mono text-[10px] text-white/20 uppercase tracking-[0.2em]">{cert.date}</span>
+            </div>
           </div>
-          <div className="flex flex-col items-end">
-             <span className="font-mono text-[9px] text-white/20 uppercase tracking-[0.2em]">VERIFIED</span>
-             <CheckCircle2 size={12} className="text-accent mt-1" />
+
+          {/* CONTENT AREA */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-[9px] text-white/30 tracking-[0.4em] uppercase">Issuer // {cert.issuer}</span>
+            </div>
+            <h3 className="text-3xl md:text-4xl font-display font-bold text-white group-hover:text-accent transition-colors duration-500 leading-[0.9] uppercase tracking-tighter">
+              {cert.title}
+            </h3>
           </div>
         </div>
 
-        <h3 className="text-2xl font-display font-bold text-white mb-4 leading-tight group-hover:text-accent transition-colors">
-          {cert.title}
-        </h3>
-        <p className="text-secondary font-mono text-[10px] uppercase tracking-widest">{cert.issuer}</p>
-      </div>
+        {/* INTERACTIVE DATA FOOTER */}
+        <div className="mt-12 pt-8 border-t border-white/5 flex items-center justify-between relative z-10">
+          <div className="flex gap-4">
+            <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/20 hover:text-accent hover:border-accent transition-all cursor-none group/btn">
+              <Database size={14} />
+            </div>
+            <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/20 hover:text-accent hover:border-accent transition-all cursor-none">
+              <Cpu size={14} />
+            </div>
+          </div>
+          
+          <motion.button 
+            whileHover={{ x: 5 }}
+            className="flex items-center gap-4 text-[9px] font-mono font-bold text-white/40 hover:text-accent transition-colors uppercase tracking-[0.4em]"
+          >
+            Access_Credential
+            <div className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-accent group-hover:text-black transition-all duration-500">
+              <ExternalLink size={14} />
+            </div>
+          </motion.button>
+        </div>
 
-      <div className="relative z-10 mt-auto">
-        <div className="flex justify-between items-end border-t border-white/5 pt-8">
-          <span className="font-mono text-[10px] text-white/20 uppercase tracking-[0.3em]">{cert.date || 'LIFETIME'}</span>
-          <button className="flex items-center gap-2 text-[10px] font-mono font-bold text-secondary hover:text-white transition-colors uppercase tracking-widest">
-            Source <ExternalLink size={14} />
-          </button>
+        {/* HOLOGRAPHIC SCAN EFFECT */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-accent/20 translate-y-[-100%] group-hover:translate-y-[1000%] transition-transform duration-[2s] ease-in-out" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/[0.01] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+        </div>
+
+        {/* BG DECAL */}
+        <div className="absolute -bottom-10 -right-10 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
+          <Award size={200} className="text-white" />
         </div>
       </div>
-      
-      {/* Card Glitch Highlight */}
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
     </motion.div>
   );
 };

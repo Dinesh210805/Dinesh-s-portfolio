@@ -1,6 +1,8 @@
+
 import React, { useEffect, useState } from 'react';
 import Lenis from '@studio-freight/lenis';
 import { AnimatePresence } from 'framer-motion';
+import './types'; // Ensure global types are loaded
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Marquee from './components/Marquee';
@@ -14,8 +16,8 @@ import Certifications from './components/Certifications';
 import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import Preloader from './components/Preloader';
+import ChatBot from './components/ChatBot';
 
-// Extend window interface for Lenis
 declare global {
   interface Window {
     lenis: Lenis | undefined;
@@ -28,21 +30,19 @@ const App: React.FC = () => {
   useEffect(() => {
     if (isLoading) return;
 
-    // Initialize Lenis for smooth momentum scrolling
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+      duration: 1.5,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
+      wheelMultiplier: 1.1,
+      touchMultiplier: 1.5,
+      lerp: 0.08, // Increased smoothness
     });
 
-    // Make lenis globally accessible
     window.lenis = lenis;
 
-    // Integrate with Request Animation Frame
     let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
@@ -67,10 +67,11 @@ const App: React.FC = () => {
       </AnimatePresence>
 
       {!isLoading && (
-        <main className="w-full min-h-screen text-primary selection:bg-accent selection:text-black">
+        <div className="w-full bg-background selection:bg-accent selection:text-black">
           <Navbar />
           
-          <div className="relative z-10 bg-background shadow-2xl shadow-black">
+          {/* Main Content: High Z-Index to scroll over footer */}
+          <main className="relative z-20 bg-background shadow-[0_50px_100px_rgba(0,0,0,0.9)]">
              <Hero />
              <Marquee />
              <ProfileHeader />
@@ -80,12 +81,12 @@ const App: React.FC = () => {
              <Works />
              <Certifications />
              <Experience />
-          </div>
+          </main>
 
-          <div className="relative z-10 w-full h-[100vh] pointer-events-none" />
-
+          {/* Footer: Reveal Effect */}
           <Footer />
-        </main>
+          <ChatBot />
+        </div>
       )}
     </>
   );

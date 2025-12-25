@@ -1,53 +1,7 @@
-import React, { useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Sphere, MeshTransmissionMaterial, Float, Environment, Lightformer } from '@react-three/drei';
-import * as THREE from 'three';
 
-// Workaround for missing intrinsic element types in strict TS environments
-const TColor = 'color' as any;
-const TGroup = 'group' as any;
-const TAmbientLight = 'ambientLight' as any;
-const TSpotLight = 'spotLight' as any;
-
-const LiquidSphere = () => {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    if (!meshRef.current) return;
-    // Slow rotation for organic feel
-    meshRef.current.rotation.x = state.clock.getElapsedTime() * 0.2;
-    meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.2;
-  });
-
-  return (
-    <Float speed={2} rotationIntensity={1.5} floatIntensity={2}>
-      {/* Reduced geometry segments from 128 to 64 for performance */}
-      <Sphere ref={meshRef} args={[1, 64, 64]} scale={2.8}>
-        <MeshTransmissionMaterial
-          backside
-          samples={6} // Reduced from 16 to 6 to save GPU
-          thickness={2}
-          roughness={0}
-          iridescence={1}
-          iridescenceIOR={1}
-          iridescenceThicknessRange={[0, 1400]}
-          clearcoat={1}
-          clearcoatRoughness={0}
-          transmission={1}
-          chromaticAberration={0.8} // Slightly reduced
-          anisotropy={0.2}
-          distortion={0.6}
-          distortionScale={0.5}
-          temporalDistortion={0.2}
-          ior={1.5}
-          color="#ffffff"
-          background={new THREE.Color('#050505')}
-          resolution={512} // Limit transmission buffer resolution
-        />
-      </Sphere>
-    </Float>
-  );
-};
+import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import '../types';
 
 interface SceneProps {
   isInView?: boolean;
@@ -55,30 +9,37 @@ interface SceneProps {
 
 export const Scene: React.FC<SceneProps> = ({ isInView = true }) => {
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none">
-      <Canvas 
-        camera={{ position: [0, 0, 6], fov: 45 }} 
-        gl={{ alpha: true, antialias: false, powerPreference: "high-performance" }} 
-        dpr={[1, 1.5]} // Cap DPR at 1.5 to avoid quadrupling pixels on Retina screens
-        frameloop={isInView ? "always" : "never"} // Stop rendering when out of view
-      >
-        <TColor attach="background" args={['#050505']} />
-        
-        {/* Reduced environment resolution */}
-        <Environment resolution={256}>
-           <TGroup rotation={[-Math.PI / 3, 0, 1]}>
-            <Lightformer form="circle" intensity={4} rotation-x={Math.PI / 2} position={[0, 5, -9]} scale={2} />
-            <Lightformer form="circle" intensity={2} rotation-y={Math.PI / 2} position={[-5, 1, -1]} scale={2} />
-            <Lightformer form="circle" intensity={2} rotation-y={Math.PI / 2} position={[-5, -1, -1]} scale={2} />
-            <Lightformer form="circle" intensity={2} rotation-y={-Math.PI / 2} position={[10, 1, 0]} scale={8} />
-          </TGroup>
-        </Environment>
-        
-        <TAmbientLight intensity={0.5} />
-        <TSpotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} color="#CCFF00" />
-        
-        <LiquidSphere />
-      </Canvas>
+    <div className="absolute inset-0 z-0 overflow-hidden bg-background">
+      <AnimatePresence mode="wait">
+        {isInView ? (
+          <motion.div 
+            key="spline-active-container" // Key change forces fresh mount/unmount
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.9 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="relative w-full h-full flex items-center justify-center pointer-events-auto"
+          >
+            {/* The Spline Viewer - Physically removed from DOM when isInView is false */}
+            {/* @ts-ignore */}
+            <spline-viewer 
+              url="https://prod.spline.design/UTIsnsf41Ax0oLMK/scene.splinecode"
+              loading-anim-type="none"
+              className="w-full h-full scale-105 pointer-events-auto"
+            />
+
+            {/* WATERMARK SHIELD: Masks the Spline logo at bottom-right */}
+            <div className="absolute bottom-0 right-0 w-36 h-14 bg-background z-20 pointer-events-none" />
+          </motion.div>
+        ) : (
+          /* Placeholder strictly replaces the WebGL element */
+          <div key="spline-idle-placeholder" className="w-full h-full bg-background" />
+        )}
+      </AnimatePresence>
+      
+      {/* Cinematic Overlays - Lightweight CSS based visuals */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(5,5,5,0.4)_70%,rgba(5,5,5,0.9)_100%)] pointer-events-none z-10" />
+      <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
     </div>
   );
 };

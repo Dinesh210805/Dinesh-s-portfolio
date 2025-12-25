@@ -1,13 +1,17 @@
+
 import React, { useRef } from 'react';
-import { motion, useScroll, useSpring, useTransform, useVelocity, useAnimationFrame } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform, useVelocity, useAnimationFrame, useInView } from 'framer-motion';
 import { wrap } from '@motionone/utils';
 
 interface ParallaxTextProps {
-  children: string;
+  children: React.ReactNode;
   baseVelocity: number;
 }
 
-function ParallaxText({ children, baseVelocity = 100 }: ParallaxTextProps) {
+const ParallaxText: React.FC<ParallaxTextProps> = ({ children, baseVelocity = 100 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef);
+  
   const baseX = useSpring(0);
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
@@ -16,7 +20,6 @@ function ParallaxText({ children, baseVelocity = 100 }: ParallaxTextProps) {
     stiffness: 400
   });
   
-  // Skew effect based on velocity
   const skewVelocity = useTransform(smoothVelocity, [-1000, 1000], [-30, 30]);
   const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
     clamp: false
@@ -28,9 +31,11 @@ function ParallaxText({ children, baseVelocity = 100 }: ParallaxTextProps) {
   const isHovered = useRef(false);
 
   useAnimationFrame((t, delta) => {
+    // CRITICAL: Stop the loop if the component is not in the viewport
+    if (!isInView) return;
+
     let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
 
-    // If hovered, stop movement
     if (isHovered.current) {
         moveBy = 0;
     }
@@ -49,6 +54,7 @@ function ParallaxText({ children, baseVelocity = 100 }: ParallaxTextProps) {
 
   return (
     <div 
+        ref={containerRef}
         className="overflow-hidden m-0 flex flex-nowrap whitespace-nowrap cursor-pointer"
         onMouseEnter={() => isHovered.current = true}
         onMouseLeave={() => isHovered.current = false}
@@ -57,42 +63,18 @@ function ParallaxText({ children, baseVelocity = 100 }: ParallaxTextProps) {
         className="flex whitespace-nowrap flex-nowrap" 
         style={{ x }}
       >
-        <motion.span 
+        {[...Array(4)].map((_, i) => (
+          <motion.span 
+            key={i}
             style={{ 
                 skew: skewVelocity,
                 WebkitTextStroke: '1px rgba(255,255,255,0.2)'
             } as any} 
             className="block mr-8 text-6xl md:text-8xl font-display font-bold uppercase text-transparent"
-        >
+          >
             {children} 
-        </motion.span>
-        <motion.span 
-            style={{ 
-                skew: skewVelocity,
-                WebkitTextStroke: '1px rgba(255,255,255,0.2)'
-            } as any} 
-            className="block mr-8 text-6xl md:text-8xl font-display font-bold uppercase text-transparent"
-        >
-            {children} 
-        </motion.span>
-        <motion.span 
-            style={{ 
-                skew: skewVelocity,
-                WebkitTextStroke: '1px rgba(255,255,255,0.2)'
-            } as any} 
-            className="block mr-8 text-6xl md:text-8xl font-display font-bold uppercase text-transparent"
-        >
-            {children} 
-        </motion.span>
-        <motion.span 
-            style={{ 
-                skew: skewVelocity,
-                WebkitTextStroke: '1px rgba(255,255,255,0.2)'
-            } as any} 
-            className="block mr-8 text-6xl md:text-8xl font-display font-bold uppercase text-transparent"
-        >
-            {children} 
-        </motion.span>
+          </motion.span>
+        ))}
       </motion.div>
     </div>
   );
