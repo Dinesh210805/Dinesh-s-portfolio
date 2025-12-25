@@ -10,8 +10,7 @@ const projects = [
     category: 'LOGISTICS_AI',
     tech: ['YOLOv8', 'ARCore', 'React Native'],
     images: ['/GravitycArgo.jpeg', '/GravitycArgo2.jpeg', '/GravitycArgo3.jpeg'],
-    description: 'AI+AR integrated logistics ecosystem for container space optimization.',
-    metrics: { efficiency: '+45%', latency: '24ms', precision: '0.98' }
+    description: 'AI+AR integrated logistics ecosystem for container space optimization.'
   },
   {
     id: 'PRJ-02',
@@ -20,8 +19,7 @@ const projects = [
     tech: ['LLaMA-3', 'LangChain', 'ChromaDB'],
     images: ['/ecobot.png'],
     useContain: true,
-    description: 'Autonomous waste classification architecture utilizing LLaMA vision models and RAG.',
-    metrics: { accuracy: '94.2%', recall: '0.91', data: '4.2TB' }
+    description: 'Autonomous waste classification architecture utilizing LLaMA vision models and RAG.'
   },
   {
     id: 'PRJ-03',
@@ -29,8 +27,7 @@ const projects = [
     category: 'ASSISTIVE_MFA',
     tech: ['OpenCV', 'SSFD', 'Android'],
     images: ['/aventus1.jpg', '/aventus2.jpg'],
-    description: 'Dedicated mobility assistant for visually impaired users with touch-based authentication.',
-    metrics: { security: 'AES-256', users: 'BETA', type: 'CORE' }
+    description: 'Dedicated mobility assistant for visually impaired users with touch-based authentication.'
   },
   {
     id: 'PRJ-04',
@@ -38,8 +35,7 @@ const projects = [
     category: 'NEURAL_NLP',
     tech: ['Whisper v3', 'Groq', 'LLaMA 3.3'],
     images: ['/Langlearn.jpeg', '/Langlearn (2).jpeg', '/Langlearn (3).jpeg', '/Langlearn (4).jpeg', '/Langlearn (5).jpeg'],
-    description: 'High-speed neural translation engine built for real-time multi-modal communication.',
-    metrics: { speed: '120fps', voices: '30+', model: 'v3.3' }
+    description: 'High-speed neural translation engine built for real-time multi-modal communication.'
   }
 ];
 
@@ -141,7 +137,7 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
             <h3 className="text-5xl md:text-6xl font-display font-bold text-white mb-8 tracking-tighter leading-none uppercase">{project.title}</h3>
             <p className="text-secondary text-lg font-light leading-relaxed mb-10">{project.description}</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 py-10 border-y border-white/5">
+          <div className="py-10 border-y border-white/5">
             <div className="space-y-4">
                <div className="flex items-center gap-2 text-accent">
                  <Terminal size={14} />
@@ -151,20 +147,6 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
                  {project.tech.map((t: string) => (
                    <span key={t} className="px-3 py-1 border border-white/10 font-mono text-[9px] text-white/40 uppercase">{t}</span>
                  ))}
-               </div>
-            </div>
-            <div className="space-y-4">
-               <div className="flex items-center gap-2 text-accent">
-                 <Layers size={14} />
-                 <span className="font-mono text-[9px] font-bold tracking-[0.3em] uppercase">Metrics_Feed</span>
-               </div>
-               <div className="flex flex-col gap-1">
-                  {Object.entries(project.metrics).map(([k, v]: [string, any]) => (
-                    <div key={k} className="flex justify-between font-mono text-[10px] uppercase">
-                      <span className="text-white/20">{k}:</span>
-                      <span className="text-white">{v}</span>
-                    </div>
-                  ))}
                </div>
             </div>
           </div>

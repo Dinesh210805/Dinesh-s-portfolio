@@ -13,33 +13,36 @@ import {
 } from 'lucide-react';
 import { Certification } from '../types';
 
-const certifications: (Certification & { slug: string; id_hex: string })[] = [
+const certifications: (Certification & { slug: string; id_hex: string; link: string })[] = [
   {
     id: 'CERT_01',
     id_hex: '0x_FS_772',
     title: 'Diploma in Full Stack Development',
     issuer: 'I Shine Info Tech',
-    slug: 'icloud',
+    slug: 'react',
     image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000&auto=format&fit=crop',
-    date: '2023'
+    date: '2023',
+    link: 'https://drive.google.com/file/d/1qrIg6CE9CADRlQ58rG0f6GQkcKFhToZw/view?usp=sharing'
   },
   {
     id: 'CERT_02',
     id_hex: '0x_AI_991',
     title: 'Career Essentials in Generative AI',
     issuer: 'Microsoft & LinkedIn',
-    slug: 'microsoft',
+    slug: 'linkedin',
     image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1000&auto=format&fit=crop',
-    date: '2024'
+    date: '2024',
+    link: 'https://www.linkedin.com/learning/certificates/e4cb08e17e29e60b42bc2f69d154df89c11852782543ffb319372ff9d16f9d5f'
   },
   {
     id: 'CERT_03',
     id_hex: '0x_JV_441',
     title: 'Programming in Java (NPTEL)',
     issuer: 'NPTEL / IIT Madras',
-    slug: 'java',
+    slug: 'openjdk',
     image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000&auto=format&fit=crop',
-    date: '2023'
+    date: '2023',
+    link: 'https://drive.google.com/file/d/13DtTDlZQNWFqcaCyCkucnsdh_4QkIbsJ/view?usp=sharing'
   },
   {
     id: 'CERT_04',
@@ -48,7 +51,8 @@ const certifications: (Certification & { slug: string; id_hex: string })[] = [
     issuer: 'NPTEL / IIT Kharagpur',
     slug: 'sqlite',
     image: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=1000&auto=format&fit=crop',
-    date: '2023'
+    date: '2023',
+    link: 'https://drive.google.com/file/d/1oeYc41j95ufyLGjufpDb9rp585uhoxgb/view?usp=sharing'
   }
 ];
 
@@ -167,7 +171,10 @@ const CredentialModule: React.FC<{ cert: any; index: number }> = ({ cert, index 
             </div>
           </div>
           
-          <motion.button 
+          <motion.a 
+            href={cert.link}
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ x: 5 }}
             className="flex items-center gap-4 text-[9px] font-mono font-bold text-white/40 hover:text-accent transition-colors uppercase tracking-[0.4em]"
           >
@@ -175,7 +182,7 @@ const CredentialModule: React.FC<{ cert: any; index: number }> = ({ cert, index 
             <div className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-accent group-hover:text-black transition-all duration-500">
               <ExternalLink size={14} />
             </div>
-          </motion.button>
+          </motion.a>
         </div>
 
         {/* HOLOGRAPHIC SCAN EFFECT */}
