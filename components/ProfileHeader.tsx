@@ -16,7 +16,7 @@ const ProfileHeader: React.FC = () => {
   const textY = useTransform(scrollYProgress, [0, 0.5], [50, 0]);
 
   return (
-    <section ref={containerRef} className="relative py-24 md:py-32 px-6 md:px-10 lg:px-20 overflow-hidden bg-background">
+    <section ref={containerRef} className="relative py-12 md:py-24 px-6 md:px-10 lg:px-20 overflow-hidden bg-background">
       {/* Background Ghost Text - Hidden on mobile if it risks causing horizontal scroll */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-[0.02] md:opacity-[0.03] select-none flex items-center">
         <div 
@@ -27,7 +27,7 @@ const ProfileHeader: React.FC = () => {
         </div>
       </div>
 
-      <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-24 relative z-10">
+      <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-8 md:gap-12 lg:gap-24 relative z-10">
         
         <div className="w-full lg:w-1/2 relative">
           <motion.div 

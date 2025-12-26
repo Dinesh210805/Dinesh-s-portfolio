@@ -98,7 +98,7 @@ const technicalSystems = [
 
 const Services: React.FC = () => {
   return (
-    <section id="capabilities" className="relative bg-[#050505] py-32 md:py-60 overflow-hidden">
+    <section id="capabilities" className="relative bg-[#050505] py-16 md:py-40 overflow-hidden">
       {/* BACKGROUND DATA MESH */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.02]">
         <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,#CCFF00_1px,transparent_1px),linear-gradient(to_bottom,#CCFF00_1px,transparent_1px)] [background-size:80px_80px]" />
@@ -107,7 +107,7 @@ const Services: React.FC = () => {
       <div className="px-5 md:px-10 lg:px-20 max-w-[1600px] mx-auto relative z-10">
         
         {/* HUD HEADER */}
-        <div className="mb-32 flex flex-col md:flex-row md:items-end justify-between gap-12">
+        <div className="mb-16 md:mb-32 flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-12">
           <div className="space-y-6">
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
@@ -117,8 +117,8 @@ const Services: React.FC = () => {
               <div className="w-12 h-[1px] bg-accent" />
               <span className="font-mono text-accent text-[10px] tracking-[0.5em] uppercase italic">Technical Skills</span>
             </motion.div>
-            <h2 className="text-7xl md:text-9xl font-display font-bold text-white tracking-tighter leading-[0.8] uppercase">
-              TECHNICAL <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #CCFF00' }}>REGISTRY.</span>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-display font-bold text-white tracking-tighter leading-[0.9] uppercase">
+              TECHNICAL <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>REGISTRY.</span>
             </h2>
           </div>
 
@@ -148,7 +148,7 @@ const Services: React.FC = () => {
               }
             }
           }}
-          className="space-y-20"
+          className="space-y-10 md:space-y-20"
         >
           {technicalSystems.map((system, idx) => (
             <CapabilityBlock key={system.id} system={system} index={idx} />
@@ -156,7 +156,7 @@ const Services: React.FC = () => {
         </motion.div>
         
         {/* FOOTER DECAL */}
-        <div className="mt-40 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+        <div className="mt-16 md:mt-40 pt-8 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
            <div className="flex items-center gap-8 font-mono text-[8px] text-white/20 uppercase tracking-[0.5em]">
               {/* Removed footer strings as per request */}
            </div>

@@ -53,7 +53,7 @@ const BioStats: React.FC = () => {
   ];
 
   return (
-    <section id="about" ref={containerRef} className="relative py-40 px-5 md:px-10 lg:px-20 max-w-[1400px] mx-auto overflow-visible">
+    <section id="about" ref={containerRef} className="relative py-16 md:py-32 px-5 md:px-10 lg:px-20 max-w-[1400px] mx-auto overflow-visible">
       
       {/* Scroll-driven Background Path */}
       <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-[400px] -ml-[200px] pointer-events-none z-0">
@@ -156,7 +156,7 @@ const BioStats: React.FC = () => {
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mt-20 pt-10 border-t border-white/10 grid grid-cols-1 md:grid-cols-3 gap-10 font-mono text-[10px] text-secondary uppercase tracking-[0.2em]"
+        className="mt-12 md:mt-20 pt-8 md:pt-10 border-t border-white/10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 font-mono text-[10px] text-secondary uppercase tracking-[0.2em]"
       >
         <div className="flex flex-col gap-2">
           <span className="text-accent">[B.TECH]</span>

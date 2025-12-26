@@ -52,7 +52,7 @@ const Contact: React.FC = () => {
       id="contact" 
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative py-32 md:py-48 bg-background overflow-hidden border-t border-white/5"
+      className="relative py-16 md:py-32 bg-background overflow-hidden border-t border-white/5"
     >
       {/* Interactive Mouse Glow */}
       <div 
@@ -84,9 +84,9 @@ const Contact: React.FC = () => {
               </motion.div>
 
               <div className="space-y-4">
-                <h2 className="text-6xl md:text-8xl font-display font-bold text-white tracking-tighter leading-tight uppercase">
+                <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white tracking-tighter leading-tight uppercase">
                   INITIATE <br /> 
-                  <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #CCFF00' }}>CHANNEL.</span>
+                  <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>CHANNEL.</span>
                 </h2>
                 <p className="text-secondary text-lg max-w-sm leading-relaxed font-light">
                   Available for strategic collaborations, industrial-grade engineering, and high-performance system design.

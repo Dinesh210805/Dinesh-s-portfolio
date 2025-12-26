@@ -41,9 +41,9 @@ const projects = [
 
 const Works: React.FC = () => {
   return (
-    <section id="works" className="relative py-40 bg-background overflow-hidden border-t border-white/5">
+    <section id="works" className="relative py-16 md:py-40 bg-background overflow-hidden border-t border-white/5">
       <div className="px-5 md:px-10 lg:px-20 max-w-[1400px] mx-auto relative z-10">
-        <div className="mb-32">
+        <div className="mb-12 md:mb-32">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -53,7 +53,7 @@ const Works: React.FC = () => {
             <div className="w-12 h-[1px] bg-accent" />
             <span className="font-mono text-accent text-sm tracking-[0.4em] uppercase">Project Archive</span>
           </motion.div>
-          <h2 className="text-6xl md:text-8xl font-display font-bold text-white tracking-tighter leading-[0.9]">
+          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white tracking-tighter leading-[0.95]">
             TECHNICAL <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>RECORDS.</span>
           </h2>
         </div>
@@ -72,7 +72,7 @@ const Works: React.FC = () => {
               }
             }
           }}
-          className="space-y-60"
+          className="space-y-20 md:space-y-40 lg:space-y-60"
         >
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
@@ -134,7 +134,7 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
             <span className="font-mono text-xs text-white/30 uppercase tracking-widest">{project.category}</span>
           </div>
           <div>
-            <h3 className="text-5xl md:text-6xl font-display font-bold text-white mb-8 tracking-tighter leading-none uppercase">{project.title}</h3>
+            <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-8 tracking-tighter leading-[1.1] uppercase">{project.title}</h3>
             <p className="text-secondary text-lg font-light leading-relaxed mb-10">{project.description}</p>
           </div>
           <div className="py-10 border-y border-white/5">

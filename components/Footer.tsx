@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
       <div className="max-w-[1400px] w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 relative z-10">
         <div>
           <h2 className="text-5xl md:text-8xl lg:text-9xl font-display font-bold text-white uppercase leading-[1.1] md:leading-[0.9] tracking-tighter will-change-transform">
-            SYSTEM <br/> <span className="text-accent">TERMINUS</span> <br/> 0x21
+            LET'S <br/> <span className="text-accent">CONNECT</span>
           </h2>
         </div>
         

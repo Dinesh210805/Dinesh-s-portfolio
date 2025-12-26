@@ -17,7 +17,7 @@ const ParallaxText: React.FC<ParallaxTextProps> = ({ children, direction = 'left
         {[...Array(10)].map((_, i) => (
           <span 
             key={i} 
-            className="text-6xl md:text-8xl font-display font-bold uppercase text-transparent mx-8"
+            className="text-3xl sm:text-5xl md:text-8xl font-display font-bold uppercase text-transparent mx-4 md:mx-8"
             style={{ WebkitTextStroke: isAccent ? '1px #CCFF00' : '1.5px rgba(255,255,255,0.3)' }}
           >
             {children}
@@ -46,7 +46,7 @@ const ParallaxText: React.FC<ParallaxTextProps> = ({ children, direction = 'left
 
 const Marquee: React.FC = () => {
   return (
-    <div className="relative w-full py-10 bg-background overflow-hidden flex flex-col gap-2">
+    <div className="relative w-full py-4 md:py-10 bg-background overflow-hidden flex flex-col gap-2">
        <ParallaxText direction="left" duration={30} isAccent={true}>
          CREATIVE DEVELOPER • OPEN FOR WORK • DINESH KUMAR •
        </ParallaxText>

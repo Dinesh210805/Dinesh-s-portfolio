@@ -68,10 +68,10 @@ const Experience: React.FC = () => {
   const scannerY = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section ref={containerRef} id="experience" className="relative py-24 md:py-60 px-6 md:px-10 lg:px-20 max-w-[1400px] mx-auto overflow-visible">
+    <section ref={containerRef} id="experience" className="relative py-16 md:py-40 px-6 md:px-10 lg:px-20 max-w-[1400px] mx-auto overflow-visible">
       
       {/* SECTION HEADER */}
-      <div className="mb-24 md:mb-40 relative z-20">
+      <div className="mb-12 md:mb-32 relative z-20">
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -82,7 +82,7 @@ const Experience: React.FC = () => {
           <span className="font-mono text-accent text-[10px] md:text-sm tracking-[0.4em] uppercase">Career Timeline</span>
         </motion.div>
         
-        <h2 className="text-5xl md:text-7xl lg:text-9xl font-display font-bold text-white tracking-tighter leading-[1.1] md:leading-[0.8] mb-4 uppercase">
+        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-display font-bold text-white tracking-tighter leading-[1] mb-4 uppercase">
           CAREER <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>LEVELS.</span>
         </h2>
       </div>
@@ -107,7 +107,7 @@ const Experience: React.FC = () => {
            </div>
         </motion.div>
 
-        <div className="space-y-32 md:space-y-64 pb-20 md:pb-40">
+        <div className="space-y-20 md:space-y-40 lg:space-y-64 pb-12 md:pb-40">
           {experiences.map((exp, index) => (
             <TimelineNode 
               key={exp.id} 

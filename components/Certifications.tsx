@@ -59,7 +59,7 @@ const certifications: (Certification & { slug: string; id_hex: string; link: str
 
 const Certifications: React.FC = () => {
   return (
-    <section id="certifications" className="py-40 bg-[#050505] relative overflow-hidden">
+    <section id="certifications" className="py-16 md:py-32 bg-[#050505] relative overflow-hidden">
       {/* BACKGROUND GRID ARCHIVE */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#CCFF00_1px,transparent_1px)] [background-size:40px_40px]" />
@@ -68,7 +68,7 @@ const Certifications: React.FC = () => {
       <div className="px-5 md:px-10 lg:px-20 max-w-[1600px] mx-auto relative z-10">
         
         {/* VAULT HEADER */}
-        <div className="mb-32 flex flex-col lg:flex-row lg:items-end justify-between gap-12">
+        <div className="mb-12 md:mb-24 flex flex-col lg:flex-row lg:items-end justify-between gap-8 md:gap-12">
           <div className="space-y-6">
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
@@ -79,8 +79,8 @@ const Certifications: React.FC = () => {
               <div className="w-16 h-[1px] bg-accent" />
               <span className="font-mono text-accent text-[10px] tracking-[0.6em] uppercase italic font-bold">Credential Protocol</span>
             </motion.div>
-            <h2 className="text-7xl md:text-9xl font-display font-bold text-white tracking-tighter leading-[0.8] uppercase">
-              VERIFIED <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #CCFF00' }}>ARCHIVE.</span>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-display font-bold text-white tracking-tighter leading-[0.9] uppercase">
+              VERIFIED <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>ARCHIVE.</span>
             </h2>
           </div>
 
@@ -103,7 +103,7 @@ const Certifications: React.FC = () => {
         </div>
 
         {/* BOTTOM SCAN STATUS */}
-        <div className="mt-32 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 opacity-20">
+        <div className="mt-12 md:mt-24 pt-8 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 opacity-20">
            <div className="flex gap-12 font-mono text-[8px] uppercase tracking-[0.4em]">
               <span className="flex items-center gap-2"><Globe size={10}/> Global_DNS_Ready</span>
               <span className="flex items-center gap-2"><Lock size={10}/> Encrypted_SSL_T1</span>

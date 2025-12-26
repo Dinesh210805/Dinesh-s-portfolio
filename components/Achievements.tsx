@@ -80,13 +80,13 @@ const achievements = [
 
 const Achievements: React.FC = () => {
   return (
-    <section id="achievements" className="relative py-24 md:py-40 bg-background overflow-hidden border-t border-white/5">
+    <section id="achievements" className="relative py-16 md:py-32 bg-background overflow-hidden border-t border-white/5">
       <div className="absolute inset-0 pointer-events-none opacity-[0.02]">
         <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,#CCFF00_1px,transparent_1px),linear-gradient(to_bottom,#CCFF00_1px,transparent_1px)] [background-size:100px_100px]" />
       </div>
 
       <div className="px-6 md:px-10 lg:px-20 max-w-[1500px] mx-auto relative z-10">
-        <div className="mb-24 md:mb-48 flex flex-col lg:flex-row lg:items-end justify-between gap-12 border-b border-white/5 pb-16 md:pb-20">
+        <div className="mb-12 md:mb-32 flex flex-col lg:flex-row lg:items-end justify-between gap-8 md:gap-12 border-b border-white/5 pb-10 md:pb-20">
           <div className="max-w-3xl">
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
@@ -97,7 +97,7 @@ const Achievements: React.FC = () => {
               <div className="w-10 md:w-16 h-[1px] bg-accent" />
               <span className="font-mono text-accent text-[10px] md:text-sm tracking-[0.4em] md:tracking-[0.5em] uppercase">Honor Ledger</span>
             </motion.div>
-            <h2 className="text-5xl md:text-7xl lg:text-9xl font-display font-bold text-white tracking-tighter leading-[1.1] md:leading-[0.8] uppercase">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-display font-bold text-white tracking-tighter leading-[1] uppercase">
               RECOGNITION.
             </h2>
           </div>
@@ -127,7 +127,7 @@ const Achievements: React.FC = () => {
               }
             }
           }}
-          className="space-y-40 md:space-y-60 lg:space-y-80"
+          className="space-y-16 md:space-y-32 lg:space-y-48"
         >
           {achievements.map((ach, idx) => (
             <ArchiveEntry key={ach.id} ach={ach} index={idx} />
