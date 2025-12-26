@@ -109,7 +109,7 @@ const Hero: React.FC = () => {
             <span className="font-display text-xl md:text-3xl lg:text-4xl text-white font-medium tracking-tight uppercase">
               GEN AI & <span className="text-accent italic font-bold">ML ENGINEER</span>
             </span>
-            <p className="font-mono text-[9px] md:text-[11px] text-white/30 uppercase tracking-[0.3em] md:tracking-[0.4em] max-w-xs md:max-w-sm leading-relaxed border-l border-accent/20 pl-4 md:pl-6">
+            <p className="font-mono text-[9px] md:text-[11px] text-white/50 uppercase tracking-[0.3em] md:tracking-[0.4em] max-w-xs md:max-w-sm leading-relaxed border-l border-accent/20 pl-4 md:pl-6">
               Processing patterns to build high-performance systems and cognitive solutions.
             </p>
           </motion.div>
@@ -129,13 +129,13 @@ const Hero: React.FC = () => {
             </div>
             
             <div className="flex items-center gap-4 md:gap-6">
-              <div className="flex items-center gap-2 md:gap-3 font-mono text-[7px] md:text-[8px] text-white/20 uppercase tracking-[0.3em] md:tracking-[0.4em]">
-                <Globe size={10} className="text-white/40" />
+              <div className="flex items-center gap-2 md:gap-3 font-mono text-[7px] md:text-[8px] text-white/40 uppercase tracking-[0.3em] md:tracking-[0.4em]">
+                <Globe size={10} className="text-white/60" />
                 <span>PUDUCHERRY</span>
               </div>
               <div className="w-[1px] h-3 bg-white/10" />
-              <div className="flex items-center gap-2 md:gap-3 font-mono text-[7px] md:text-[8px] text-white/20 uppercase tracking-[0.3em] md:tracking-[0.4em]">
-                <Command size={10} className="text-white/40" />
+              <div className="flex items-center gap-2 md:gap-3 font-mono text-[7px] md:text-[8px] text-white/40 uppercase tracking-[0.3em] md:tracking-[0.4em]">
+                <Command size={10} className="text-white/60" />
                 <span>0x21_NODE</span>
               </div>
             </div>
@@ -148,15 +148,15 @@ const Hero: React.FC = () => {
             className="flex flex-col items-start md:items-end gap-6 md:gap-8 pointer-events-auto w-full md:w-auto"
           >
             <div className="flex items-center gap-6 p-2 px-6 bg-white/[0.03] border border-white/5 backdrop-blur-md rounded-full">
-               <a href="https://github.com/Dinesh210805" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-accent transition-all duration-300">
+               <a href="https://github.com/Dinesh210805" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-accent transition-all duration-300">
                  <Github size={16} />
                </a>
                <div className="w-[1px] h-4 bg-white/10" />
-               <a href="https://linkedin.com/in/dinesh-kumar-c-93a38129b" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-accent transition-all duration-300">
+               <a href="https://linkedin.com/in/dinesh-kumar-c-93a38129b" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-accent transition-all duration-300">
                  <Linkedin size={16} />
                </a>
                <div className="w-[1px] h-4 bg-white/10" />
-               <a href="mailto:dinesh210805@gmail.com" className="text-white/30 hover:text-accent transition-all duration-300">
+               <a href="mailto:dinesh210805@gmail.com" className="text-white/50 hover:text-accent transition-all duration-300">
                  <Mail size={16} />
                </a>
             </div>

@@ -122,7 +122,7 @@ const Services: React.FC = () => {
             </h2>
           </div>
 
-          <div className="flex flex-col gap-4 font-mono text-[9px] text-white/30 border-l border-white/10 pl-8">
+          <div className="flex flex-col gap-4 font-mono text-[9px] text-white/50 border-l border-white/10 pl-8">
             <div className="flex items-center gap-3">
               <Activity size={14} className="text-accent animate-pulse" />
               <span className="tracking-widest uppercase italic">Diagnostic_Active</span>
@@ -157,7 +157,7 @@ const Services: React.FC = () => {
         
         {/* FOOTER DECAL */}
         <div className="mt-16 md:mt-40 pt-8 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-           <div className="flex items-center gap-8 font-mono text-[8px] text-white/20 uppercase tracking-[0.5em]">
+           <div className="flex items-center gap-8 font-mono text-[8px] text-white/40 uppercase tracking-[0.5em]">
               {/* Removed footer strings as per request */}
            </div>
         </div>
@@ -200,7 +200,7 @@ const CapabilityBlock: React.FC<{ system: any, index: number }> = ({ system, ind
                  </h3>
               </div>
            </div>
-           <p className="font-mono text-[10px] text-white/30 uppercase tracking-widest leading-relaxed max-w-xs">
+           <p className="font-mono text-[10px] text-white/50 uppercase tracking-widest leading-relaxed max-w-xs">
              {system.description}
            </p>
 
@@ -263,7 +263,7 @@ const SkillCard: React.FC<{ skill: Skill, index: number }> = ({ skill, index }) 
           </div>
 
           <div className="space-y-1">
-            <span className="block font-mono text-[10px] md:text-xs font-bold text-white/40 group-hover/skill:text-accent transition-colors uppercase tracking-tight">
+            <span className="block font-mono text-[10px] md:text-xs font-bold text-white/60 group-hover/skill:text-accent transition-colors uppercase tracking-tight">
               {skill.name}
             </span>
             <div className="flex justify-center items-center gap-1 opacity-0 group-hover/skill:opacity-100 transition-opacity">

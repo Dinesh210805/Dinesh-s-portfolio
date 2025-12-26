@@ -179,7 +179,7 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
     >
       {/* Background Number Decal - Hidden on very small screens to avoid overflow */}
       <div className={`hidden sm:block absolute -top-16 md:-top-32 ${isEven ? 'right-0 lg:-right-10' : 'left-0 lg:-left-10'} pointer-events-none select-none z-0`}>
-        <span className="text-[15vw] md:text-[18vw] font-display font-black text-white/5 leading-none uppercase">
+        <span className="text-[15vw] md:text-[18vw] font-display font-black text-white/10 leading-none uppercase">
           0{index + 1}
         </span>
       </div>

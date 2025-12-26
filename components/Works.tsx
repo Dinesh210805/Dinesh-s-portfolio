@@ -131,7 +131,7 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
           <div className="flex items-center gap-4">
             <span className="font-mono text-xs text-accent tracking-widest">{project.id}</span>
             <div className="h-[1px] flex-1 bg-white/5" />
-            <span className="font-mono text-xs text-white/30 uppercase tracking-widest">{project.category}</span>
+            <span className="font-mono text-xs text-white/50 uppercase tracking-widest">{project.category}</span>
           </div>
           <div>
             <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-8 tracking-tighter leading-[1.1] uppercase">{project.title}</h3>
@@ -145,7 +145,7 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
                </div>
                <div className="flex flex-wrap gap-2">
                  {project.tech.map((t: string) => (
-                   <span key={t} className="px-3 py-1 border border-white/10 font-mono text-[9px] text-white/40 uppercase">{t}</span>
+                   <span key={t} className="px-3 py-1 border border-white/10 font-mono text-[9px] text-white/60 uppercase">{t}</span>
                  ))}
                </div>
             </div>

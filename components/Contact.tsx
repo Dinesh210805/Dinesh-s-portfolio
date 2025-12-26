@@ -98,14 +98,14 @@ const Contact: React.FC = () => {
               {/* HUD Stats Component */}
               <div className="grid grid-cols-2 gap-8 border-t border-white/5 pt-10">
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 font-mono text-[8px] text-white/20 uppercase tracking-widest">
+                  <div className="flex items-center gap-2 font-mono text-[8px] text-white/40 uppercase tracking-widest">
                     <Shield size={10} className="text-accent" />
                     <span>Secure_Link</span>
                   </div>
                   <p className="font-mono text-[10px] text-white/60 tracking-wider">AES-256_ENCRYPTED</p>
                 </div>
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 font-mono text-[8px] text-white/20 uppercase tracking-widest">
+                  <div className="flex items-center gap-2 font-mono text-[8px] text-white/40 uppercase tracking-widest">
                     <Activity size={10} className="text-accent" />
                     <span>Latency</span>
                   </div>
@@ -115,12 +115,12 @@ const Contact: React.FC = () => {
 
               <div className="flex items-center gap-10">
                 <div className="flex flex-col gap-1">
-                  <span className="font-mono text-[8px] text-white/20 uppercase tracking-[0.4em]">Local_Time</span>
+                  <span className="font-mono text-[8px] text-white/40 uppercase tracking-[0.4em]">Local_Time</span>
                   <span className="font-mono text-xs text-white uppercase tracking-widest font-medium">PUDUCHERRY, IN</span>
                 </div>
                 <div className="w-[1px] h-8 bg-white/10" />
                 <div className="flex flex-col gap-1">
-                  <span className="font-mono text-[8px] text-white/20 uppercase tracking-[0.4em]">Status</span>
+                  <span className="font-mono text-[8px] text-white/40 uppercase tracking-[0.4em]">Status</span>
                   <div className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                     <span className="font-mono text-xs text-accent uppercase tracking-widest font-black">LIVE_SESSION</span>
@@ -201,14 +201,14 @@ const Contact: React.FC = () => {
                   <div className="relative space-y-4">
                     <div className="flex justify-between items-center">
                       <label className="font-mono text-[9px] text-accent tracking-[0.4em] uppercase font-bold">Message_Payload</label>
-                      <span className="font-mono text-[7px] text-white/20 uppercase">Size_Limit: 4.2kb</span>
+                      <span className="font-mono text-[7px] text-white/40 uppercase">Size_Limit: 4.2kb</span>
                     </div>
                     <textarea 
                       name="message"
                       placeholder="Brief your requirements..."
                       rows={5}
                       required
-                      className="w-full bg-white/[0.02] border-b border-white/10 p-6 text-white text-lg focus:outline-none focus:border-accent transition-all duration-500 placeholder:text-white/5 resize-none font-light"
+                      className="w-full bg-white/[0.02] border-b border-white/10 p-6 text-white text-lg focus:outline-none focus:border-accent transition-all duration-500 placeholder:text-white/30 resize-none font-light"
                     />
                   </div>
 
@@ -255,7 +255,7 @@ const InputField: React.FC<{ label: string; name: string; placeholder: string; t
     <div className="relative space-y-3 group">
       <div className="flex items-center gap-2">
         <Hash size={10} className="text-accent/30 group-focus-within:text-accent transition-colors" />
-        <label className="font-mono text-[9px] text-white/40 tracking-[0.4em] uppercase font-bold group-focus-within:text-accent transition-colors">
+        <label className="font-mono text-[9px] text-white/60 tracking-[0.4em] uppercase font-bold group-focus-within:text-accent transition-colors">
           {label}
         </label>
       </div>
@@ -264,7 +264,7 @@ const InputField: React.FC<{ label: string; name: string; placeholder: string; t
         type={type} 
         required={required}
         placeholder={placeholder}
-        className="w-full bg-transparent border-b border-white/10 pb-4 text-white text-base md:text-lg focus:outline-none focus:border-accent transition-all duration-500 placeholder:text-white/5 font-light"
+        className="w-full bg-transparent border-b border-white/10 pb-4 text-white text-base md:text-lg focus:outline-none focus:border-accent transition-all duration-500 placeholder:text-white/30 font-light"
       />
       <div className="absolute bottom-0 left-0 h-[1.5px] bg-accent w-0 group-focus-within:w-full transition-all duration-700 ease-out" />
     </div>

@@ -92,7 +92,7 @@ const ChatBot: React.FC = () => {
               </div>
               <button 
                 onClick={() => setIsOpen(false)} 
-                className="p-1 text-white/40 hover:text-accent transition-colors"
+                className="p-1 text-white/60 hover:text-accent transition-colors"
               >
                 <X size={18} />
               </button>
@@ -129,7 +129,7 @@ const ChatBot: React.FC = () => {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Ask about my projects..."
-                  className="w-full bg-black/50 border border-white/10 py-3.5 pl-5 pr-12 text-[12px] text-white focus:border-accent outline-none transition-all placeholder:text-white/20 rounded-md"
+                  className="w-full bg-black/50 border border-white/10 py-3.5 pl-5 pr-12 text-[12px] text-white focus:border-accent outline-none transition-all placeholder:text-white/40 rounded-md"
                 />
                 <button 
                   onClick={handleSend} 

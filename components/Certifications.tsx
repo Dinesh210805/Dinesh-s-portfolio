@@ -87,7 +87,7 @@ const Certifications: React.FC = () => {
           <div className="flex flex-col gap-6 font-mono border-l border-white/10 pl-8 lg:max-w-[320px]">
             <div className="flex items-center gap-3">
               <ShieldCheck size={16} className="text-accent" />
-              <span className="text-[10px] text-white/40 tracking-[0.3em] uppercase">Auth_Status: Level_5</span>
+              <span className="text-[10px] text-white/60 tracking-[0.3em] uppercase">Auth_Status: Level_5</span>
             </div>
             <p className="text-[10px] text-secondary leading-relaxed uppercase tracking-widest">
               Digital twin verification of all industrial certifications. Every module is hashed and stored within the DK_Vault substrate.
@@ -151,14 +151,14 @@ const CredentialModule: React.FC<{ cert: any; index: number }> = ({ cert, index 
                 <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                 <span className="font-mono text-[8px] font-bold tracking-[0.3em] uppercase">Status: Verified</span>
               </div>
-              <span className="font-mono text-[10px] text-white/20 uppercase tracking-[0.2em]">{cert.date}</span>
+              <span className="font-mono text-[10px] text-white/40 uppercase tracking-[0.2em]">{cert.date}</span>
             </div>
           </div>
 
           {/* CONTENT AREA */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <span className="font-mono text-[9px] text-white/30 tracking-[0.4em] uppercase">Issuer // {cert.issuer}</span>
+              <span className="font-mono text-[9px] text-white/50 tracking-[0.4em] uppercase">Issuer // {cert.issuer}</span>
             </div>
             <h3 className="text-3xl md:text-4xl font-display font-bold text-white group-hover:text-accent transition-colors duration-500 leading-[0.9] uppercase tracking-tighter">
               {cert.title}
@@ -169,10 +169,10 @@ const CredentialModule: React.FC<{ cert: any; index: number }> = ({ cert, index 
         {/* INTERACTIVE DATA FOOTER */}
         <div className="mt-12 pt-8 border-t border-white/5 flex items-center justify-between relative z-10">
           <div className="flex gap-4">
-            <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/20 hover:text-accent hover:border-accent transition-all cursor-none group/btn">
+            <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-accent hover:border-accent transition-all cursor-none group/btn">
               <Database size={14} />
             </div>
-            <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/20 hover:text-accent hover:border-accent transition-all cursor-none">
+            <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-accent hover:border-accent transition-all cursor-none">
               <Cpu size={14} />
             </div>
           </div>
@@ -182,7 +182,7 @@ const CredentialModule: React.FC<{ cert: any; index: number }> = ({ cert, index 
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ x: 5 }}
-            className="flex items-center gap-4 text-[9px] font-mono font-bold text-white/40 hover:text-accent transition-colors uppercase tracking-[0.4em]"
+            className="flex items-center gap-4 text-[9px] font-mono font-bold text-white/60 hover:text-accent transition-colors uppercase tracking-[0.4em]"
           >
             Access_Credential
             <div className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-accent group-hover:text-black transition-all duration-500">

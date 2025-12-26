@@ -80,7 +80,7 @@ const Navbar: React.FC = () => {
               <Magnetic key={link.name} strength={15}>
                 <button
                   onClick={(e) => scrollToSection(e, link.href)}
-                  className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-secondary hover:text-white transition-colors cursor-none"
+                  className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors cursor-none"
                 >
                   {link.name}
                 </button>
