@@ -30,8 +30,8 @@ const Navbar: React.FC = () => {
       const headerRect = header.getBoundingClientRect();
       const navbarCenterY = headerRect.top + headerRect.height / 2;
 
-      // Find all elements with white backgrounds
-      const whiteSections = document.querySelectorAll('.bg-white');
+      // Find all elements with white backgrounds inside the main content (ignoring the navbar itself)
+      const whiteSections = document.querySelectorAll('main .bg-white');
       let isOverLight = false;
 
       whiteSections.forEach((section) => {
