@@ -3,6 +3,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { ArrowUpRight, Terminal, Layers, ChevronRight } from 'lucide-react';
 
+import ScrollReveal from './ui/scroll-reveal';
+
 const projects = [
   {
     id: 'PRJ-01',
@@ -52,18 +54,17 @@ const Works: React.FC = () => {
     <section id="works" className="relative py-16 md:py-40 bg-background overflow-hidden border-t border-white/5">
       <div className="px-5 md:px-10 lg:px-20 max-w-[1400px] mx-auto relative z-10">
         <div className="mb-12 md:mb-32">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="flex items-center gap-3 mb-6"
-          >
-            <div className="w-12 h-[1px] bg-accent" />
-            <span className="font-mono text-accent text-sm tracking-[0.4em] uppercase">Project Archive</span>
-          </motion.div>
-          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white tracking-tighter leading-[0.95]">
-            TECHNICAL <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>RECORDS.</span>
-          </h2>
+          <ScrollReveal delay={0.1}>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-[1px] bg-accent" />
+              <span className="font-mono text-accent text-sm tracking-[0.4em] uppercase">Project Archive</span>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={0.2}>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white tracking-tighter leading-[0.95]">
+              TECHNICAL <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>RECORDS.</span>
+            </h2>
+          </ScrollReveal>
         </div>
 
         <motion.div 
@@ -122,12 +123,13 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
     <motion.div
       ref={containerRef}
       variants={{
-        hidden: { opacity: 0, y: 100 },
+        hidden: { opacity: 0, y: 100, filter: 'blur(12px)' },
         visible: { 
           opacity: 1, 
           y: 0,
+          filter: 'blur(0px)',
           transition: { 
-            duration: 0.8, 
+            duration: 0.9, 
             ease: [0.16, 1, 0.3, 1] 
           }
         }

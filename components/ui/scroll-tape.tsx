@@ -1,0 +1,187 @@
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
+
+/* ─────────────────────────────────────────────────────────────
+ * TapeStrip — A single horizontal text row.
+ * ───────────────────────────────────────────────────────────── */
+
+interface TapeStripProps {
+  children: string;
+  x: MotionValue<string>;
+  opacity: MotionValue<number>;
+  isSolid: boolean;
+  bgColor: MotionValue<string>;
+  textColor: MotionValue<string>;
+  strokeColor: MotionValue<string>;
+  zIndex: number;
+}
+
+const TapeStrip: React.FC<TapeStripProps> = ({
+  children,
+  x,
+  opacity,
+  isSolid,
+  bgColor,
+  textColor,
+  strokeColor,
+  zIndex,
+}) => {
+  return (
+    <motion.div
+      className={`w-full overflow-hidden flex items-center select-none will-change-transform ${
+        isSolid ? 'py-4 sm:py-5 md:py-7 shadow-[0_12px_40px_rgba(0,0,0,0.4)]' : 'py-2 md:py-3'
+      }`}
+      style={{ 
+        opacity, 
+        backgroundColor: isSolid ? bgColor : 'transparent',
+        borderTop: isSolid ? 'none' : '1px solid transparent', 
+        borderBottom: isSolid ? 'none' : '1px solid transparent',
+        zIndex,
+        transformOrigin: 'center center'
+      }}
+    >
+      <motion.div
+        className="flex whitespace-nowrap will-change-transform w-full"
+        style={{ x }}
+      >
+        {[...Array(5)].map((_, i) => (
+          <motion.span
+            key={i}
+            className={`text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase mx-4 sm:mx-6 md:mx-10 tracking-tight ${
+              isSolid ? '' : 'text-transparent'
+            }`}
+            style={{
+              color: isSolid ? textColor : 'transparent',
+              WebkitTextStroke: isSolid ? 'none' : '1.2px',
+              WebkitTextStrokeColor: isSolid ? 'none' : strokeColor,
+            }}
+          >
+            {children}
+          </motion.span>
+        ))}
+      </motion.div>
+    </motion.div>
+  );
+};
+
+/* ─────────────────────────────────────────────────────────────
+ * ScrollTape — Reusable cinematic section-transition component.
+ * ───────────────────────────────────────────────────────────── */
+
+interface StripConfig {
+  text: string;
+  direction: 'left' | 'right';
+}
+
+interface ScrollTapeProps {
+  strips: StripConfig[];
+  fromBg?: string;
+  toBg?: string;
+}
+
+const ScrollTape: React.FC<ScrollTapeProps> = ({
+  strips,
+  fromBg = '#050505',
+  toBg = '#ffffff',
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'end start'],
+  });
+
+  // Smooth, organic spring physics
+  const progress = useSpring(scrollYProgress, {
+    damping: 55,
+    stiffness: 300,
+    mass: 0.12,
+  });
+
+  // ── Background (shared by spacer + overlay) ──
+  const backgroundColor = useTransform(
+    progress, [0.25, 0.65], [fromBg, toBg]
+  );
+
+  // ── Colors for Solid Middle Tape (Neon Green ➔ Black) ──
+  const solidBg = useTransform(progress, [0.28, 0.62], ["#CCFF00", "#111111"]);
+  const solidText = useTransform(progress, [0.28, 0.62], ["#000000", "#ffffff"]);
+
+  // ── Colors for Hollow Stroke Text (Neon Green ➔ Black) ──
+  const strokeColor = useTransform(progress, [0.28, 0.62], ["#CCFF00", "#111111"]);
+
+  // ── Overlay overall opacity ──
+  const overlayOpacity = useTransform(
+    progress,
+    [0.15, 0.25, 0.75, 0.85],
+    [0,    1,    1,    0   ]
+  );
+
+  // Create individual staggered motion values for each strip
+  const stripAnimations = strips.map((strip, i) => {
+    // Stagger factor: each strip is offset by 0.04 progress
+    const stagger = i * 0.04;
+
+    // Entry and exit boundaries
+    const entryStart = 0.20 + stagger;
+    const exitEnd = 0.80 - stagger;
+
+    // 1. Horizontal Translation (Wider sweep range for full text scroll)
+    const xStart = strip.direction === 'left' ? '35%' : '-45%';
+    const xEnd = strip.direction === 'left' ? '-45%' : '35%';
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const x = useTransform(progress, [entryStart, exitEnd], [xStart, xEnd]);
+
+    // 2. Opacity (Fades in, stays visible, fades out during exit)
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const opacity = useTransform(
+      progress,
+      [entryStart, entryStart + 0.08, exitEnd - 0.08, exitEnd],
+      [0, 1, 1, 0]
+    );
+
+    return { x, opacity };
+  });
+
+  return (
+    <>
+      {/* ── SPACER ── */}
+      <motion.div
+        ref={containerRef}
+        className="relative w-full h-[320vh]"
+        style={{ backgroundColor }}
+      />
+
+      {/* ── FIXED OVERLAY ── */}
+      <motion.div
+        className="fixed inset-0 flex flex-col justify-center gap-10 sm:gap-16 md:gap-24 overflow-hidden pointer-events-none"
+        style={{
+          backgroundColor,
+          opacity: overlayOpacity,
+          zIndex: 9998,
+        }}
+      >
+        {strips.map((strip, i) => {
+          const isSolid = i === 1; // Only the middle line (index 1) is a solid tape
+          const anim = stripAnimations[i];
+          return (
+            <TapeStrip
+              key={i}
+              x={anim.x}
+              opacity={anim.opacity}
+              isSolid={isSolid}
+              bgColor={solidBg}
+              textColor={solidText}
+              strokeColor={strokeColor}
+              zIndex={10 + i}
+            >
+              {strip.text}
+            </TapeStrip>
+          );
+        })}
+      </motion.div>
+    </>
+  );
+};
+
+export default ScrollTape;

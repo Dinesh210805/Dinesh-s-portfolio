@@ -39,10 +39,10 @@ const App: React.FC = () => {
     if (isLoading) return;
 
     const lenis = new Lenis({
-      lerp: 0.08, // Using pure linear interpolation is much smoother for 3D/heavy sites than duration+easing
-      wheelMultiplier: 1,
+      lerp: 0.04, // Lower lerp for a heavier, high-inertia scroll
+      wheelMultiplier: 0.7, // Lower multiplier so each scroll tick covers less ground, slowing it down
       smoothWheel: true,
-      touchMultiplier: 2,
+      touchMultiplier: 1.2,
       infinite: false,
     });
 
@@ -80,9 +80,7 @@ const App: React.FC = () => {
           
           <main className="relative z-20 bg-background shadow-[0_50px_100px_rgba(0,0,0,0.9)]">
              <Hero />
-             <SectionTransition delay={0.1}>
-               <Marquee />
-             </SectionTransition>
+             <Marquee />
              <SectionTransition delay={0.1}>
                <ProfileHeader />
              </SectionTransition>

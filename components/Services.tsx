@@ -15,6 +15,8 @@ import {
   ExternalLink
 } from 'lucide-react';
 
+import ScrollReveal from './ui/scroll-reveal';
+
 interface Skill {
   name: string;
   slug: string; // Used for fetching logos from simpleicons.org
@@ -109,29 +111,31 @@ const Services: React.FC = () => {
         {/* HUD HEADER */}
         <div className="mb-16 md:mb-32 flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-12">
           <div className="space-y-6">
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-4"
-            >
-              <div className="w-12 h-[1px] bg-accent" />
-              <span className="font-mono text-accent text-[10px] tracking-[0.5em] uppercase italic">Technical Skills</span>
-            </motion.div>
-            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-display font-bold text-white tracking-tighter leading-[0.9] uppercase">
-              TECHNICAL <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>REGISTRY.</span>
-            </h2>
+            <ScrollReveal delay={0.1}>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-[1px] bg-accent" />
+                <span className="font-mono text-accent text-[10px] tracking-[0.5em] uppercase italic">Technical Skills</span>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={0.2}>
+              <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-display font-bold text-white tracking-tighter leading-[0.9] uppercase">
+                TECHNICAL <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>REGISTRY.</span>
+              </h2>
+            </ScrollReveal>
           </div>
 
-          <div className="flex flex-col gap-4 font-mono text-[9px] text-white/50 border-l border-white/10 pl-8">
-            <div className="flex items-center gap-3">
-              <Activity size={14} className="text-accent animate-pulse" />
-              <span className="tracking-widest uppercase italic">Diagnostic_Active</span>
+          <ScrollReveal delay={0.3}>
+            <div className="flex flex-col gap-4 font-mono text-[9px] text-white/50 border-l border-white/10 pl-8">
+              <div className="flex items-center gap-3">
+                <Activity size={14} className="text-accent animate-pulse" />
+                <span className="tracking-widest uppercase italic">Diagnostic_Active</span>
+              </div>
+              <p className="max-w-[280px] leading-relaxed uppercase tracking-widest">
+                Verified mapping of technical competencies. 
+                Diagnostic scan shows 100% core integrity across all system nodes.
+              </p>
             </div>
-            <p className="max-w-[280px] leading-relaxed uppercase tracking-widest">
-              Verified mapping of technical competencies. 
-              Diagnostic scan shows 100% core integrity across all system nodes.
-            </p>
-          </div>
+          </ScrollReveal>
         </div>
 
         {/* COMPONENT BLOCKS */}
@@ -170,12 +174,13 @@ const CapabilityBlock: React.FC<{ system: any, index: number }> = ({ system, ind
   return (
     <motion.div 
       variants={{
-        hidden: { opacity: 0, y: 60 },
+        hidden: { opacity: 0, y: 60, filter: 'blur(10px)' },
         visible: { 
           opacity: 1, 
           y: 0,
+          filter: 'blur(0px)',
           transition: { 
-            duration: 0.7, 
+            duration: 0.8, 
             ease: [0.16, 1, 0.3, 1] 
           }
         }
