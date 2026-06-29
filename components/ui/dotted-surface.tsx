@@ -63,11 +63,8 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 				const z = iy * SEPARATION - (AMOUNTY * SEPARATION) / 2;
 
 				positions.push(x, y, z);
-				if (theme === 'dark') {
-					colors.push(200, 200, 200);
-				} else {
-					colors.push(0, 0, 0);
-				}
+				// Force light colored particles since DottedSurface is placed on dark backgrounds
+				colors.push(200, 200, 200);
 			}
 		}
 
@@ -224,7 +221,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 	return (
 		<div
 			ref={containerRef}
-			className={cn('pointer-events-none fixed inset-0 -z-1', className)}
+			className={cn('pointer-events-none fixed inset-0', className)}
 			{...props}
 		/>
 	);

@@ -37,9 +37,9 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   }, [onComplete]);
 
   const getStoryText = () => {
-    if (count < 30) return "Dinesh Kumar C.";
-    if (count < 65) return "Generative AI Engineer.";
-    return "Building agents that can perceive, think, and act.";
+    if (count < 30) return "Hi, I'm Dinesh Kumar.";
+    if (count < 65) return "I architect intelligent systems.";
+    return "Bridging Generative AI with practical engineering.";
   };
 
   return (
@@ -65,14 +65,14 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         
         <div className="relative flex flex-col items-center justify-center z-10 mix-blend-difference w-full px-4">
           <div className="h-[12vw] md:h-[6vw] flex items-center justify-center relative w-full mb-8">
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               <motion.h1 
                 key={getStoryText()}
-                className="absolute text-center text-[6vw] md:text-[3vw] font-sans font-medium text-white tracking-tight leading-none"
+                className="absolute text-center text-[5vw] md:text-[2.5vw] font-sans font-medium text-white tracking-tight leading-none"
                 initial={{ opacity: 0, y: 15, filter: "blur(8px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 exit={{ opacity: 0, y: -15, filter: "blur(8px)" }}
-                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               >
                 {getStoryText()}
               </motion.h1>

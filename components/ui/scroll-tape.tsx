@@ -44,7 +44,7 @@ const TapeStrip: React.FC<TapeStripProps> = ({
         className="flex whitespace-nowrap will-change-transform w-full"
         style={{ x }}
       >
-        {[...Array(5)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <motion.span
             key={i}
             className={`text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase mx-4 sm:mx-6 md:mx-10 tracking-tight ${
@@ -128,18 +128,18 @@ const ScrollTape: React.FC<ScrollTapeProps> = ({
 
   // Create individual staggered motion values for each strip
   const stripAnimations = strips.map((strip, i) => {
-    // Stagger factor: each strip is offset by 0.04 progress
-    const stagger = i * 0.04;
+    // Stagger factor
+    const stagger = i * 0.03;
 
     // Entry and exit boundaries
-    const entryStart = 0.20 + stagger;
-    const exitEnd = 0.80 - stagger;
+    const entryStart = 0.18 + stagger;
+    const exitEnd = 0.82 - stagger;
 
     // 1. Horizontal Translation (Wider sweep range for full text scroll)
-    const xStart = strip.direction === 'left' ? '35%' : '-45%';
-    const xEnd = strip.direction === 'left' ? '-45%' : '35%';
+    const xStart = strip.direction === 'left' ? '15%' : '-50%';
+    const xEnd = strip.direction === 'left' ? '-50%' : '15%';
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const x = useTransform(progress, [entryStart, exitEnd], [xStart, xEnd]);
+    const x = useTransform(progress, [0, 1], [xStart, xEnd]);
 
     // 2. Opacity (Fades in, stays visible, fades out during exit)
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -157,7 +157,7 @@ const ScrollTape: React.FC<ScrollTapeProps> = ({
       {/* ── SPACER ── */}
       <motion.div
         ref={containerRef}
-        className="relative w-full h-[320vh]"
+        className="relative w-full h-[150vh] md:h-[250vh] lg:h-[320vh]"
         style={{ backgroundColor }}
       />
 
@@ -165,7 +165,6 @@ const ScrollTape: React.FC<ScrollTapeProps> = ({
       <motion.div
         className="fixed inset-0 flex flex-col justify-center gap-10 sm:gap-16 md:gap-24 overflow-hidden pointer-events-none"
         style={{
-          backgroundColor,
           opacity: overlayOpacity,
           zIndex: 9998,
         }}
