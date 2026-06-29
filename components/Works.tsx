@@ -6,36 +6,44 @@ import { ArrowUpRight, Terminal, Layers, ChevronRight } from 'lucide-react';
 const projects = [
   {
     id: 'PRJ-01',
-    title: 'GravitycARgo',
-    category: 'LOGISTICS_AI',
-    tech: ['YOLOv8', 'ARCore', 'React Native'],
-    images: ['/GravitycArgo.jpeg', '/GravitycArgo2.jpeg', '/GravitycArgo3.jpeg'],
-    description: 'AI+AR integrated logistics ecosystem for container space optimization.'
+    title: 'AURA (Phone-as-MCP)',
+    category: 'ON_DEVICE_AGENT',
+    tech: ['Kotlin', 'WebRTC', 'YOLOv8', 'ML Kit OCR', 'LangGraph'],
+    images: ['/vs code.png'],
+    description: 'Turned an Android phone into an MCP server peer-to-peer over DTLS WebRTC. Exposes 36 live-verified tools to any AI client with zero cloud dependency.'
   },
   {
     id: 'PRJ-02',
-    title: 'EcoBot',
-    category: 'VISION_COGNITION',
-    tech: ['LLaMA-3', 'LangChain', 'ChromaDB'],
-    images: ['/ecobot.png'],
-    useContain: true,
-    description: 'Autonomous waste classification architecture utilizing LLaMA vision models and RAG.'
+    title: 'StayBot',
+    category: 'AI_TRAVEL_ASSISTANT',
+    tech: ['FastAPI', 'LangGraph', 'Pinecone', 'Next.js'],
+    images: ['/vs code.png'],
+    description: 'AI travel assistant built on a LangGraph ReAct agent routing across 15 specialized tools, semantic search, and persistent memory.'
   },
   {
     id: 'PRJ-03',
-    title: 'The Light',
-    category: 'ASSISTIVE_MFA',
-    tech: ['OpenCV', 'SSFD', 'Android'],
-    images: ['/aventus1.jpg', '/aventus2.jpg'],
-    description: 'Dedicated mobility assistant for visually impaired users with touch-based authentication.'
+    title: 'GravitycARgo',
+    category: 'LOGISTICS_AI',
+    tech: ['Python', 'Three.js', 'Flutter', 'Unity AR', 'OSRM'],
+    images: ['/GravitycArgo.jpeg', '/GravitycArgo2.jpeg', '/GravitycArgo3.jpeg'],
+    description: '3D container-loading optimizer using random-key genetic algorithms, achieving 77.9% mean fill with zero hard violations.'
   },
   {
     id: 'PRJ-04',
     title: 'Langlearn',
     category: 'NEURAL_NLP',
-    tech: ['Whisper v3', 'Groq', 'LLaMA 3.3'],
+    tech: ['Flask', 'React', 'LLaMA 3.3', 'Web Speech API'],
     images: ['/Langlearn.jpeg', '/Langlearn (2).jpeg', '/Langlearn (3).jpeg', '/Langlearn (4).jpeg', '/Langlearn (5).jpeg'],
-    description: 'High-speed neural translation engine built for real-time multi-modal communication.'
+    description: '40+ language learning platform with schema-enforced JSON generation and voice-to-voice translation.'
+  },
+  {
+    id: 'PRJ-05',
+    title: 'EcoBot',
+    category: 'VISION_COGNITION',
+    tech: ['FastAPI', 'QLoRA', 'LLaMA 3', 'ChromaDB'],
+    images: ['/ecobot.png'],
+    useContain: true,
+    description: 'Fine-tuned LLaMA 3 with QLoRA & 4-stage RAG pipeline returning structured output for waste classification.'
   }
 ];
 

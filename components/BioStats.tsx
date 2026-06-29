@@ -46,10 +46,10 @@ const BioStats: React.FC = () => {
   };
 
   const stack = [
-    { cat: "Languages", items: ["Python", "JavaScript", "TypeScript", "Java", "C", "SQL"] },
-    { cat: "AI/ML", items: ["LLMs", "RAG", "AI Agents", "VLM", "YOLO v8", "OpenCV", "LangChain"] },
-    { cat: "Frameworks", items: ["React", "Next.js", "Node.js", "Flask", "Flutter"] },
-    { cat: "Tools", items: ["Git", "Docker", "VS Code", "Jupyter"] }
+    { cat: "Languages", items: ["Python", "Java", "C", "SQL", "HTML/CSS"] },
+    { cat: "Generative AI", items: ["RAG", "Multi-Agent Systems", "QLoRA", "LangGraph", "LangChain"] },
+    { cat: "AI & ML", items: ["Gemini API", "Groq API", "YOLOv8", "OpenCV", "MCP", "TensorFlow"] },
+    { cat: "Backend & Cloud", items: ["FastAPI", "Flask", "WebRTC", "Docker", "Google Cloud Run"] }
   ];
 
   return (
@@ -96,7 +96,7 @@ const BioStats: React.FC = () => {
                   <div className="absolute top-0 left-0 w-[2px] h-0 bg-accent group-hover:h-full transition-all duration-500" />
                   <span className="font-mono text-[10px] text-accent uppercase block mb-2">Academic Excellence</span>
                   <p className="text-white text-sm">
-                    Currently maintaining a <span className="font-bold">8.91 CGPA</span> at SMVEC, specializing in Information Technology.
+                    Currently maintaining a <span className="font-bold">9.07 CGPA</span> at SMVEC, specializing in Information Technology.
                   </p>
                 </div>
               </div>
@@ -130,7 +130,7 @@ const BioStats: React.FC = () => {
             {[
               { label: "AI_INTERNSHIPS", value: 2, suffix: "", desc: "Industrial experience" },
               { label: "CORE_SYSTEMS", value: 5, suffix: "+", desc: "End-to-end projects" },
-              { label: "CGPA_SCORE", value: 8.91, suffix: "", dec: 2, desc: "Academic standard" },
+              { label: "CGPA_SCORE", value: 9.07, suffix: "", dec: 2, desc: "Academic standard" },
               { label: "SOLVE_RATE", value: 100, suffix: "%", desc: "Commitment to results" }
             ].map((stat, i) => (
               <motion.div 

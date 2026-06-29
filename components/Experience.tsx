@@ -6,22 +6,22 @@ const experiences = [
   {
     id: 5,
     year: '2024',
-    dateRange: 'JUL 2024 – OCT 2024',
-    role: 'Associate AI Intern',
-    company: 'Nuevera Infotech',
+    dateRange: 'OCT 2024 – NOV 2024',
+    role: 'Generative AI Intern',
+    company: 'AICTE 1M1B Flaunch',
     status: 'COMPLETED',
-    achievement: 'AI/ML Implementation',
-    details: 'Deployment of neural architectures for industrial workflows.'
+    achievement: 'LangLearn & EcoBot',
+    details: 'Built LangLearn (JSON schema-enforced learning platform) & EcoBot (Fine-tuned LLaMA 3 8B with QLoRA, RAG pipeline).'
   },
   {
     id: 4,
     year: '2024',
-    dateRange: 'SEP 2024 – NOV 2024',
-    role: 'Generative AI Intern',
-    company: 'Flaunch Emerging Tech Internship',
+    dateRange: 'JUL 2024 – OCT 2024',
+    role: 'Associate AI Intern',
+    company: 'Nuevera Infotech Pvt. Ltd.',
     status: 'COMPLETED',
-    achievement: 'RAG Pipeline Dev',
-    details: 'Engineered LLM-based solutions and retrieval-augmented systems.'
+    achievement: 'StayBot Dev',
+    details: 'Architected an AI travel assistant using LangGraph ReAct agent (LLaMA 3.3-70B) routing across 15 specialised tools & Pinecone.'
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ const experiences = [
     role: 'B.Tech IT',
     company: 'SMV Engineering College',
     status: 'IN_PROGRESS',
-    achievement: '8.91 CGPA',
+    achievement: '9.07 CGPA',
     details: 'Core engineering, system design, and advanced algorithmic studies.'
   },
   {

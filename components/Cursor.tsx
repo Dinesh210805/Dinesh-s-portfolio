@@ -49,7 +49,7 @@ const Cursor: React.FC = () => {
     <>
       {/* Main Dot */}
       <motion.div
-        className="fixed top-0 left-0 flex items-center justify-center bg-accent rounded-full pointer-events-none z-[9999] mix-blend-difference overflow-hidden"
+        className="fixed top-0 left-0 flex items-center justify-center bg-accent rounded-full pointer-events-none z-[10000] mix-blend-difference overflow-hidden"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -68,7 +68,7 @@ const Cursor: React.FC = () => {
       
       {/* Trailing Ring */}
       <motion.div 
-        className="fixed top-0 left-0 w-8 h-8 border border-white/20 rounded-full pointer-events-none z-[9998]"
+        className="fixed top-0 left-0 w-8 h-8 border border-white/20 rounded-full pointer-events-none z-[9999]"
         style={{
              x: cursorX,
              y: cursorY,

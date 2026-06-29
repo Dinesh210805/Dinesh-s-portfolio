@@ -42,7 +42,7 @@ const achievements = [
   },
   {
     id: 'VAL_24_OXD',
-    rank: 'FINALIST',
+    rank: 'TOP 10 FINALIST',
     title: '0x.day Hacksday Hackathon',
     category: 'CARBON_OPTIMIZATION',
     authority: '2024',
