@@ -8,7 +8,7 @@ interface SectionTransitionProps {
 
 const SectionTransition: React.FC<SectionTransitionProps> = ({ children, delay = 0 }) => {
   const ref = React.useRef(null);
-  const isInView = useInView(ref, { once: false, margin: "-10%" });
+  const isInView = useInView(ref, { once: true, margin: "-10%" });
 
   return (
     <motion.div
@@ -20,6 +20,7 @@ const SectionTransition: React.FC<SectionTransitionProps> = ({ children, delay =
         delay: delay,
         ease: [0.25, 0.1, 0.25, 1.0], // Apple-style cubic bezier
       }}
+      style={{ willChange: "transform, opacity" }}
     >
       {children}
     </motion.div>

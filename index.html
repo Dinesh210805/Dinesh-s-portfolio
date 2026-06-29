@@ -28,11 +28,16 @@
             },
             animation: {
               'shimmer': 'shimmer 2s infinite linear',
+              'grid-pan': 'grid-pan 15s linear infinite',
             },
             keyframes: {
               shimmer: {
                 '0%': { transform: 'translateX(-100%)' },
                 '100%': { transform: 'translateX(200%)' },
+              },
+              'grid-pan': {
+                '0%': { transform: 'translateY(0)' },
+                '100%': { transform: 'translateY(80px)' },
               }
             }
           },

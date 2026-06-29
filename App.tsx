@@ -39,16 +39,11 @@ const App: React.FC = () => {
     if (isLoading) return;
 
     const lenis = new Lenis({
-      duration: 1.8,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
+      lerp: 0.08, // Using pure linear interpolation is much smoother for 3D/heavy sites than duration+easing
+      wheelMultiplier: 1,
       smoothWheel: true,
-      wheelMultiplier: 0.8,
       touchMultiplier: 2,
       infinite: false,
-      lerp: 0.05,
-      syncTouch: true,
     });
 
     window.lenis = lenis;
@@ -84,9 +79,7 @@ const App: React.FC = () => {
           <Navbar />
           
           <main className="relative z-20 bg-background shadow-[0_50px_100px_rgba(0,0,0,0.9)]">
-             <SectionTransition>
-               <Hero />
-             </SectionTransition>
+             <Hero />
              <SectionTransition delay={0.1}>
                <Marquee />
              </SectionTransition>

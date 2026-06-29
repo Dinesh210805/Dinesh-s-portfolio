@@ -70,17 +70,20 @@ const Hero: React.FC = () => {
         {/* Main Content Layer */}
         <div className="relative z-20 w-full h-full max-w-[1600px] mx-auto px-6 md:px-12 py-20 flex flex-col justify-between pointer-events-none">
           
+          {/* Subtle Legibility Mask for Text */}
+          <div className="absolute top-0 left-0 w-full md:w-2/3 h-full bg-[radial-gradient(ellipse_at_left_center,rgba(5,5,5,0.7)_0%,transparent_80%)] pointer-events-none -z-10" />
+
           <div className="h-40 md:h-20" />
 
           <motion.div 
             style={{ y, opacity }}
             className="flex flex-col items-start text-left max-w-2xl lg:max-w-3xl mt-48 md:mt-0"
           >
-            <div className="flex flex-col gap-0 mb-8 md:mb-12 select-none w-full">
+            <div className="flex flex-col gap-0 mb-8 md:mb-12 select-none w-full group cursor-default">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
+                initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 className="flex items-center gap-4 mb-6 md:mb-10"
               >
                 <div className="w-6 md:w-8 h-[1px] bg-accent/40" />
@@ -88,18 +91,18 @@ const Hero: React.FC = () => {
               </motion.div>
 
               <motion.h1 
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.4 }}
-                className="text-[11vw] md:text-[5.5vw] lg:text-[4.5vw] font-display font-black text-white leading-[0.9] tracking-tighter uppercase will-change-transform"
+                initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ duration: 1.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="text-[11vw] md:text-[5.5vw] lg:text-[4.5vw] font-display font-black text-white leading-[0.9] tracking-tighter uppercase will-change-transform group-hover:tracking-normal transition-all duration-700 ease-out"
               >
                 DINESH
               </motion.h1>
               <motion.h1 
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.5 }}
-                className="text-[11vw] md:text-[5.5vw] lg:text-[4.5vw] font-display font-black text-transparent leading-[0.9] tracking-tighter uppercase will-change-transform"
+                initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ duration: 1.4, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="text-[11vw] md:text-[5.5vw] lg:text-[4.5vw] font-display font-black text-transparent leading-[0.9] tracking-tighter uppercase will-change-transform group-hover:tracking-normal transition-all duration-700 ease-out drop-shadow-[0_0_15px_rgba(255,255,255,0)] group-hover:drop-shadow-[0_0_20px_rgba(204,255,0,0.15)]"
                 style={{ WebkitTextStroke: '1px rgba(255, 255, 255, 0.4)' }}
               >
                 KUMAR
@@ -107,9 +110,9 @@ const Hero: React.FC = () => {
             </div>
 
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.9 }}
+              initial={{ opacity: 0, x: -20, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 1.2, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col gap-4 md:gap-6"
             >
               <span className="font-tech text-xl md:text-3xl lg:text-4xl text-white font-medium tracking-tight uppercase">
@@ -124,9 +127,9 @@ const Hero: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 md:gap-12 pt-12 md:pb-8">
             
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 1 }}
+              initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 1.2, delay: 1, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col gap-4 md:gap-5 pointer-events-auto"
             >
               <div className="flex items-center gap-3">
@@ -148,9 +151,9 @@ const Hero: React.FC = () => {
             </motion.div>
 
             <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 1.2 }}
+              initial={{ opacity: 0, x: 20, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 1.2, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col items-start md:items-end gap-6 md:gap-8 pointer-events-auto w-full md:w-auto"
             >
               <div className="flex items-center gap-6 p-2 px-6 bg-white/[0.03] border border-white/5 backdrop-blur-md rounded-full">
@@ -185,7 +188,30 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:80px_80px] pointer-events-none" />
+        {/* Scroll Indicator */}
+        <motion.div 
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none z-20"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.5, duration: 1 }}
+        >
+          <span className="font-tech text-[7px] tracking-[0.5em] text-white/30 uppercase font-bold">Scroll</span>
+          <div className="w-[1px] h-12 bg-white/10 relative overflow-hidden">
+            <motion.div 
+              className="absolute top-0 w-full h-1/2 bg-accent"
+              animate={{ y: ['-100%', '200%'] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
+            />
+          </div>
+        </motion.div>
+
+        <div 
+          className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:80px_80px] pointer-events-none animate-grid-pan"
+          style={{ 
+            maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, #000 20%, transparent 100%)', 
+            WebkitMaskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, #000 20%, transparent 100%)' 
+          }}
+        />
       </motion.div>
     </section>
   );
