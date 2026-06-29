@@ -58,8 +58,8 @@ const Hero: React.FC = () => {
                 {is3DEnabled ? <Zap size={12} className="animate-pulse" /> : <ZapOff size={12} />}
               </div>
               <div className="flex flex-col items-start leading-none">
-                <span className="font-mono text-[5px] md:text-[6px] tracking-[0.3em] font-black uppercase opacity-50 mb-1">Engine</span>
-                <span className="font-mono text-[8px] md:text-[9px] tracking-widest uppercase font-bold">
+                <span className="font-tech text-[5px] md:text-[6px] tracking-[0.3em] font-black uppercase opacity-50 mb-1">Engine</span>
+                <span className="font-tech text-[8px] md:text-[9px] tracking-widest uppercase font-bold">
                   {is3DEnabled ? 'LIVE' : 'IDLE'}
                 </span>
               </div>
@@ -84,7 +84,7 @@ const Hero: React.FC = () => {
                 className="flex items-center gap-4 mb-6 md:mb-10"
               >
                 <div className="w-6 md:w-8 h-[1px] bg-accent/40" />
-                <span className="font-mono text-accent text-[8px] md:text-[9px] tracking-[0.4em] md:tracking-[0.6em] uppercase font-bold">Creative Architect</span>
+                <span className="font-tech text-accent text-[8px] md:text-[9px] tracking-[0.4em] md:tracking-[0.6em] uppercase font-bold">Creative Architect</span>
               </motion.div>
 
               <motion.h1 
@@ -100,7 +100,7 @@ const Hero: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.5 }}
                 className="text-[11vw] md:text-[5.5vw] lg:text-[4.5vw] font-display font-black text-transparent leading-[0.9] tracking-tighter uppercase will-change-transform"
-                style={{ WebkitTextStroke: '1px rgba(255, 255, 255, 0.15)' }}
+                style={{ WebkitTextStroke: '1px rgba(255, 255, 255, 0.4)' }}
               >
                 KUMAR
               </motion.h1>
@@ -112,10 +112,10 @@ const Hero: React.FC = () => {
               transition={{ duration: 1, delay: 0.9 }}
               className="flex flex-col gap-4 md:gap-6"
             >
-              <span className="font-display text-xl md:text-3xl lg:text-4xl text-white font-medium tracking-tight uppercase">
+              <span className="font-tech text-xl md:text-3xl lg:text-4xl text-white font-medium tracking-tight uppercase">
                 GEN AI & <span className="text-accent italic font-bold">ML ENGINEER</span>
               </span>
-              <p className="font-mono text-[9px] md:text-[11px] text-white/50 uppercase tracking-[0.3em] md:tracking-[0.4em] max-w-xs md:max-w-sm leading-relaxed border-l border-accent/20 pl-4 md:pl-6">
+              <p className="font-tech text-[9px] md:text-[11px] text-white/50 uppercase tracking-[0.3em] md:tracking-[0.4em] max-w-xs md:max-w-sm leading-relaxed border-l border-accent/20 pl-4 md:pl-6">
                 Processing patterns to build high-performance systems and cognitive solutions.
               </p>
             </motion.div>
@@ -131,16 +131,16 @@ const Hero: React.FC = () => {
             >
               <div className="flex items-center gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                <span className="font-mono text-[8px] md:text-[9px] text-white/60 tracking-[0.2em] md:tracking-[0.3em] uppercase font-bold">Open for opportunities</span>
+                <span className="font-tech text-[8px] md:text-[9px] text-white/60 tracking-[0.2em] md:tracking-[0.3em] uppercase font-bold">Open for opportunities</span>
               </div>
               
               <div className="flex items-center gap-4 md:gap-6">
-                <div className="flex items-center gap-2 md:gap-3 font-mono text-[7px] md:text-[8px] text-white/40 uppercase tracking-[0.3em] md:tracking-[0.4em]">
+                <div className="flex items-center gap-2 md:gap-3 font-tech text-[7px] md:text-[8px] text-white/40 uppercase tracking-[0.3em] md:tracking-[0.4em]">
                   <Globe size={10} className="text-white/60" />
                   <span>PUDUCHERRY</span>
                 </div>
                 <div className="w-[1px] h-3 bg-white/10" />
-                <div className="flex items-center gap-2 md:gap-3 font-mono text-[7px] md:text-[8px] text-white/40 uppercase tracking-[0.3em] md:tracking-[0.4em]">
+                <div className="flex items-center gap-2 md:gap-3 font-tech text-[7px] md:text-[8px] text-white/40 uppercase tracking-[0.3em] md:tracking-[0.4em]">
                   <Command size={10} className="text-white/60" />
                   <span>0x21_NODE</span>
                 </div>
@@ -172,7 +172,7 @@ const Hero: React.FC = () => {
                    onClick={handleScrollToWorks}
                    className="group relative flex items-center gap-6 md:gap-10 py-4 md:py-5 pl-8 md:pl-12 pr-4 md:pr-5 bg-white/[0.02] border border-white/5 hover:border-accent/40 transition-all duration-500 cursor-none overflow-hidden backdrop-blur-md"
                  >
-                   <span className="font-mono text-[9px] md:text-[10px] font-bold text-white uppercase tracking-[0.4em] md:tracking-[0.5em] group-hover:text-accent transition-colors relative z-10">
+                   <span className="font-tech text-[9px] md:text-[10px] font-bold text-white uppercase tracking-[0.4em] md:tracking-[0.5em] group-hover:text-accent transition-colors relative z-10">
                      Explore_Archive
                    </span>
                    <div className="w-10 h-10 md:w-12 md:h-12 bg-accent text-black flex items-center justify-center group-hover:scale-105 transition-all relative z-10">
