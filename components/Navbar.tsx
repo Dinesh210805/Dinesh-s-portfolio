@@ -16,14 +16,38 @@ const navLinks = [
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLightSection, setIsLightSection] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+
+      // Detect if the navbar is overlapping a white background section
+      const header = document.querySelector('header');
+      if (!header) return;
+      
+      const headerRect = header.getBoundingClientRect();
+      const navbarCenterY = headerRect.top + headerRect.height / 2;
+
+      // Find all elements with white backgrounds
+      const whiteSections = document.querySelectorAll('.bg-white');
+      let isOverLight = false;
+
+      whiteSections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (navbarCenterY >= rect.top && navbarCenterY <= rect.bottom) {
+          isOverLight = true;
+        }
+      });
+
+      setIsLightSection(isOverLight);
     };
 
     window.addEventListener('scroll', handleScroll);
+    // Run once initially to set correct theme state
+    handleScroll();
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -62,13 +86,19 @@ const Navbar: React.FC = () => {
           px-6 py-3
           rounded-full
           transition-all duration-500 ease-out
-          ${isScrolled ? 'w-[90%] md:w-[750px] bg-white/5 backdrop-blur-xl border border-white/10 shadow-lg' : 'w-[95%] md:w-[1400px] bg-transparent'}
+          ${isScrolled 
+            ? isLightSection 
+              ? 'w-[90%] md:w-[750px] bg-black/5 backdrop-blur-xl border border-black/10 shadow-sm'
+              : 'w-[90%] md:w-[750px] bg-white/5 backdrop-blur-xl border border-white/10 shadow-lg' 
+            : 'w-[95%] md:w-[1400px] bg-transparent'}
         `}>
           <Magnetic strength={20}>
             <a 
               href="#home" 
               onClick={(e) => scrollToSection(e, '#home')}
-              className="block p-2 text-xl font-display font-bold text-white tracking-tight cursor-none"
+              className={`block p-2 text-xl font-display font-bold tracking-tight cursor-none transition-colors duration-300 ${
+                isLightSection ? 'text-black' : 'text-white'
+              }`}
             >
               D<span className="text-accent">.</span>
             </a>
@@ -80,7 +110,11 @@ const Navbar: React.FC = () => {
               <Magnetic key={link.name} strength={15}>
                 <button
                   onClick={(e) => scrollToSection(e, link.href)}
-                  className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors cursor-none"
+                  className={`px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 cursor-none ${
+                    isLightSection 
+                      ? 'text-black/60 hover:text-black' 
+                      : 'text-white/70 hover:text-white'
+                  }`}
                 >
                   {link.name}
                 </button>
@@ -93,7 +127,11 @@ const Navbar: React.FC = () => {
              <Magnetic strength={40}>
                <button 
                  onClick={(e) => scrollToSection(e, '#contact')}
-                 className="hidden md:flex items-center justify-center text-[10px] font-bold bg-white text-black px-5 py-2 rounded-full hover:bg-accent transition-colors uppercase tracking-widest cursor-none"
+                 className={`hidden md:flex items-center justify-center text-[10px] font-bold px-5 py-2 rounded-full transition-colors duration-300 uppercase tracking-widest cursor-none ${
+                   isLightSection 
+                     ? 'bg-black text-white hover:bg-accent hover:text-black' 
+                     : 'bg-white text-black hover:bg-accent'
+                 }`}
                >
                  Connect
                </button>
@@ -101,7 +139,9 @@ const Navbar: React.FC = () => {
 
              {/* Mobile Menu Toggle */}
              <button
-               className="md:hidden text-white p-2"
+               className={`md:hidden p-2 transition-colors duration-300 ${
+                 isLightSection ? 'text-black' : 'text-white'
+               }`}
                onClick={() => setIsMobileMenuOpen(true)}
              >
                <Menu size={20} />
