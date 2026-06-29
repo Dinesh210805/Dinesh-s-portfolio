@@ -55,7 +55,7 @@ const BioStats: React.FC = () => {
   ];
 
   return (
-    <section id="about" ref={containerRef} className="w-full bg-background text-primary py-16 md:py-32 overflow-visible transition-colors duration-500">
+    <section id="about" ref={containerRef} className="w-full bg-[#050505] text-white py-16 md:py-32 overflow-visible transition-colors duration-500">
       <div className="max-w-[1400px] mx-auto px-5 md:px-10 lg:px-20 relative">
         {/* Scroll-driven Background Path */}
         <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-[400px] -ml-[200px] pointer-events-none z-0">
@@ -79,25 +79,25 @@ const BioStats: React.FC = () => {
           <div className="lg:col-span-7">
             <div className="flex flex-col gap-0">
               <ScrollReveal delay={0.1}>
-                <span className="font-mono text-accent mb-6 block text-lg tracking-widest uppercase italic font-bold">[ The Philosophy ]</span>
+                <span className="font-mono text-white mb-6 block text-lg tracking-widest uppercase italic font-bold">[ The Philosophy ]</span>
               </ScrollReveal>
               
               <ScrollReveal delay={0.2}>
-                <h3 className="text-4xl md:text-5xl font-sans font-bold leading-tight text-primary mb-10">
+                <h3 className="text-4xl md:text-5xl font-sans font-bold leading-tight text-white mb-10">
                   Driven by <span className="underline decoration-white/30 decoration-2 italic">Curiosity</span>,<br /> Focused on Performance.
                 </h3>
               </ScrollReveal>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <ScrollReveal delay={0.3} className="space-y-6">
-                  <p className="text-secondary text-lg leading-relaxed font-light">
+                  <p className="text-neutral-300 text-lg leading-relaxed font-light">
                     Technology should solve real problems, not just generate responses. I build intelligent systems that bridge the gap between cutting-edge innovation and practical impact—turning complex challenges into elegant solutions.
                   </p>
-                  <div className="p-6 border border-white/10 bg-surface rounded-none relative overflow-hidden group">
-                    <div className="absolute top-0 left-0 w-[2px] h-0 bg-accent group-hover:h-full transition-all duration-500" />
-                    <span className="font-mono text-[10px] text-accent uppercase block mb-2 font-bold">Academic Excellence</span>
-                    <p className="text-secondary text-sm">
-                      Currently maintaining a <span className="font-bold text-primary">9.07 CGPA</span> at SMVEC, specializing in Information Technology.
+                  <div className="p-6 border border-white/10 bg-white/5 rounded-none relative overflow-hidden group">
+                    <div className="absolute top-0 left-0 w-[2px] h-0 bg-white group-hover:h-full transition-all duration-500" />
+                    <span className="font-mono text-[10px] text-white uppercase block mb-2 font-bold">Academic Excellence</span>
+                    <p className="text-neutral-200 text-sm">
+                      Currently maintaining a <span className="font-bold text-white">9.07 CGPA</span> at SMVEC, specializing in Information Technology.
                     </p>
                   </div>
                 </ScrollReveal>
@@ -107,7 +107,7 @@ const BioStats: React.FC = () => {
                   <div className="grid grid-cols-1 gap-4">
                     {stack.map((s, idx) => (
                       <div key={idx} className="border-b border-white/10 pb-3">
-                        <span className="font-mono text-[9px] text-accent mb-1 block font-bold">{s.cat}</span>
+                        <span className="font-mono text-[9px] text-white mb-1 block font-bold">{s.cat}</span>
                         <p className="text-xs text-neutral-400 flex flex-wrap gap-2 font-light">
                           {s.items.join(' • ')}
                         </p>
@@ -137,11 +137,11 @@ const BioStats: React.FC = () => {
                 <motion.div 
                   key={i}
                   variants={itemVariants} 
-                  className="p-8 border border-white/10 bg-surface flex flex-col justify-between hover:bg-surface/80 hover:border-white/30 transition-all duration-500 group shadow-sm"
+                  className="p-8 border border-white/10 bg-white/5 flex flex-col justify-between hover:bg-white/10 hover:border-white/30 transition-all duration-500 group shadow-sm"
                 >
                   <div>
-                    <span className="font-mono text-[10px] text-neutral-400 group-hover:text-accent transition-colors font-bold">{stat.label}</span>
-                    <h4 className="text-5xl md:text-6xl font-display font-bold text-primary mt-4 mb-2">
+                    <span className="font-mono text-[10px] text-neutral-400 group-hover:text-white transition-colors font-bold">{stat.label}</span>
+                    <h4 className="text-5xl md:text-6xl font-display font-bold text-white mt-4 mb-2">
                       <Counter value={stat.value} decimals={stat.dec} />{stat.suffix}
                     </h4>
                   </div>
@@ -160,19 +160,19 @@ const BioStats: React.FC = () => {
           className="mt-12 md:mt-20 pt-8 md:pt-10 border-t border-white/10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 font-mono text-[10px] text-neutral-400 uppercase tracking-[0.2em]"
         >
           <div className="flex flex-col gap-2">
-            <span className="text-accent font-bold">[B.TECH]</span>
+            <span className="text-white font-bold">[B.TECH]</span>
             <span>SMVEC</span>
-            <span className="text-primary font-semibold">IT Specialization</span>
+            <span className="text-white font-semibold">IT Specialization</span>
           </div>
           <div className="flex flex-col gap-2">
-            <span className="text-accent font-bold">[HSC]</span>
+            <span className="text-white font-bold">[HSC]</span>
             <span>Amalorpavam Higher Secondary School</span>
-            <span className="text-primary font-semibold">Percentage: 91.83%</span>
+            <span className="text-white font-semibold">Percentage: 91.83%</span>
           </div>
           <div className="flex flex-col gap-2">
-            <span className="text-accent font-bold">[SSLC]</span>
+            <span className="text-white font-bold">[SSLC]</span>
             <span>Amalorpavam Higher Secondary School</span>
-            <span className="text-primary font-semibold">Percentage: 86.2%</span>
+            <span className="text-white font-semibold">Percentage: 86.2%</span>
           </div>
         </motion.div>
       </div>

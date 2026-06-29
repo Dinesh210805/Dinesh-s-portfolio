@@ -19,7 +19,7 @@ import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import Preloader from './components/Preloader';
 import ChatBot from './components/ChatBot';
-import SectionTransition from './components/SectionTransition';
+import CinematicSectionTransition from './components/CinematicSectionTransition';
 import ScrollToTop from './components/ScrollToTop';
 import useDynamicFavicon from './hooks/useDynamicFavicon';
 
@@ -39,10 +39,10 @@ const App: React.FC = () => {
     if (isLoading) return;
 
     const lenis = new Lenis({
-      lerp: 0.08, // Increased from 0.04 to make the scroll twice as responsive
-      wheelMultiplier: 0.9, // Increased from 0.7 for a more natural scroll distance on desktop
+      lerp: 0.04, // Lower lerp for a heavier, high-inertia scroll
+      wheelMultiplier: 0.7, // Lower multiplier so each scroll tick covers less ground, slowing it down
       smoothWheel: true,
-      touchMultiplier: 1.5, // Increased from 1.2 to keep touch scroll on mobile snappy and in sync
+      touchMultiplier: 1.2,
       infinite: false,
     });
 
@@ -81,30 +81,28 @@ const App: React.FC = () => {
           <main className="relative z-20 bg-background shadow-[0_50px_100px_rgba(0,0,0,0.9)]">
              <Hero />
              <Marquee />
-             <SectionTransition delay={0.1}>
-               <ProfileHeader />
-             </SectionTransition>
-             <SectionTransition delay={0.1}>
-               <BioStats />
-             </SectionTransition>
-             <SectionTransition delay={0.1}>
-               <Achievements />
-             </SectionTransition>
-             <SectionTransition delay={0.1}>
-               <Services />
-             </SectionTransition>
-             <SectionTransition delay={0.1}>
-               <Works />
-             </SectionTransition>
-             <SectionTransition delay={0.1}>
-               <Certifications />
-             </SectionTransition>
-             <SectionTransition delay={0.1}>
-               <Experience />
-             </SectionTransition>
-             <SectionTransition delay={0.1}>
-               <Contact />
-             </SectionTransition>
+             <ProfileHeader />
+             
+             <CinematicSectionTransition heading="THE PHILOSOPHY" hookLine="DRIVEN BY CURIOSITY" mode="light-to-dark" />
+             <BioStats />
+             
+             <CinematicSectionTransition heading="ACHIEVEMENTS" hookLine="PROVEN TRACK RECORD" mode="dark-to-light" />
+             <Achievements />
+             
+             <CinematicSectionTransition heading="CAPABILITIES" hookLine="ENGINEERING INTELLIGENCE" mode="light-to-dark" />
+             <Services />
+             
+             <CinematicSectionTransition heading="SELECTED WORKS" hookLine="BUILDING THE FUTURE" mode="dark-to-light" />
+             <Works />
+             
+             <CinematicSectionTransition heading="CERTIFICATIONS" hookLine="CONTINUOUS LEARNING" mode="light-to-dark" />
+             <Certifications />
+             
+             <CinematicSectionTransition heading="EXPERIENCE" hookLine="YEARS OF EXCELLENCE" mode="dark-to-light" />
+             <Experience />
+             
+             <CinematicSectionTransition heading="GET IN TOUCH" hookLine="LET'S BUILD SOMETHING" mode="light-to-dark" />
+             <Contact />
           </main>
 
           <Footer />
