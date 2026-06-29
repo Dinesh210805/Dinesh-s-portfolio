@@ -39,10 +39,10 @@ const App: React.FC = () => {
     if (isLoading) return;
 
     const lenis = new Lenis({
-      lerp: 0.04, // Lower lerp for a heavier, high-inertia scroll
-      wheelMultiplier: 0.7, // Lower multiplier so each scroll tick covers less ground, slowing it down
+      lerp: 0.08, // Increased from 0.04 to make the scroll twice as responsive
+      wheelMultiplier: 0.9, // Increased from 0.7 for a more natural scroll distance on desktop
       smoothWheel: true,
-      touchMultiplier: 1.2,
+      touchMultiplier: 1.5, // Increased from 1.2 to keep touch scroll on mobile snappy and in sync
       infinite: false,
     });
 

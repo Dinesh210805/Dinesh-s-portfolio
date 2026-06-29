@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
 
 /* ─────────────────────────────────────────────────────────────
- * TapeStrip — A single horizontal text row.
+ * TapeStrip — A single horizontal row of repeating text.
  * ───────────────────────────────────────────────────────────── */
 
 interface TapeStripProps {
@@ -29,7 +29,7 @@ const TapeStrip: React.FC<TapeStripProps> = ({
   return (
     <motion.div
       className={`w-full overflow-hidden flex items-center select-none will-change-transform ${
-        isSolid ? 'py-4 sm:py-5 md:py-7 shadow-[0_12px_40px_rgba(0,0,0,0.4)]' : 'py-2 md:py-3'
+        isSolid ? 'py-5 md:py-8 shadow-[0_15px_45px_rgba(0,0,0,0.5)]' : 'py-3'
       }`}
       style={{ 
         opacity, 
@@ -47,7 +47,7 @@ const TapeStrip: React.FC<TapeStripProps> = ({
         {[...Array(5)].map((_, i) => (
           <motion.span
             key={i}
-            className={`text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase mx-4 sm:mx-6 md:mx-10 tracking-tight ${
+            className={`text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-black uppercase mx-6 md:mx-10 tracking-tight ${
               isSolid ? '' : 'text-transparent'
             }`}
             style={{
@@ -66,6 +66,11 @@ const TapeStrip: React.FC<TapeStripProps> = ({
 
 /* ─────────────────────────────────────────────────────────────
  * ScrollTape — Reusable cinematic section-transition component.
+ *
+ * Implements the "Heading + Hook Line" Scroll Lock:
+ *   - Line 1 (Heading): Slides in, locks static at center, exits
+ *     when the hook line is about to end.
+ *   - Line 2 (Hook Line): Slides continuously across the viewport.
  * ───────────────────────────────────────────────────────────── */
 
 interface StripConfig {
@@ -117,31 +122,24 @@ const ScrollTape: React.FC<ScrollTapeProps> = ({
     [0,    1,    1,    0   ]
   );
 
-  // Create individual staggered motion values for each strip
-  const stripAnimations = strips.map((strip, i) => {
-    // Stagger factor: each strip is offset by 0.04 progress
-    const stagger = i * 0.04;
+  // ── Staggered Opacity for the two lines ──
+  const opacity1 = useTransform(progress, [0.18, 0.26, 0.72, 0.80], [0, 1, 1, 0]);
+  const opacity2 = useTransform(progress, [0.22, 0.30, 0.68, 0.76], [0, 1, 1, 0]);
 
-    // Entry and exit boundaries
-    const entryStart = 0.20 + stagger;
-    const exitEnd = 0.80 - stagger;
+  // ── Horizontal Translation Mapping ──
+  // Line 1 (Heading): Enters to center (0%), locks, then exits
+  const x1 = useTransform(
+    progress,
+    [0.20, 0.35, 0.65, 0.80],
+    ["30%", "0%", "0%", "-30%"]
+  );
 
-    // 1. Horizontal Translation (Wider sweep range for full text scroll)
-    const xStart = strip.direction === 'left' ? '35%' : '-45%';
-    const xEnd = strip.direction === 'left' ? '-45%' : '35%';
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const x = useTransform(progress, [entryStart, exitEnd], [xStart, xEnd]);
-
-    // 2. Opacity (Fades in, stays visible, fades out during exit)
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const opacity = useTransform(
-      progress,
-      [entryStart, entryStart + 0.08, exitEnd - 0.08, exitEnd],
-      [0, 1, 1, 0]
-    );
-
-    return { x, opacity };
-  });
+  // Line 2 (Hook Line): Scrolls continuously without stopping
+  const x2 = useTransform(
+    progress,
+    [0.20, 0.80],
+    ["-45%", "35%"]
+  );
 
   return (
     <>
@@ -162,13 +160,15 @@ const ScrollTape: React.FC<ScrollTapeProps> = ({
         }}
       >
         {strips.map((strip, i) => {
-          const isSolid = i === 1; // Only the middle line (index 1) is a solid tape
-          const anim = stripAnimations[i];
+          const isSolid = i === 1; // Middle line (index 1) is solid
+          const animX = i === 0 ? x1 : x2;
+          const animOpacity = i === 0 ? opacity1 : opacity2;
+          
           return (
             <TapeStrip
               key={i}
-              x={anim.x}
-              opacity={anim.opacity}
+              x={animX}
+              opacity={animOpacity}
               isSolid={isSolid}
               bgColor={solidBg}
               textColor={solidText}

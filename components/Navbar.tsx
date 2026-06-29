@@ -23,29 +23,45 @@ const Navbar: React.FC = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      // Detect if the navbar is overlapping a white background section
       const header = document.querySelector('header');
       if (!header) return;
       
       const headerRect = header.getBoundingClientRect();
       const navbarCenterY = headerRect.top + headerRect.height / 2;
 
-      // Find all elements with white backgrounds inside the main content (ignoring the navbar itself)
-      const whiteSections = document.querySelectorAll('main .bg-white');
-      let isOverLight = false;
+      // Find which section is currently underneath the navbar center point
+      // We look at all top-level children inside the main content container and the transition spacer
+      const sections = document.querySelectorAll('main > *, [ref="containerRef"], .relative.w-full');
+      let currentSection: HTMLElement | null = null;
 
-      whiteSections.forEach((section) => {
+      sections.forEach((section) => {
         const rect = section.getBoundingClientRect();
         if (navbarCenterY >= rect.top && navbarCenterY <= rect.bottom) {
-          isOverLight = true;
+          currentSection = section as HTMLElement;
         }
       });
 
-      setIsLightSection(isOverLight);
+      if (currentSection) {
+        const computedStyle = window.getComputedStyle(currentSection);
+        const bgColor = computedStyle.backgroundColor;
+        
+        // Parse rgb(r, g, b) or rgba(r, g, b, a)
+        const rgbMatch = bgColor.match(/\d+/g);
+        if (rgbMatch && rgbMatch.length >= 3) {
+          const r = parseInt(rgbMatch[0], 10);
+          const g = parseInt(rgbMatch[1], 10);
+          const b = parseInt(rgbMatch[2], 10);
+          
+          // Calculate brightness using the YIQ formula
+          const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
+          
+          // If brightness is high (light background), enable light section styling
+          setIsLightSection(brightness > 135);
+        }
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
-    // Run once initially to set correct theme state
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);

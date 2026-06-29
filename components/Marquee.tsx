@@ -4,24 +4,19 @@ import ScrollTape from './ui/scroll-tape';
 /* ─────────────────────────────────────────────────────────────
  * Marquee — Cinematic transition between Hero (dark) and About (white).
  *
- * Three horizontal warning/duct-tape strips slide across the screen
- * as you scroll. Background morphs from black → white.
- *
- * Visual styles:
- *   - Strip 1: Neon Green background with black text (rotates -1.5deg)
- *   - Strip 2: Dark Gray background with white text (rotates 1.2deg)
- *   - Strip 3: Neon Green background with black text (rotates -0.8deg)
- * 
- * As you scroll, the tape colors invert contrastingly.
+ * Implements the "Heading + Hook Line" Scroll Lock:
+ *   - Line 1 (Heading): "DINESH KUMAR" (Hollow Outline). Enters,
+ *     locks at center, and exits when the hook line ends.
+ *   - Line 2 (Hook Line): "IDENTITY ARCHITECT • COGNITIVE SOLUTIONS"
+ *     (Solid Tape). Slides continuously across the viewport.
  * ───────────────────────────────────────────────────────────── */
 
 const Marquee: React.FC = () => {
   return (
     <ScrollTape
       strips={[
-        { text: 'CREATIVE DEVELOPER • OPEN FOR WORK • DINESH KUMAR •', direction: 'left' },
-        { text: 'AI/ML ENGINEER • GENERATIVE AI • FULL STACK •', direction: 'right' },
-        { text: 'PROBLEM SOLVER • INNOVATOR • OPEN SOURCE •', direction: 'left' },
+        { text: 'DINESH KUMAR • DINESH KUMAR • DINESH KUMAR •', direction: 'left' },
+        { text: 'IDENTITY ARCHITECT • COGNITIVE SOLUTIONS • BRIDGING AI & SYSTEMS •', direction: 'right' },
       ]}
       fromBg="#050505"
       toBg="#ffffff"
