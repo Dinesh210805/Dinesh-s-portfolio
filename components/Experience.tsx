@@ -78,8 +78,8 @@ const Experience: React.FC = () => {
             viewport={{ once: true }}
             className="flex items-center gap-3 mb-6 md:mb-8"
           >
-            <div className="w-8 md:w-12 h-[1px] bg-black" />
-            <span className="font-mono text-black font-bold text-[10px] md:text-sm tracking-[0.4em] uppercase">Career Timeline</span>
+            <div className="w-8 md:w-12 h-[1px] bg-accent" />
+            <span className="font-mono text-accent font-bold text-[10px] md:text-sm tracking-[0.4em] uppercase">Career Timeline</span>
           </motion.div>
           
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-display font-bold text-black tracking-tighter leading-[1] mb-4 uppercase">
@@ -170,9 +170,9 @@ const TimelineNode: React.FC<{ exp: any, index: number }> = ({ exp, index }) => 
         >
           <div className={`flex flex-col mb-4 md:mb-6 ${isEven ? 'md:items-end' : 'md:items-start'}`}>
             <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-2">
-              <span className="font-mono text-[8px] md:text-[9px] text-black font-bold tracking-[0.3em] uppercase">Entry_0{exp.id}</span>
+              <span className="font-mono text-[8px] md:text-[9px] text-accent font-bold tracking-[0.3em] uppercase">Entry_0{exp.id}</span>
               <div className="w-6 md:w-8 h-[1px] bg-black/20" />
-              <span className={`font-mono font-bold text-[8px] md:text-[9px] tracking-widest ${exp.status === 'IN_PROGRESS' ? 'text-black animate-pulse' : 'text-neutral-500'}`}>
+              <span className={`font-mono font-bold text-[8px] md:text-[9px] tracking-widest ${exp.status === 'IN_PROGRESS' ? 'text-accent animate-pulse' : 'text-neutral-500'}`}>
                 {exp.status}
               </span>
             </div>
@@ -181,11 +181,11 @@ const TimelineNode: React.FC<{ exp: any, index: number }> = ({ exp, index }) => 
 
           <div className="relative p-0.5 bg-black/10 group-hover/card:bg-black/20 transition-all duration-700">
              <div className="bg-white/90 backdrop-blur-3xl p-6 md:p-10 relative overflow-hidden">
-                <div className={`absolute top-0 ${isEven ? 'left-0' : 'right-0'} px-3 py-1 bg-black/5 border-b border-black/10 text-black font-mono text-[7px] md:text-[8px] font-bold tracking-widest`}>
+                <div className={`absolute top-0 ${isEven ? 'left-0' : 'right-0'} px-3 py-1 bg-accent/10 border-b border-accent/20 text-accent font-mono text-[7px] md:text-[8px] font-bold tracking-widest`}>
                   {exp.achievement}
                 </div>
 
-                <h3 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-black mb-4 md:mb-6 leading-tight uppercase group-hover/card:text-black/70 transition-colors duration-500 break-words">
+                <h3 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-black mb-4 md:mb-6 leading-tight uppercase group-hover/card:text-accent transition-colors duration-500 break-words">
                    {exp.role}
                 </h3>
                 
@@ -194,7 +194,7 @@ const TimelineNode: React.FC<{ exp: any, index: number }> = ({ exp, index }) => 
                 </p>
 
                 <div className={`flex items-start gap-3 md:gap-4 ${isEven ? 'md:flex-row-reverse' : ''}`}>
-                   <div className="w-1 h-1 md:w-1.5 md:h-1.5 bg-black mt-1.5 shrink-0" />
+                   <div className="w-1 h-1 md:w-1.5 md:h-1.5 bg-accent mt-1.5 shrink-0" />
                    <p className="text-xs md:text-sm text-black/70 leading-relaxed font-mono tracking-tight max-w-sm">
                      {exp.details}
                    </p>

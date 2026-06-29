@@ -19,7 +19,7 @@ import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import Preloader from './components/Preloader';
 import ChatBot from './components/ChatBot';
-import CinematicSectionTransition from './components/CinematicSectionTransition';
+import ScrollTape from './components/ui/scroll-tape';
 import ScrollToTop from './components/ScrollToTop';
 import useDynamicFavicon from './hooks/useDynamicFavicon';
 
@@ -83,25 +83,25 @@ const App: React.FC = () => {
              <Marquee />
              <ProfileHeader />
              
-             <CinematicSectionTransition heading="THE PHILOSOPHY" hookLine="DRIVEN BY CURIOSITY" mode="light-to-dark" />
+             <ScrollTape strips={[{text: "DRIVEN BY CURIOSITY •", direction: "left"}, {text: "THE PHILOSOPHY • THE PHILOSOPHY •", direction: "right"}, {text: "DRIVEN BY CURIOSITY •", direction: "left"}]} fromBg="#ffffff" toBg="#050505" />
              <BioStats />
              
-             <CinematicSectionTransition heading="ACHIEVEMENTS" hookLine="PROVEN TRACK RECORD" mode="dark-to-light" />
+             <ScrollTape strips={[{text: "PROVEN TRACK RECORD •", direction: "right"}, {text: "ACHIEVEMENTS • ACHIEVEMENTS •", direction: "left"}, {text: "PROVEN TRACK RECORD •", direction: "right"}]} fromBg="#050505" toBg="#ffffff" />
              <Achievements />
              
-             <CinematicSectionTransition heading="CAPABILITIES" hookLine="ENGINEERING INTELLIGENCE" mode="light-to-dark" />
+             <ScrollTape strips={[{text: "ENGINEERING INTELLIGENCE •", direction: "left"}, {text: "CAPABILITIES • CAPABILITIES •", direction: "right"}, {text: "ENGINEERING INTELLIGENCE •", direction: "left"}]} fromBg="#ffffff" toBg="#050505" />
              <Services />
              
-             <CinematicSectionTransition heading="SELECTED WORKS" hookLine="BUILDING THE FUTURE" mode="dark-to-light" />
+             <ScrollTape strips={[{text: "BUILDING THE FUTURE •", direction: "right"}, {text: "SELECTED WORKS • SELECTED WORKS •", direction: "left"}, {text: "BUILDING THE FUTURE •", direction: "right"}]} fromBg="#050505" toBg="#ffffff" />
              <Works />
              
-             <CinematicSectionTransition heading="CERTIFICATIONS" hookLine="CONTINUOUS LEARNING" mode="light-to-dark" />
+             <ScrollTape strips={[{text: "CONTINUOUS LEARNING •", direction: "left"}, {text: "CERTIFICATIONS • CERTIFICATIONS •", direction: "right"}, {text: "CONTINUOUS LEARNING •", direction: "left"}]} fromBg="#ffffff" toBg="#050505" />
              <Certifications />
              
-             <CinematicSectionTransition heading="EXPERIENCE" hookLine="YEARS OF EXCELLENCE" mode="dark-to-light" />
+             <ScrollTape strips={[{text: "YEARS OF EXCELLENCE •", direction: "right"}, {text: "EXPERIENCE • EXPERIENCE •", direction: "left"}, {text: "YEARS OF EXCELLENCE •", direction: "right"}]} fromBg="#050505" toBg="#ffffff" />
              <Experience />
              
-             <CinematicSectionTransition heading="GET IN TOUCH" hookLine="LET'S BUILD SOMETHING" mode="light-to-dark" />
+             <ScrollTape strips={[{text: "LET'S BUILD SOMETHING •", direction: "left"}, {text: "GET IN TOUCH • GET IN TOUCH •", direction: "right"}, {text: "LET'S BUILD SOMETHING •", direction: "left"}]} fromBg="#ffffff" toBg="#050505" />
              <Contact />
           </main>
 

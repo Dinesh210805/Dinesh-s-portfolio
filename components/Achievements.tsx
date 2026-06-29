@@ -93,8 +93,8 @@ const Achievements: React.FC = () => {
               viewport={{ once: true }}
               className="flex items-center gap-4 mb-8 md:mb-10"
             >
-              <div className="w-10 md:w-16 h-[1px] bg-black" />
-              <span className="font-mono text-black font-bold text-[10px] md:text-sm tracking-[0.4em] md:tracking-[0.5em] uppercase">Honor Ledger</span>
+              <div className="w-10 md:w-16 h-[1px] bg-accent" />
+              <span className="font-mono text-accent font-bold text-[10px] md:text-sm tracking-[0.4em] md:tracking-[0.5em] uppercase">Honor Ledger</span>
             </motion.div>
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-display font-bold text-black tracking-tighter leading-[1] uppercase">
               RECOGNITION.
@@ -104,7 +104,7 @@ const Achievements: React.FC = () => {
           <div className="flex flex-col gap-6 font-mono lg:min-w-[300px]">
             <div className="flex justify-between text-[10px] text-black/60 tracking-[0.2em] border-b border-black/10 pb-2">
               <span className="font-bold">TOTAL_ENTRIES</span>
-              <span className="text-black font-bold">0{achievements.length}</span>
+              <span className="text-accent font-bold">0{achievements.length}</span>
             </div>
             <p className="text-[9px] text-neutral-600 leading-relaxed uppercase tracking-widest max-w-[280px]">
               Validated registry of national and global hackathon achievements, selecting for architectural rigor and systemic impact.
@@ -199,8 +199,8 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
           
           <div className="absolute top-4 left-4 md:top-8 md:left-8 flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <div className={`w-8 h-8 md:w-12 md:h-12 ${ach.prestige ? 'bg-black text-white' : 'bg-black/10 text-black'} rounded-full flex items-center justify-center shadow-lg`}>
-                 <Trophy size={14} className={ach.prestige ? 'text-white' : 'text-black'} />
+              <div className={`w-8 h-8 md:w-12 md:h-12 ${ach.prestige ? 'bg-accent text-black' : 'bg-black/10 text-black'} rounded-full flex items-center justify-center shadow-lg`}>
+                 <Trophy size={14} className={ach.prestige ? 'text-black' : 'text-black'} />
               </div>
               <div className="px-3 py-1 md:px-4 md:py-2 bg-white/90 backdrop-blur-xl border border-black/10 font-mono text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-black">
                 {ach.rank}
@@ -213,16 +213,16 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
             <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 flex items-center gap-3">
               <button 
                 onClick={handleNextImage}
-                className="w-10 h-10 bg-black/5 backdrop-blur-xl border border-black/10 hover:bg-black hover:border-black flex items-center justify-center transition-all duration-300 group/btn"
+                className="w-10 h-10 bg-accent/10 backdrop-blur-xl border border-accent/20 hover:bg-accent hover:border-accent flex items-center justify-center transition-all duration-300 group/btn"
               >
-                <ChevronRight size={16} className="text-black group-hover/btn:text-white transition-colors" />
+                <ChevronRight size={16} className="text-accent group-hover/btn:text-black transition-colors" />
               </button>
               <div className="flex gap-1.5">
                 {ach.images.map((_: any, idx: number) => (
                   <div 
                     key={idx}
                     className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      idx === currentImageIndex ? 'bg-black w-6' : 'bg-black/20'
+                      idx === currentImageIndex ? 'bg-accent w-6' : 'bg-black/20'
                     }`}
                   />
                 ))}
@@ -232,7 +232,7 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
 
           <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 text-right hidden md:block">
              <div className="font-mono text-[8px] text-black/40 font-bold uppercase tracking-[0.4em] mb-1">Year</div>
-             <div className="font-mono text-[10px] text-black font-bold uppercase">{ach.authority}</div>
+             <div className="font-mono text-[10px] text-accent font-bold uppercase">{ach.authority}</div>
           </div>
         </div>
       </div>
@@ -240,14 +240,14 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
       <div className={`lg:col-span-6 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
         <div className="flex flex-col gap-6 md:gap-8">
           <div className="flex items-center gap-4">
-            <div className="px-2 py-0.5 md:px-3 md:py-1 border border-black/20 bg-black/5 font-mono text-[8px] md:text-[9px] text-black font-bold uppercase tracking-widest">
+            <div className="px-2 py-0.5 md:px-3 md:py-1 border border-accent/20 bg-accent/5 font-mono text-[8px] md:text-[9px] text-accent font-bold uppercase tracking-widest">
               {ach.category}
             </div>
             <div className="h-[1px] flex-1 bg-black/10" />
             <span className="font-mono text-[10px] text-black/50 font-bold tracking-widest">{ach.date}</span>
           </div>
 
-          <h3 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-black leading-[1.1] md:leading-[0.9] tracking-tighter uppercase group-hover:text-black/70 transition-colors break-words">
+          <h3 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-black leading-[1.1] md:leading-[0.9] tracking-tighter uppercase group-hover:text-accent transition-colors break-words">
             {ach.title}
           </h3>
 
@@ -257,7 +257,7 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
 
           <div className="py-6 md:py-10 border-y border-black/10 space-y-6">
             <div className="flex items-center gap-2 font-mono text-[8px] text-black/40 font-bold uppercase tracking-[0.3em] md:tracking-[0.4em]">
-              <Terminal size={12} className="text-black" />
+              <Terminal size={12} className="text-accent" />
               <span>Technical_Stack_Index</span>
             </div>
             <div className="flex flex-wrap gap-2">

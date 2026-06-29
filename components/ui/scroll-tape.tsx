@@ -103,12 +103,21 @@ const ScrollTape: React.FC<ScrollTapeProps> = ({
     progress, [0.25, 0.65], [fromBg, toBg]
   );
 
-  // ── Colors for Solid Middle Tape (Neon Green ➔ Black) ──
-  const solidBg = useTransform(progress, [0.28, 0.62], ["#CCFF00", "#111111"]);
-  const solidText = useTransform(progress, [0.28, 0.62], ["#000000", "#ffffff"]);
+  // ── Dynamic Color Logic ──
+  const isLightToDark = fromBg === '#ffffff';
+  
+  const tapeBgStart = isLightToDark ? "#111111" : "#CCFF00";
+  const tapeBgEnd = isLightToDark ? "#CCFF00" : "#111111";
+  
+  const tapeTextStart = isLightToDark ? "#ffffff" : "#000000";
+  const tapeTextEnd = isLightToDark ? "#000000" : "#ffffff";
 
-  // ── Colors for Hollow Stroke Text (Neon Green ➔ Black) ──
-  const strokeColor = useTransform(progress, [0.28, 0.62], ["#CCFF00", "#111111"]);
+  // ── Colors for Solid Middle Tape ──
+  const solidBg = useTransform(progress, [0.25, 0.65], [tapeBgStart, tapeBgEnd]);
+  const solidText = useTransform(progress, [0.25, 0.65], [tapeTextStart, tapeTextEnd]);
+
+  // ── Colors for Hollow Stroke Text ──
+  const strokeColor = useTransform(progress, [0.25, 0.65], [tapeBgStart, tapeBgEnd]);
 
   // ── Overlay overall opacity ──
   const overlayOpacity = useTransform(

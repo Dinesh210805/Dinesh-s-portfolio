@@ -55,8 +55,8 @@ const Works: React.FC = () => {
         <div className="mb-12 md:mb-32">
           <ScrollReveal delay={0.1}>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-[1px] bg-black" />
-              <span className="font-mono text-black font-bold text-sm tracking-[0.4em] uppercase">Project Archive</span>
+              <div className="w-12 h-[1px] bg-accent" />
+              <span className="font-mono text-accent font-bold text-sm tracking-[0.4em] uppercase">Project Archive</span>
             </div>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
@@ -138,9 +138,9 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
       <div className={`lg:col-span-5 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}>
         <div className="flex flex-col gap-10">
           <div className="flex items-center gap-4">
-            <span className="font-mono text-xs text-black font-bold tracking-widest">{project.id}</span>
+            <span className="font-mono text-xs text-accent font-bold tracking-widest">{project.id}</span>
             <div className="h-[1px] flex-1 bg-black/10" />
-            <span className="font-mono text-xs text-black/50 font-bold uppercase tracking-widest">{project.category}</span>
+            <span className="font-mono text-xs text-accent/50 font-bold uppercase tracking-widest">{project.category}</span>
           </div>
           <div>
             <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-black mb-8 tracking-tighter leading-[1.1] uppercase">{project.title}</h3>
@@ -148,7 +148,7 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
           </div>
           <div className="py-10 border-y border-black/10">
             <div className="space-y-4">
-               <div className="flex items-center gap-2 text-black font-bold">
+               <div className="flex items-center gap-2 text-accent font-bold">
                  <Terminal size={14} />
                  <span className="font-mono text-[9px] font-bold tracking-[0.3em] uppercase">Stack_Profile</span>
                </div>
@@ -159,9 +159,9 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
                </div>
             </div>
           </div>
-          <button className="group flex items-center gap-6 text-[10px] font-mono font-bold text-black uppercase tracking-[0.4em] hover:text-black/60 transition-colors">
+          <button className="group flex items-center gap-6 text-[10px] font-mono font-bold text-accent uppercase tracking-[0.4em] hover:text-accent/80 transition-colors">
             SYSTEM_DOCUMENTATION
-            <div className="w-12 h-12 border border-black/10 rounded-full flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all">
+            <div className="w-12 h-12 border border-accent/20 rounded-full flex items-center justify-center group-hover:bg-accent group-hover:text-black transition-all">
               <ArrowUpRight size={18} />
             </div>
           </button>
@@ -191,10 +191,10 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
               {/* Next button */}
               <button
                 onClick={nextImage}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/80 hover:bg-black flex items-center justify-center transition-colors z-10"
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-accent/80 hover:bg-accent flex items-center justify-center transition-colors z-10"
                 aria-label="Next image"
               >
-                <ChevronRight className="text-white" size={20} />
+                <ChevronRight className="text-black" size={20} />
               </button>
               
               {/* Progress indicators */}
@@ -204,7 +204,7 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
                     key={idx}
                     onClick={() => setCurrentImageIndex(idx)}
                     className={`w-2 h-2 rounded-full transition-all ${
-                      idx === currentImageIndex ? 'bg-black w-6' : 'bg-black/20 hover:bg-black/40'
+                      idx === currentImageIndex ? 'bg-accent w-6' : 'bg-black/20 hover:bg-accent/40'
                     }`}
                     aria-label={`Go to image ${idx + 1}`}
                   />
