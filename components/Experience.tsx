@@ -67,7 +67,7 @@ const Experience: React.FC = () => {
   const scannerY = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section ref={containerRef} id="experience" className="relative py-16 md:py-40 px-6 md:px-10 lg:px-20 mx-auto w-full bg-white transition-colors duration-500 overflow-visible">
+    <section ref={containerRef} id="experience" className="relative py-16 md:py-40 px-6 md:px-10 lg:px-20 mx-auto w-full bg-white dark:bg-background transition-colors duration-500 overflow-visible">
       
       <div className="max-w-[1400px] mx-auto w-full relative">
         {/* SECTION HEADER */}
@@ -82,27 +82,27 @@ const Experience: React.FC = () => {
             <span className="font-mono text-accent font-bold text-[10px] md:text-sm tracking-[0.4em] uppercase">Career Timeline</span>
           </motion.div>
           
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-display font-bold text-black tracking-tighter leading-[1] mb-4 uppercase">
-            CAREER <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #000000' }}>LEVELS.</span>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-display font-bold text-black dark:text-white tracking-tighter leading-[1] mb-4 uppercase">
+            CAREER <br /> <span className="text-transparent [-webkit-text-stroke:1.5px_#000000] dark:[-webkit-text-stroke:1.5px_#ffffff]">LEVELS.</span>
           </h2>
         </div>
 
         <div className="relative">
           {/* Main Background Track */}
-          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[1px] bg-black/10 -translate-x-1/2" />
+          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[1px] bg-black/10 dark:bg-white/10 -translate-x-1/2" />
           
           {/* Active Data Path */}
           <motion.div 
             style={{ height: lineHeight }}
-            className="absolute left-6 md:left-1/2 top-0 w-[1px] bg-black -translate-x-1/2 z-10 origin-top shadow-[0_0_15px_rgba(0,0,0,0.2)]"
+            className="absolute left-6 md:left-1/2 top-0 w-[1px] bg-black dark:bg-white -translate-x-1/2 z-10 origin-top shadow-[0_0_15px_rgba(0,0,0,0.2)] dark:shadow-[0_0_15px_rgba(255,255,255,0.2)]"
           />
 
           {/* Floating Laser Scanner Marker - Only visible on medium+ screens */}
           <motion.div 
             style={{ top: scannerY }}
-            className="absolute left-6 md:left-1/2 w-32 md:w-40 h-[1px] bg-black -translate-x-1/2 z-30 pointer-events-none hidden md:block"
+            className="absolute left-6 md:left-1/2 w-32 md:w-40 h-[1px] bg-black dark:bg-white -translate-x-1/2 z-30 pointer-events-none hidden md:block"
           >
-             <div className="absolute -top-6 left-1/2 -translate-x-1/2 font-mono text-[8px] text-black font-bold tracking-widest whitespace-nowrap">
+             <div className="absolute -top-6 left-1/2 -translate-x-1/2 font-mono text-[8px] text-black dark:text-white font-bold tracking-widest whitespace-nowrap">
                SCAN_PATH...
              </div>
           </motion.div>
@@ -139,9 +139,8 @@ const TimelineNode: React.FC<{ exp: any, index: number }> = ({ exp, index }) => 
         className={`absolute inset-y-0 ${isEven ? 'left-0 md:left-[50%]' : 'right-0 md:right-[50%]'} w-full md:w-[50%] hidden md:flex justify-center items-center pointer-events-none select-none z-0`}
       >
          <span 
-           className="text-[2rem] md:text-[3rem] lg:text-[4rem] font-display font-black text-transparent leading-none uppercase tracking-tighter whitespace-nowrap"
+           className="text-[2rem] md:text-[3rem] lg:text-[4rem] font-display font-black text-transparent leading-none uppercase tracking-tighter whitespace-nowrap [-webkit-text-stroke:2px_#000000] dark:[-webkit-text-stroke:2px_#ffffff]"
            style={{ 
-             WebkitTextStroke: '2px #000000',
              filter: 'drop-shadow(0 0 20px rgba(0, 0, 0, 0.1))'
            }}
          >
@@ -151,10 +150,10 @@ const TimelineNode: React.FC<{ exp: any, index: number }> = ({ exp, index }) => 
 
       <div className="absolute left-6 md:left-1/2 top-0 md:top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
         <motion.div 
-          animate={isInView ? { scale: 1.1, backgroundColor: '#000000', borderColor: '#000000' } : { scale: 1, backgroundColor: '#ffffff', borderColor: 'rgba(0,0,0,0.2)' }}
-          className="w-10 h-10 md:w-12 md:h-12 border-2 flex items-center justify-center transition-all duration-500 overflow-hidden"
+          animate={isInView ? { scale: 1.1 } : { scale: 1 }}
+          className={`w-10 h-10 md:w-12 md:h-12 border-2 flex items-center justify-center transition-all duration-500 overflow-hidden ${isInView ? 'bg-black dark:bg-white border-black dark:border-white' : 'bg-white dark:bg-background border-black/20 dark:border-white/20'}`}
         >
-          <span className={`font-mono font-black text-xs md:text-sm transition-colors duration-500 ${isInView ? 'text-white' : 'text-neutral-400'}`}>
+          <span className={`font-mono font-black text-xs md:text-sm transition-colors duration-500 ${isInView ? 'text-white dark:text-black' : 'text-neutral-400'}`}>
             0{exp.id}
           </span>
         </motion.div>
@@ -172,30 +171,30 @@ const TimelineNode: React.FC<{ exp: any, index: number }> = ({ exp, index }) => 
             <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-2">
               <span className="font-mono text-[8px] md:text-[9px] text-accent font-bold tracking-[0.3em] uppercase">Entry_0{exp.id}</span>
               <div className="w-6 md:w-8 h-[1px] bg-black/20" />
-              <span className={`font-mono font-bold text-[8px] md:text-[9px] tracking-widest ${exp.status === 'IN_PROGRESS' ? 'text-accent animate-pulse' : 'text-neutral-500'}`}>
+              <span className={`font-mono font-bold text-[8px] md:text-[9px] tracking-widest ${exp.status === 'IN_PROGRESS' ? 'text-accent animate-pulse' : 'text-neutral-500 dark:text-neutral-400'}`}>
                 {exp.status}
               </span>
             </div>
-            <p className="font-mono text-[9px] md:text-[10px] text-black/40 uppercase tracking-[0.2em]">{exp.dateRange}</p>
+            <p className="font-mono text-[9px] md:text-[10px] text-black/40 dark:text-white/40 uppercase tracking-[0.2em]">{exp.dateRange}</p>
           </div>
 
-          <div className="relative p-0.5 bg-black/10 group-hover/card:bg-black/20 transition-all duration-700">
-             <div className="bg-white/90 backdrop-blur-3xl p-6 md:p-10 relative overflow-hidden">
+          <div className="relative p-0.5 bg-black/10 dark:bg-white/10 group-hover/card:bg-black/20 dark:group-hover/card:bg-white/20 transition-all duration-700">
+             <div className="bg-white/90 dark:bg-black/90 backdrop-blur-3xl p-6 md:p-10 relative overflow-hidden">
                 <div className={`absolute top-0 ${isEven ? 'left-0' : 'right-0'} px-3 py-1 bg-accent/10 border-b border-accent/20 text-accent font-mono text-[7px] md:text-[8px] font-bold tracking-widest`}>
                   {exp.achievement}
                 </div>
 
-                <h3 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-black mb-4 md:mb-6 leading-tight uppercase group-hover/card:text-accent transition-colors duration-500 break-words">
+                <h3 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-black dark:text-white mb-4 md:mb-6 leading-tight uppercase group-hover/card:text-accent transition-colors duration-500 break-words">
                    {exp.role}
                 </h3>
                 
-                <p className="text-lg md:text-xl text-neutral-600 font-light mb-6 md:mb-8 group-hover/card:text-black transition-colors">
+                <p className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 font-light mb-6 md:mb-8 group-hover/card:text-black dark:group-hover/card:text-white transition-colors">
                   {exp.company}
                 </p>
 
                 <div className={`flex items-start gap-3 md:gap-4 ${isEven ? 'md:flex-row-reverse' : ''}`}>
                    <div className="w-1 h-1 md:w-1.5 md:h-1.5 bg-accent mt-1.5 shrink-0" />
-                   <p className="text-xs md:text-sm text-black/70 leading-relaxed font-mono tracking-tight max-w-sm">
+                   <p className="text-xs md:text-sm text-black/70 dark:text-white/70 leading-relaxed font-mono tracking-tight max-w-sm">
                      {exp.details}
                    </p>
                 </div>

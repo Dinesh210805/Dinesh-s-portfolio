@@ -59,10 +59,10 @@ const certifications: (Certification & { slug: string; id_hex: string; link: str
 
 const Certifications: React.FC = () => {
   return (
-    <section id="certifications" className="py-16 md:py-32 bg-[#050505] relative overflow-hidden">
+    <section id="certifications" className="py-16 md:py-32 bg-white dark:bg-background relative overflow-hidden transition-colors duration-500">
       {/* BACKGROUND GRID ARCHIVE */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#CCFF00_1px,transparent_1px)] [background-size:40px_40px]" />
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05] text-black dark:text-[#CCFF00]">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(currentColor_1px,transparent_1px)] [background-size:40px_40px]" />
       </div>
 
       <div className="px-5 md:px-10 lg:px-20 max-w-[1600px] mx-auto relative z-10">
@@ -79,15 +79,15 @@ const Certifications: React.FC = () => {
               <div className="w-16 h-[1px] bg-accent" />
               <span className="font-mono text-accent text-[10px] tracking-[0.6em] uppercase italic font-bold">Credential Protocol</span>
             </motion.div>
-            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-display font-bold text-white tracking-tighter leading-[0.9] uppercase">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-display font-bold text-black dark:text-white tracking-tighter leading-[0.9] uppercase">
               VERIFIED <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>ARCHIVE.</span>
             </h2>
           </div>
 
-          <div className="flex flex-col gap-6 font-mono border-l border-white/10 pl-8 lg:max-w-[320px]">
+          <div className="flex flex-col gap-6 font-mono border-l border-black/10 dark:border-white/10 pl-8 lg:max-w-[320px]">
             <div className="flex items-center gap-3">
               <ShieldCheck size={16} className="text-accent" />
-              <span className="text-[10px] text-white/60 tracking-[0.3em] uppercase">Auth_Status: Level_5</span>
+              <span className="text-[10px] text-black/60 dark:text-white/60 tracking-[0.3em] uppercase">Auth_Status: Level_5</span>
             </div>
             <p className="text-[10px] text-secondary leading-relaxed uppercase tracking-widest">
               Digital twin verification of all industrial certifications. Every module is hashed and stored within the DK_Vault substrate.
@@ -103,7 +103,7 @@ const Certifications: React.FC = () => {
         </div>
 
         {/* BOTTOM SCAN STATUS */}
-        <div className="mt-12 md:mt-24 pt-8 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 opacity-20">
+        <div className="mt-12 md:mt-24 pt-8 md:pt-12 border-t border-black/10 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 opacity-40 dark:opacity-20 text-black dark:text-white">
            <div className="flex gap-12 font-mono text-[8px] uppercase tracking-[0.4em]">
               <span className="flex items-center gap-2"><Globe size={10}/> Global_DNS_Ready</span>
               <span className="flex items-center gap-2"><Lock size={10}/> Encrypted_SSL_T1</span>
@@ -126,14 +126,14 @@ const CredentialModule: React.FC<{ cert: any; index: number }> = ({ cert, index 
       initial={{ opacity: 0, scale: 0.95, y: 30 }}
       animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative bg-[#0a0a0a] border border-white/5 p-1 hover:border-accent/40 transition-all duration-700 overflow-hidden"
+      className="group relative bg-neutral-100 dark:bg-[#0a0a0a] border border-black/10 dark:border-white/5 p-1 hover:border-accent/40 transition-all duration-700 overflow-hidden"
     >
-      <div className="bg-[#080808] p-8 lg:p-12 h-full flex flex-col justify-between relative overflow-hidden">
+      <div className="bg-white dark:bg-[#080808] p-8 lg:p-12 h-full flex flex-col justify-between relative overflow-hidden transition-colors duration-500">
         
         {/* HUD DECORATIVE OVERLAY */}
         <div className="absolute top-4 right-4 flex flex-col items-end gap-1 opacity-10 group-hover:opacity-30 transition-opacity">
-          <Hash size={12} className="text-white" />
-          <span className="font-mono text-[7px] text-white uppercase tracking-widest">{cert.id_hex}</span>
+          <Hash size={12} className="text-black dark:text-white" />
+          <span className="font-mono text-[7px] text-black dark:text-white uppercase tracking-widest">{cert.id_hex}</span>
         </div>
 
         <div className="space-y-12 relative z-10">
@@ -151,28 +151,28 @@ const CredentialModule: React.FC<{ cert: any; index: number }> = ({ cert, index 
                 <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                 <span className="font-mono text-[8px] font-bold tracking-[0.3em] uppercase">Status: Verified</span>
               </div>
-              <span className="font-mono text-[10px] text-white/40 uppercase tracking-[0.2em]">{cert.date}</span>
+              <span className="font-mono text-[10px] text-black/40 dark:text-white/40 uppercase tracking-[0.2em]">{cert.date}</span>
             </div>
           </div>
 
           {/* CONTENT AREA */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <span className="font-mono text-[9px] text-white/50 tracking-[0.4em] uppercase">Issuer // {cert.issuer}</span>
+              <span className="font-mono text-[9px] text-black/50 dark:text-white/50 tracking-[0.4em] uppercase">Issuer // {cert.issuer}</span>
             </div>
-            <h3 className="text-3xl md:text-4xl font-display font-bold text-white group-hover:text-accent transition-colors duration-500 leading-[0.9] uppercase tracking-tighter">
+            <h3 className="text-3xl md:text-4xl font-display font-bold text-black dark:text-white group-hover:text-accent transition-colors duration-500 leading-[0.9] uppercase tracking-tighter">
               {cert.title}
             </h3>
           </div>
         </div>
 
         {/* INTERACTIVE DATA FOOTER */}
-        <div className="mt-12 pt-8 border-t border-white/5 flex items-center justify-between relative z-10">
+        <div className="mt-12 pt-8 border-t border-black/10 dark:border-white/5 flex items-center justify-between relative z-10">
           <div className="flex gap-4">
-            <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-accent hover:border-accent transition-all cursor-none group/btn">
+            <div className="w-8 h-8 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center text-black/40 dark:text-white/40 hover:text-accent hover:border-accent transition-all cursor-none group/btn">
               <Database size={14} />
             </div>
-            <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-accent hover:border-accent transition-all cursor-none">
+            <div className="w-8 h-8 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center text-black/40 dark:text-white/40 hover:text-accent hover:border-accent transition-all cursor-none">
               <Cpu size={14} />
             </div>
           </div>
@@ -182,10 +182,10 @@ const CredentialModule: React.FC<{ cert: any; index: number }> = ({ cert, index 
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ x: 5 }}
-            className="flex items-center gap-4 text-[9px] font-mono font-bold text-white/60 hover:text-accent transition-colors uppercase tracking-[0.4em]"
+            className="flex items-center gap-4 text-[9px] font-mono font-bold text-black/60 dark:text-white/60 hover:text-accent transition-colors uppercase tracking-[0.4em]"
           >
             Access_Credential
-            <div className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-accent group-hover:text-black transition-all duration-500">
+            <div className="w-10 h-10 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center group-hover:bg-accent group-hover:text-black transition-all duration-500">
               <ExternalLink size={14} />
             </div>
           </motion.a>
@@ -199,7 +199,7 @@ const CredentialModule: React.FC<{ cert: any; index: number }> = ({ cert, index 
 
         {/* BG DECAL */}
         <div className="absolute -bottom-10 -right-10 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
-          <Award size={200} className="text-white" />
+          <Award size={200} className="text-black dark:text-white" />
         </div>
       </div>
     </motion.div>

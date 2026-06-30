@@ -1,299 +1,206 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Terminal, 
-  BrainCircuit, 
-  Boxes, 
-  Wrench, 
-  Users,
-  Cpu,
-  Activity,
-  Zap,
-  Fingerprint,
-  ChevronRight,
-  Database,
-  ExternalLink
-} from 'lucide-react';
-
+import React, { useState } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { Plus } from 'lucide-react';
 import ScrollReveal from './ui/scroll-reveal';
+import { Em } from './ui/emphasis';
 
-interface Skill {
-  name: string;
-  slug: string; // Used for fetching logos from simpleicons.org
-  textOnly?: boolean; // For skills without icons (like soft skills)
+/* ─────────────────────────────────────────────────────────────
+ * Services — "the capability ledger".
+ * Narrative beat after Identity: belief → what that produces.
+ * A typography-led accordion; one row open at a time. Each row
+ * reveals what it is + the real projects that prove it. Monochrome.
+ * ───────────────────────────────────────────────────────────── */
+
+const GRAIN =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+
+interface Service {
+  n: string;
+  title: string;
+  desc: React.ReactNode;
+  proof: string[];
 }
 
-const technicalSystems = [
+const SERVICES: Service[] = [
   {
-    category: 'Programming Languages',
-    id: 'SYS_01',
-    description: 'Core logic protocols and algorithmic substrates.',
-    skills: [
-      { name: 'Python', slug: 'python' },
-      { name: 'JavaScript', slug: 'javascript' },
-      { name: 'TypeScript', slug: 'typescript' },
-      { name: 'Java', slug: 'openjdk' },
-      { name: 'C', slug: 'c' },
-      { name: 'SQL', slug: 'postgresql' },
-      { name: 'PHP', slug: 'php' },
-      { name: 'HTML5', slug: 'html5' }
-    ],
-    icon: <Terminal size={32} />,
+    n: '01',
+    title: 'Generative AI Applications',
+    desc: (
+      <>
+        RAG pipelines and LLM apps that return <Em>structured, reliable output</Em> — not just
+        plausible text.
+      </>
+    ),
+    proof: ['EcoBot', 'StayBot', 'LangLearn'],
   },
   {
-    category: 'Machine Learning & AI',
-    id: 'SYS_02',
-    description: 'Neural architectures and cognitive vision engines.',
-    skills: [
-      { name: 'CNN', slug: 'keras' },
-      { name: 'YOLO v8', slug: 'opencv' },
-      { name: 'TensorFlow', slug: 'tensorflow' },
-      { name: 'OpenCV', slug: 'opencv' },
-      { name: 'NLP', slug: 'huggingface' },
-      { name: 'Scikit-Learn', slug: 'scikitlearn' }
-    ],
-    icon: <BrainCircuit size={32} />,
+    n: '02',
+    title: 'AI Agents & Automation',
+    desc: (
+      <>
+        Multi-agent systems that <Em>plan, call tools, and actually act</Em> — with guardrails,
+        retries, and observability.
+      </>
+    ),
+    proof: ['AURA', 'StayBot'],
   },
   {
-    category: 'Frameworks & Libraries',
-    id: 'SYS_03',
-    description: 'Modular systems for rapid technical deployment.',
-    skills: [
-      { name: 'React', slug: 'react' },
-      { name: 'Next.js', slug: 'nextdotjs' },
-      { name: 'Node.js', slug: 'nodedotjs' },
-      { name: 'Flask', slug: 'flask' },
-      { name: 'Flutter', slug: 'flutter' },
-      { name: 'Express', slug: 'express' },
-      { name: 'Bootstrap', slug: 'bootstrap' }
-    ],
-    icon: <Boxes size={32} />,
+    n: '03',
+    title: 'Web Development',
+    desc: (
+      <>
+        Full-stack web apps. <Em>React and Next.js</Em> on the front, <Em>Flask and FastAPI</Em>{' '}
+        behind, shipped and deployed.
+      </>
+    ),
+    proof: ['LangLearn', 'GravitycARgo', 'This site'],
   },
   {
-    category: 'Engineering Ecosystem',
-    id: 'SYS_04',
-    description: 'Industrial development environments and tools.',
-    skills: [
-      { name: 'Git', slug: 'git' },
-      { name: 'GitHub', slug: 'github' },
-      { name: 'Docker', slug: 'docker' },
-      { name: 'VS Code', slug: 'visualstudiocode' },
-      { name: 'Android Studio', slug: 'androidstudio' },
-      { name: 'Jupyter', slug: 'jupyter' }
-    ],
-    icon: <Wrench size={32} />,
+    n: '04',
+    title: 'Backend & API Development',
+    desc: (
+      <>
+        APIs that <Em>hold up</Em>: clean contracts, real-time where it counts, containerized and
+        observable.
+      </>
+    ),
+    proof: ['StayBot', 'EcoBot', 'AURA'],
   },
   {
-    category: 'Cognitive Soft Skills',
-    id: 'SYS_05',
-    description: 'Strategic leadership and system management.',
-    skills: [
-      { name: 'Problem Solving', slug: '', textOnly: true },
-      { name: 'Leadership', slug: '', textOnly: true },
-      { name: 'Project Mgmt', slug: '', textOnly: true },
-      { name: 'Communication', slug: '', textOnly: true },
-      { name: 'Adaptability', slug: '', textOnly: true }
-    ],
-    icon: <Users size={32} />,
-  }
+    n: '05',
+    title: 'Mobile App Development',
+    desc: (
+      <>
+        Android and cross-platform apps — including <Em>on-device AI</Em> and real-time perception.
+      </>
+    ),
+    proof: ['AURA'],
+  },
+  {
+    n: '06',
+    title: 'UI/UX Design',
+    desc: (
+      <>
+        Interfaces with intent: hierarchy, restraint, and motion that clarifies rather than
+        distracts. <Em>This site is the proof.</Em>
+      </>
+    ),
+    proof: ['This site'],
+  },
 ];
 
 const Services: React.FC = () => {
+  const [active, setActive] = useState(0);
+  const reduce = useReducedMotion();
+
   return (
-    <section id="capabilities" className="relative bg-[#050505] py-16 md:py-40 overflow-hidden">
-      {/* BACKGROUND DATA MESH */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.02]">
-        <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,#CCFF00_1px,transparent_1px),linear-gradient(to_bottom,#CCFF00_1px,transparent_1px)] [background-size:80px_80px]" />
-      </div>
+    <section
+      id="services"
+      className="relative w-full overflow-hidden bg-white py-20 text-black transition-colors duration-500 dark:bg-background dark:text-white md:py-28"
+    >
+      {/* grain */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0 opacity-[0.035] mix-blend-multiply dark:opacity-[0.06] dark:mix-blend-screen"
+        style={{ backgroundImage: GRAIN }}
+      />
 
-      <div className="px-5 md:px-10 lg:px-20 max-w-[1600px] mx-auto relative z-10">
-        
-        {/* HUD HEADER */}
-        <div className="mb-16 md:mb-32 flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-12">
-          <div className="space-y-6">
-            <ScrollReveal delay={0.1}>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-[1px] bg-accent" />
-                <span className="font-mono text-accent text-[10px] tracking-[0.5em] uppercase italic">Technical Skills</span>
-              </div>
-            </ScrollReveal>
-            <ScrollReveal delay={0.2}>
-              <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-display font-bold text-white tracking-tighter leading-[0.9] uppercase">
-                TECHNICAL <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>REGISTRY.</span>
-              </h2>
-            </ScrollReveal>
-          </div>
-
-          <ScrollReveal delay={0.3}>
-            <div className="flex flex-col gap-4 font-mono text-[9px] text-white/50 border-l border-white/10 pl-8">
-              <div className="flex items-center gap-3">
-                <Activity size={14} className="text-accent animate-pulse" />
-                <span className="tracking-widest uppercase italic">Diagnostic_Active</span>
-              </div>
-              <p className="max-w-[280px] leading-relaxed uppercase tracking-widest">
-                Verified mapping of technical competencies. 
-                Diagnostic scan shows 100% core integrity across all system nodes.
-              </p>
+      <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 md:px-10 lg:px-16">
+        {/* ── Header (narrative tie) ── */}
+        <div className="mb-14 max-w-3xl md:mb-20">
+          <ScrollReveal>
+            <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.5em] text-neutral-400 dark:text-neutral-600">
+              <span className="h-px w-8 bg-current" />
+              Services
             </div>
+          </ScrollReveal>
+          <ScrollReveal delay={0.1}>
+            <h2 className="mt-6 font-display text-5xl font-bold tracking-tighter md:text-7xl">
+              What I can build.
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal delay={0.2}>
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-neutral-500 dark:text-neutral-400 md:text-lg">
+              A belief only counts <Em>if it ships</Em>. These are the things I <Em>actually build</Em>{' '}
+              — most of them <Em>end to end</Em>, usually on my own.
+            </p>
           </ScrollReveal>
         </div>
 
-        {/* COMPONENT BLOCKS */}
-        <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.15
-              }
-            }
-          }}
-          className="space-y-10 md:space-y-20"
-        >
-          {technicalSystems.map((system, idx) => (
-            <CapabilityBlock key={system.id} system={system} index={idx} />
-          ))}
-        </motion.div>
-        
-        {/* FOOTER DECAL */}
-        <div className="mt-16 md:mt-40 pt-8 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-           <div className="flex items-center gap-8 font-mono text-[8px] text-white/40 uppercase tracking-[0.5em]">
-              {/* Removed footer strings as per request */}
-           </div>
-        </div>
+        {/* ── Ledger ── */}
+        <ScrollReveal delay={0.1} blur={false}>
+          <div className="border-t border-black/12 dark:border-white/12">
+            {SERVICES.map((s, i) => {
+              const isActive = active === i;
+              return (
+                <div
+                  key={s.n}
+                  onMouseEnter={() => setActive(i)}
+                  onClick={() => setActive(i)}
+                  className={`group cursor-pointer border-b border-black/12 transition-opacity duration-500 dark:border-white/12 ${
+                    isActive ? 'opacity-100' : 'md:opacity-40 md:hover:opacity-100'
+                  }`}
+                >
+                  {/* Row head */}
+                  <div className="flex items-center justify-between gap-6 py-6 md:py-8">
+                    <div className="flex items-baseline gap-5 md:gap-10">
+                      <span className="font-mono text-xs text-neutral-400 dark:text-neutral-600">
+                        {s.n}
+                      </span>
+                      <h3
+                        className={`font-display text-2xl font-bold uppercase leading-none tracking-tight transition-transform duration-500 sm:text-4xl md:text-6xl ${
+                          isActive ? 'md:translate-x-2' : ''
+                        }`}
+                      >
+                        {s.title}
+                      </h3>
+                    </div>
+                    <span
+                      className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border transition-all duration-500 md:h-11 md:w-11 ${
+                        isActive
+                          ? 'rotate-45 border-transparent bg-black text-white dark:bg-white dark:text-black'
+                          : 'border-black/20 dark:border-white/20'
+                      }`}
+                    >
+                      <Plus size={16} />
+                    </span>
+                  </div>
+
+                  {/* Row detail */}
+                  <AnimatePresence initial={false}>
+                    {isActive && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: reduce ? 0 : 0.5, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <div className="grid grid-cols-1 gap-5 pb-8 md:grid-cols-12 md:gap-10 md:pl-[3.75rem]">
+                          <p className="max-w-xl text-base leading-relaxed text-neutral-500 dark:text-neutral-400 md:col-span-7 md:text-lg">
+                            {s.desc}
+                          </p>
+                          <div className="flex flex-wrap content-start items-start gap-2 md:col-span-5">
+                            {s.proof.map((p) => (
+                              <span
+                                key={p}
+                                className="rounded-full border border-black/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-neutral-500 dark:border-white/15"
+                              >
+                                {p}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+        </ScrollReveal>
       </div>
     </section>
-  );
-};
-
-const CapabilityBlock: React.FC<{ system: any, index: number }> = ({ system, index }) => {
-  return (
-    <motion.div 
-      variants={{
-        hidden: { opacity: 0, y: 60, filter: 'blur(10px)' },
-        visible: { 
-          opacity: 1, 
-          y: 0,
-          filter: 'blur(0px)',
-          transition: { 
-            duration: 0.8, 
-            ease: [0.16, 1, 0.3, 1] 
-          }
-        }
-      }}
-      className="group relative"
-    >
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-white/5 bg-[#080808]/50 backdrop-blur-sm hover:border-accent/20 transition-all duration-700">
-        
-        {/* SIDE BAR / IDENTITY */}
-        <div className="lg:col-span-4 p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-white/5 flex flex-col justify-between gap-16 relative">
-           <div className="space-y-8">
-              <div className="w-16 h-16 bg-accent/5 border border-accent/20 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-black transition-all duration-500 rounded-sm shadow-[0_0_20px_rgba(204,255,0,0.05)]">
-                {system.icon}
-              </div>
-              <div className="space-y-4">
-                 <div className="flex items-center gap-3">
-                    <span className="font-mono text-[9px] text-accent tracking-[0.5em] uppercase font-bold">{system.id}</span>
-                    <div className="h-[1px] flex-1 bg-white/5" />
-                 </div>
-                 <h3 className="text-4xl lg:text-5xl font-display font-bold text-white group-hover:text-accent transition-colors duration-500 uppercase tracking-tighter leading-tight">
-                   {system.category}
-                 </h3>
-              </div>
-           </div>
-           <p className="font-mono text-[10px] text-white/50 uppercase tracking-widest leading-relaxed max-w-xs">
-             {system.description}
-           </p>
-
-           {/* DECAL BACKGROUND */}
-           <div className="absolute bottom-4 right-4 opacity-5 group-hover:opacity-10 transition-opacity">
-             <Cpu size={80} className="text-white" />
-           </div>
-        </div>
-
-        {/* DATA GRID / LOGOS */}
-        <div className="lg:col-span-8 p-6 lg:p-12 bg-[#060606]/30">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {system.skills.map((skill: Skill, sIdx: number) => (
-              <SkillCard key={skill.name} skill={skill} index={sIdx} />
-            ))}
-          </div>
-        </div>
-
-      </div>
-
-      {/* SYSTEM SCANLINE */}
-      <motion.div 
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        transition={{ duration: 1.5, ease: "circOut" }}
-        className="absolute bottom-0 left-0 w-full h-[1px] bg-accent/30 origin-left"
-      />
-    </motion.div>
-  );
-};
-
-const SkillCard: React.FC<{ skill: Skill, index: number }> = ({ skill, index }) => {
-  // Simple Icons CDN allows us to fetch brand logos easily
-  // Using custom color #CCFF00 (the Acid Lime) for the logos
-  const logoUrl = skill.textOnly ? '' : `https://cdn.simpleicons.org/${skill.slug}/CCFF00`;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ delay: index * 0.05, duration: 0.4 }}
-      viewport={{ once: true }}
-      className="group/skill relative bg-[#0a0a0a] border border-white/5 p-6 flex flex-col items-center justify-center gap-5 hover:border-accent/40 hover:bg-accent/[0.02] transition-all duration-300 aspect-square text-center"
-    >
-      {!skill.textOnly ? (
-        <>
-          {/* REAL LOGO */}
-          <div className="relative w-12 h-12 flex items-center justify-center grayscale group-hover/skill:grayscale-0 group-hover/skill:scale-110 transition-all duration-500">
-            <img 
-              src={logoUrl} 
-              alt={skill.name} 
-              className="w-full h-full object-contain opacity-50 group-hover/skill:opacity-100 transition-opacity"
-              onError={(e) => {
-                // Fallback for missing/broken slugs
-                (e.target as HTMLImageElement).src = 'https://cdn.simpleicons.org/v0/CCFF00';
-              }}
-            />
-            {/* Glow effect */}
-            <div className="absolute inset-0 bg-accent/20 blur-xl opacity-0 group-hover/skill:opacity-40 transition-opacity rounded-full" />
-          </div>
-
-          <div className="space-y-1">
-            <span className="block font-mono text-[10px] md:text-xs font-bold text-white/60 group-hover/skill:text-accent transition-colors uppercase tracking-tight">
-              {skill.name}
-            </span>
-            <div className="flex justify-center items-center gap-1 opacity-0 group-hover/skill:opacity-100 transition-opacity">
-               <div className="w-1 h-1 bg-accent rounded-full animate-pulse" />
-               <span className="font-mono text-[7px] text-accent uppercase tracking-widest">Live_Link</span>
-            </div>
-          </div>
-        </>
-      ) : (
-        /* TEXT ONLY for soft skills */
-        <div className="w-full h-full flex items-center justify-center">
-          <span className="font-mono text-sm md:text-base font-bold text-white/60 group-hover/skill:text-accent transition-colors uppercase tracking-wide text-center leading-tight">
-            {skill.name}
-          </span>
-        </div>
-      )}
-
-      {/* CARD DECOR */}
-      <div className="absolute top-2 right-2 font-mono text-[6px] text-white/10 uppercase tracking-tighter">
-        NODE_{index + 1}
-      </div>
-      
-      {/* INTERACTIVE SCAN LINE */}
-      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-accent/50 scale-x-0 group-hover/skill:scale-x-100 transition-transform origin-left duration-500" />
-    </motion.div>
   );
 };
 

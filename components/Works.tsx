@@ -1,220 +1,183 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { ArrowUpRight, Terminal, Layers, ChevronRight } from 'lucide-react';
-
+import React, { useRef } from 'react';
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useMotionTemplate,
+  useReducedMotion,
+  type Variants,
+} from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 import ScrollReveal from './ui/scroll-reveal';
+import { FEATURED, type ProjectData } from '../constants/projects';
 
-const projects = [
-  {
-    id: 'PRJ-01',
-    title: 'AURA (Phone-as-MCP)',
-    category: 'ON_DEVICE_AGENT',
-    tech: ['Kotlin', 'WebRTC', 'YOLOv8', 'ML Kit OCR', 'LangGraph'],
-    images: ['/vs code.png'],
-    description: 'Turned an Android phone into an MCP server peer-to-peer over DTLS WebRTC. Exposes 36 live-verified tools to any AI client with zero cloud dependency.'
-  },
-  {
-    id: 'PRJ-02',
-    title: 'StayBot',
-    category: 'AI_TRAVEL_ASSISTANT',
-    tech: ['FastAPI', 'LangGraph', 'Pinecone', 'Next.js'],
-    images: ['/vs code.png'],
-    description: 'AI travel assistant built on a LangGraph ReAct agent routing across 15 specialized tools, semantic search, and persistent memory.'
-  },
-  {
-    id: 'PRJ-03',
-    title: 'GravitycARgo',
-    category: 'LOGISTICS_AI',
-    tech: ['Python', 'Three.js', 'Flutter', 'Unity AR', 'OSRM'],
-    images: ['/GravitycArgo.jpeg', '/GravitycArgo2.jpeg', '/GravitycArgo3.jpeg'],
-    description: '3D container-loading optimizer using random-key genetic algorithms, achieving 77.9% mean fill with zero hard violations.'
-  },
-  {
-    id: 'PRJ-04',
-    title: 'Langlearn',
-    category: 'NEURAL_NLP',
-    tech: ['Flask', 'React', 'LLaMA 3.3', 'Web Speech API'],
-    images: ['/Langlearn.jpeg', '/Langlearn (2).jpeg', '/Langlearn (3).jpeg', '/Langlearn (4).jpeg', '/Langlearn (5).jpeg'],
-    description: '40+ language learning platform with schema-enforced JSON generation and voice-to-voice translation.'
-  },
-  {
-    id: 'PRJ-05',
-    title: 'EcoBot',
-    category: 'VISION_COGNITION',
-    tech: ['FastAPI', 'QLoRA', 'LLaMA 3', 'ChromaDB'],
-    images: ['/ecobot.png'],
-    useContain: true,
-    description: 'Fine-tuned LLaMA 3 with QLoRA & 4-stage RAG pipeline returning structured output for waste classification.'
-  }
-];
+/* ─────────────────────────────────────────────────────────────
+ * Works (home) — Featured Work. Four text-only cards with a
+ * cursor-tracked 3D tilt, a spotlight that follows the pointer, and
+ * a name that fills in on hover. Links out to per-project pages.
+ * ───────────────────────────────────────────────────────────── */
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+const GRAIN =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+
+const container: Variants = { hidden: {}, show: { transition: { staggerChildren: 0.1 } } };
+const card: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
+};
+
+const FeaturedCard: React.FC<{ p: ProjectData; reduce: boolean | null }> = ({ p, reduce }) => {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const mx = useMotionValue(0.5);
+  const my = useMotionValue(0.5);
+  const rotX = useSpring(useTransform(my, [0, 1], [6, -6]), { stiffness: 150, damping: 16 });
+  const rotY = useSpring(useTransform(mx, [0, 1], [-6, 6]), { stiffness: 150, damping: 16 });
+  const sx = useTransform(mx, (v) => `${v * 100}%`);
+  const sy = useTransform(my, (v) => `${v * 100}%`);
+  const lightSpot = useMotionTemplate`radial-gradient(circle at ${sx} ${sy}, rgba(0,0,0,0.06), transparent 55%)`;
+  const darkSpot = useMotionTemplate`radial-gradient(circle at ${sx} ${sy}, rgba(255,255,255,0.10), transparent 55%)`;
+
+  const onMove = (e: React.MouseEvent) => {
+    if (reduce) return;
+    const r = ref.current?.getBoundingClientRect();
+    if (!r) return;
+    mx.set((e.clientX - r.left) / r.width);
+    my.set((e.clientY - r.top) / r.height);
+  };
+  const onLeave = () => {
+    mx.set(0.5);
+    my.set(0.5);
+  };
+
+  return (
+    <motion.a
+      ref={ref}
+      href={`#/work/${p.slug}`}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      variants={card}
+      style={reduce ? undefined : { rotateX: rotX, rotateY: rotY, transformPerspective: 1200 }}
+      className="group relative block aspect-[4/3] cursor-none overflow-hidden rounded-2xl border border-black/12 bg-neutral-50 [transform-style:preserve-3d] dark:border-white/12 dark:bg-[#0d0d0f]"
+    >
+      {/* spotlight (theme-specific) */}
+      <motion.div style={{ backgroundImage: lightSpot }} className="pointer-events-none absolute inset-0 dark:hidden" />
+      <motion.div style={{ backgroundImage: darkSpot }} className="pointer-events-none absolute inset-0 hidden dark:block" />
+      {/* grain */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-multiply dark:opacity-[0.07] dark:mix-blend-screen"
+        style={{ backgroundImage: GRAIN }}
+      />
+
+      <div className="relative z-10 flex h-full flex-col justify-between p-7 md:p-9">
+        <div className="flex items-start justify-between font-mono text-[11px] uppercase tracking-widest text-neutral-400 dark:text-neutral-600">
+          <span>{p.index}</span>
+          <span>{p.year}</span>
+        </div>
+
+        <div>
+          <h3 className="font-display text-5xl font-bold uppercase leading-[0.9] tracking-tighter text-transparent transition-all duration-500 [-webkit-text-stroke:1px_rgba(0,0,0,0.45)] group-hover:text-black group-hover:[-webkit-text-stroke:0px] dark:[-webkit-text-stroke:1px_rgba(255,255,255,0.4)] dark:group-hover:text-white md:text-6xl">
+            {p.title}
+          </h3>
+
+          <div className="mt-4 flex items-end justify-between gap-4">
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-500">
+                {p.category}
+              </p>
+              <p className="mt-2 max-w-xs text-sm text-neutral-500 dark:text-neutral-400">
+                {p.tagline}
+              </p>
+            </div>
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-black/20 transition-all duration-500 group-hover:rotate-45 group-hover:border-transparent group-hover:bg-black group-hover:text-white dark:border-white/20 dark:group-hover:bg-white dark:group-hover:text-black">
+              <ArrowUpRight size={16} />
+            </span>
+          </div>
+
+          {/* stack reveal on hover */}
+          <div className="mt-5 flex translate-y-2 flex-wrap gap-2 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+            {p.stack.slice(0, 4).map((s) => (
+              <span
+                key={s}
+                className="rounded-full border border-black/10 px-2.5 py-1 font-mono text-[9px] uppercase tracking-wider text-neutral-500 dark:border-white/10"
+              >
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.a>
+  );
+};
 
 const Works: React.FC = () => {
+  const reduce = useReducedMotion();
+
   return (
-    <section id="works" className="relative py-16 md:py-40 bg-white overflow-hidden border-t border-black/10 transition-colors duration-500">
-      <div className="px-5 md:px-10 lg:px-20 max-w-[1400px] mx-auto relative z-10">
-        <div className="mb-12 md:mb-32">
-          <ScrollReveal delay={0.1}>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-[1px] bg-accent" />
-              <span className="font-mono text-accent font-bold text-sm tracking-[0.4em] uppercase">Project Archive</span>
-            </div>
-          </ScrollReveal>
+    <section
+      id="works"
+      className="relative w-full overflow-hidden border-t border-black/10 bg-white py-20 text-black transition-colors duration-500 dark:border-white/10 dark:bg-background dark:text-white md:py-28"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0 opacity-[0.035] mix-blend-multiply dark:opacity-[0.06] dark:mix-blend-screen"
+        style={{ backgroundImage: GRAIN }}
+      />
+
+      <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 md:px-10 lg:px-16">
+        {/* Header */}
+        <div className="mb-12 flex flex-col gap-8 md:mb-16 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            <ScrollReveal>
+              <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.5em] text-neutral-400 dark:text-neutral-600">
+                <span className="h-px w-8 bg-current" />
+                Featured Work
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={0.1}>
+              <h2 className="mt-6 font-display text-5xl font-bold tracking-tighter md:text-7xl">
+                Things I’ve shipped.
+              </h2>
+            </ScrollReveal>
+            <ScrollReveal delay={0.2}>
+              <p className="mt-6 max-w-lg text-base leading-relaxed text-neutral-500 dark:text-neutral-400 md:text-lg">
+                Four I’m proud of. Each one built end to end — click in for the full story.
+              </p>
+            </ScrollReveal>
+          </div>
+
           <ScrollReveal delay={0.2}>
-            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold text-black tracking-tighter leading-[0.95]">
-              TECHNICAL <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #000000' }}>RECORDS.</span>
-            </h2>
+            <a
+              href="#/work"
+              className="group inline-flex w-fit items-center gap-3 font-mono text-[11px] uppercase tracking-[0.25em] text-black transition-colors dark:text-white"
+            >
+              <span className="border-b border-black/30 pb-0.5 transition-colors group-hover:border-black dark:border-white/30 dark:group-hover:border-white">
+                View all work
+              </span>
+              <span className="grid h-8 w-8 place-items-center rounded-full border border-black/20 transition-transform duration-300 group-hover:rotate-45 dark:border-white/20">
+                <ArrowUpRight size={14} />
+              </span>
+            </a>
           </ScrollReveal>
         </div>
 
-        <motion.div 
+        {/* Featured grid */}
+        <motion.div
+          variants={container}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.2,
-                delayChildren: 0.15
-              }
-            }
-          }}
-          className="space-y-20 md:space-y-40 lg:space-y-60"
+          whileInView="show"
+          viewport={{ once: true, margin: '-80px' }}
+          className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-7"
         >
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+          {FEATURED.map((p) => (
+            <FeaturedCard key={p.slug} p={p} reduce={reduce} />
           ))}
         </motion.div>
       </div>
     </section>
-  );
-};
-
-const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index }) => {
-  const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { margin: "-10%" });
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start end", "end start"] });
-  
-  // Parallax adjustment for smoother feel and no edge revealing
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
-
-  // Image carousel state
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const images = project.images || [];
-  
-  // Auto-advance carousel every 3 seconds
-  useEffect(() => {
-    if (images.length <= 1) return;
-    
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    }, 3000);
-    
-    return () => clearInterval(interval);
-  }, [images.length]);
-
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % images.length);
-  };
-
-  return (
-    <motion.div
-      ref={containerRef}
-      variants={{
-        hidden: { opacity: 0, y: 100, filter: 'blur(12px)' },
-        visible: { 
-          opacity: 1, 
-          y: 0,
-          filter: 'blur(0px)',
-          transition: { 
-            duration: 0.9, 
-            ease: [0.16, 1, 0.3, 1] 
-          }
-        }
-      }}
-      className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center"
-    >
-      <div className={`lg:col-span-5 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}>
-        <div className="flex flex-col gap-10">
-          <div className="flex items-center gap-4">
-            <span className="font-mono text-xs text-accent font-bold tracking-widest">{project.id}</span>
-            <div className="h-[1px] flex-1 bg-black/10" />
-            <span className="font-mono text-xs text-accent/50 font-bold uppercase tracking-widest">{project.category}</span>
-          </div>
-          <div>
-            <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-black mb-8 tracking-tighter leading-[1.1] uppercase">{project.title}</h3>
-            <p className="text-neutral-700 text-lg font-light leading-relaxed mb-10">{project.description}</p>
-          </div>
-          <div className="py-10 border-y border-black/10">
-            <div className="space-y-4">
-               <div className="flex items-center gap-2 text-accent font-bold">
-                 <Terminal size={14} />
-                 <span className="font-mono text-[9px] font-bold tracking-[0.3em] uppercase">Stack_Profile</span>
-               </div>
-               <div className="flex flex-wrap gap-2">
-                 {project.tech.map((t: string) => (
-                   <span key={t} className="px-3 py-1 border border-black/10 font-mono text-[9px] font-bold text-black/70 uppercase">{t}</span>
-                 ))}
-               </div>
-            </div>
-          </div>
-          <button className="group flex items-center gap-6 text-[10px] font-mono font-bold text-accent uppercase tracking-[0.4em] hover:text-accent/80 transition-colors">
-            SYSTEM_DOCUMENTATION
-            <div className="w-12 h-12 border border-accent/20 rounded-full flex items-center justify-center group-hover:bg-accent group-hover:text-black transition-all">
-              <ArrowUpRight size={18} />
-            </div>
-          </button>
-        </div>
-      </div>
-
-      <div className={`lg:col-span-7 ${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'}`}>
-        {/* Enforced isolation and overflow-hidden to prevent overlap */}
-        <div className={`relative group overflow-hidden border border-black/10 aspect-video w-full isolation-isolate ${project.useContain ? 'bg-white' : 'bg-neutral-100'}`}>
-          <motion.img 
-            key={currentImageIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            style={{ y: isInView ? imgY : 0, scale: project.useContain ? 1 : 1.1 }}
-            src={images[currentImageIndex]} 
-            className={`w-full h-full ${project.useContain ? 'object-contain' : 'object-cover'} ${project.useContain ? 'brightness-100' : 'brightness-95 group-hover:brightness-100'} transition-all duration-700 ease-out`}
-            alt={project.title}
-            loading="lazy"
-          />
-          {/* Subtle Overlay */}
-          <div className="absolute inset-0 bg-white/10 group-hover:opacity-0 transition-opacity pointer-events-none" />
-          
-          {/* Carousel controls - only show if multiple images */}
-          {images.length > 1 && (
-            <>
-              {/* Next button */}
-              <button
-                onClick={nextImage}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-accent/80 hover:bg-accent flex items-center justify-center transition-colors z-10"
-                aria-label="Next image"
-              >
-                <ChevronRight className="text-black" size={20} />
-              </button>
-              
-              {/* Progress indicators */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                {images.map((_: any, idx: number) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentImageIndex(idx)}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      idx === currentImageIndex ? 'bg-accent w-6' : 'bg-black/20 hover:bg-accent/40'
-                    }`}
-                    aria-label={`Go to image ${idx + 1}`}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    </motion.div>
   );
 };
 

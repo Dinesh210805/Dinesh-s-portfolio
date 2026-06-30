@@ -91,11 +91,11 @@ const ScrollTape: React.FC<ScrollTapeProps> = ({
     offset: ['start end', 'end start'],
   });
 
-  // Smooth, organic spring physics
+  // Smooth, organic spring physics (softened for a calmer, less "slideshow" feel)
   const progress = useSpring(scrollYProgress, {
-    damping: 55,
-    stiffness: 300,
-    mass: 0.12,
+    damping: 50,
+    stiffness: 190,
+    mass: 0.25,
   });
 
   // ── Background (shared by spacer + overlay) ──
@@ -103,27 +103,27 @@ const ScrollTape: React.FC<ScrollTapeProps> = ({
     progress, [0.25, 0.65], [fromBg, toBg]
   );
 
-  // ── Dynamic Color Logic ──
+  // ── Dynamic Color Logic (monochrome: band bg morphs black ↔ white) ──
   const isLightToDark = fromBg === '#ffffff';
-  
-  const tapeBgStart = isLightToDark ? "#111111" : "#CCFF00";
-  const tapeBgEnd = isLightToDark ? "#CCFF00" : "#111111";
-  
-  const tapeTextStart = isLightToDark ? "#ffffff" : "#000000";
-  const tapeTextEnd = isLightToDark ? "#000000" : "#ffffff";
+
+  const tapeBgStart = isLightToDark ? "#ffffff" : "#000000";
+  const tapeBgEnd = isLightToDark ? "#000000" : "#ffffff";
+
+  const tapeTextStart = isLightToDark ? "#000000" : "#ffffff";
+  const tapeTextEnd = isLightToDark ? "#ffffff" : "#000000";
 
   // ── Colors for Solid Middle Tape ──
   const solidBg = useTransform(progress, [0.25, 0.65], [tapeBgStart, tapeBgEnd]);
   const solidText = useTransform(progress, [0.25, 0.65], [tapeTextStart, tapeTextEnd]);
 
-  // ── Colors for Hollow Stroke Text ──
-  const strokeColor = useTransform(progress, [0.25, 0.65], [tapeBgStart, tapeBgEnd]);
+  // ── Colors for Hollow Stroke Text (follows text colour so it stays readable) ──
+  const strokeColor = useTransform(progress, [0.25, 0.65], [tapeTextStart, tapeTextEnd]);
 
   // ── Overlay overall opacity ──
   const overlayOpacity = useTransform(
     progress,
-    [0.15, 0.25, 0.75, 0.85],
-    [0,    1,    1,    0   ]
+    [0.12, 0.24, 0.78, 0.9],
+    [0,    1,    1,    0  ]
   );
 
   // Create individual staggered motion values for each strip

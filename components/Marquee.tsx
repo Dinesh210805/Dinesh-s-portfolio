@@ -19,9 +19,9 @@ const Marquee: React.FC = () => {
   return (
     <ScrollTape
       strips={[
-        { text: 'CREATIVE DEVELOPER • OPEN FOR WORK • DINESH KUMAR •', direction: 'left' },
-        { text: 'AI/ML ENGINEER • GENERATIVE AI • FULL STACK •', direction: 'right' },
-        { text: 'PROBLEM SOLVER • INNOVATOR • OPEN SOURCE •', direction: 'left' },
+        { text: 'GENERATIVE AI • MACHINE LEARNING •', direction: 'left' },
+        { text: 'BUILT TO HOLD UP • BUILT TO HOLD UP •', direction: 'right' },
+        { text: 'FROM FIRST IDEA TO REAL USE •', direction: 'left' },
       ]}
       fromBg="#050505"
       toBg="#ffffff"

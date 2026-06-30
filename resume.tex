@@ -1,0 +1,181 @@
+\documentclass[8pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=0.115in, bottom=0.03in, left=0.40in, right=0.40in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{0.93}
+\hypersetup{colorlinks=true, urlcolor=black, linkcolor=black}
+\pagestyle{empty}
+\titleformat{\section}
+  {\bfseries\small\uppercase}{}{0em}{}
+  [\vspace{0.6pt}\rule{\linewidth}{0.55pt}]
+\titlespacing{\section}{0pt}{4pt}{0.5pt}
+\setlist[itemize]{
+  leftmargin=1.3em, itemsep=0.5pt,
+  topsep=0.5pt, parsep=0pt, partopsep=0pt,
+  label=\textbullet
+}
+\newcommand{\roleentry}[4]{%
+  \noindent\textbf{#1}\hfill{\small\textit{#2}}\\[-1pt]
+  \noindent{\small\textit{#3}}\hfill{\small\textit{#4}}\par\vspace{1pt}%
+}
+\newcommand{\projentry}[3]{%
+  \noindent\textbf{\small #1}\enspace
+  {\footnotesize\href{#2}{[GitHub]}}\enspace
+  {\small\textemdash\enspace\textit{#3}}\par\vspace{-1pt}%
+}
+\newenvironment{projlist}{%
+  \begin{list}{}{%
+    \leftmargin=1.3em\itemindent=0pt
+    \topsep=0pt\partopsep=0pt\parsep=0pt\itemsep=1.5pt}%
+}{%
+  \end{list}%
+}
+\newcommand{\desc}[1]{{\footnotesize #1}}
+
+\begin{document}
+%-- HEADER
+\begin{center}
+  {\large\bfseries DINESH KUMAR C}\\[2pt]
+  {\small
+    \href{mailto:dinesh210805@gmail.com}{dinesh210805@gmail.com}\enspace\textbar\enspace
+    +91\,9943125323\enspace\textbar\enspace
+    \href{https://linkedin.com/in/dinesh-kumar-c-93a38129b}{linkedin.com/in/dinesh-kumar-c-93a38129b}\enspace\textbar\enspace
+    \href{https://github.com/Dinesh210805}{github.com/Dinesh210805}\enspace\textbar\enspace
+    \href{https://dineshkumar-s-portfolio.vercel.app}{dineshkumar-s-portfolio.vercel.app}
+  }
+\end{center}
+%-- PROFESSIONAL SUMMARY
+\section{Professional Summary}
+{\small\noindent
+Generative AI engineer shipping LangGraph multi-agent backends, RAG pipelines, QLoRA fine-tuning, and on-device YOLOv8 solo; B.Tech IT (CGPA\,9.07, 2026), two GenAI internships, Google Solution Challenge Top\,105 (64,000+) and Unisys Innovation Program Top\,10. Latest: Android phone as P2P MCP server over WebRTC, 36 live-verified tools to any AI client --- no root, ADB, or cloud.
+}
+%-- SKILLS
+\section{Skills}
+{\footnotesize
+\begin{itemize}[topsep=0.8pt, itemsep=0.4pt]
+
+  \item \textbf{Programming:}~Python, C, Java, SQL, HTML/CSS
+
+  \item \textbf{Generative AI \& LLM:}~Prompt Engineering, Retrieval-Augmented Generation (RAG),
+  AI Agent Development, Multi-Agent Systems, LLM Fine-Tuning (QLoRA),
+  LLM Evaluation, Function Calling, Structured Output Generation,
+  AI Workflow Design, LangChain, LangGraph
+
+  \item \textbf{AI Platforms \& Vector Databases:}~Gemini API, Groq API,
+  Google ADK, Ollama, Hugging Face, Pinecone, ChromaDB,
+  MCP (Model Context Protocol)
+
+  \item \textbf{Machine Learning \& Computer Vision:}~Data Preprocessing,
+  TensorFlow, YOLOv8, OpenCV, spaCy, ONNX Runtime, ML Kit OCR
+
+  \item \textbf{Backend, Cloud \& Deployment:}~FastAPI, Flask,
+  WebRTC, Docker, Google Cloud Run
+
+  \item \textbf{Development Tools:}~Git, GitHub, Visual Studio Code,
+  Postman, GitHub Copilot, Claude Code
+
+\end{itemize}
+}
+%-- EXPERIENCE & PROJECTS
+\section{Experience \& Projects}
+\roleentry{Nuevera Infotech Pvt.\ Ltd.}{Jul\,2024 -- Oct\,2024}
+          {Associate AI Intern}{Remote, India}
+\begin{projlist}
+  \item \projentry{StayBot}{https://github.com/Dinesh210805/StayBot}%
+                  {FastAPI, LangGraph, Groq API, Pinecone, SQLAlchemy, Next.js}
+  \desc{Architected an AI travel assistant on a LangGraph ReAct agent
+  (LLaMA\,3.3-70B via Groq) routing across 15 specialised tools --- Pinecone semantic
+  search, SQLAlchemy filtering, a stateful booking engine, and persistent user memory ---
+  over 450 listings and 4,500+ reviews; multi-key Groq rotation with cooldowns and admin
+  observability over latency, token usage, and tool distribution.}
+\end{projlist}
+\vspace{2pt}
+\roleentry{AICTE 1M1B Flaunch}{Oct\,2024 -- Nov\,2024}
+          {Generative AI Intern}{Remote, India}
+\begin{projlist}
+  \item \projentry{LangLearn}{https://github.com/Dinesh210805/Langlearn-Language-Translation-and-Learning-Tool}%
+                  {Flask, React, Groq LLaMA\,3.3-70B, Web Speech API, YouTube Data API}
+  \desc{Built a 40+ language learning platform with schema-enforced JSON output
+  (\texttt{json\_object}) for consistent generation across 8 exercise types; voice-to-voice
+  translation via the native browser Speech API (no third-party STT cost); a YouTube caption
+  pipeline converts video content into vocabulary lists and grammar exercises.}
+
+  \item \projentry{EcoBot}{https://github.com/Dinesh210805/EcoBot}%
+                  {FastAPI, QLoRA, LLaMA\,3, ChromaDB, Groq, Gemini API}
+  \desc{Fine-tuned LLaMA\,3 8B with QLoRA (rank-16, T4 GPU); 4-stage RAG pipeline
+  (classify $\to$ ChromaDB $\to$ Exa fallback $\to$ response) across 550+ disposal guides
+  (all-MiniLM-L6-v2), returning structured Pydantic output over 7 waste categories;
+  multimodal input via LLaMA\,4\,Scout (image) and Gemini\,2.0\,Flash (voice).}
+\end{projlist}
+\vspace{2pt}
+\noindent{\small\textbf{Independent Projects}}\\[-3pt]
+\rule{\linewidth}{0.3pt}\vspace{0.5pt}
+\begin{projlist}
+  \item \projentry{AURA --- Phone-as-MCP-Server \& On-Device Agent}{https://github.com/Dinesh210805/aura-live-mcp}%
+                  {Kotlin, MCP Kotlin SDK, WebRTC/DTLS, Koog, YOLOv8, ML\,Kit OCR, Groq/OpenRouter/Gemini\,\textbullet\,legacy: Python, LangGraph, FastAPI, Google ADK, OPA Rego}
+  \desc{Turned a physical Android phone into a Model Context Protocol server that any
+  client (Claude\,Code, Cursor, Copilot) drives \textbf{peer-to-peer over a DTLS WebRTC
+  DataChannel} --- no root, ADB, or cloud in the data path. Exposes \textbf{36 live-verified
+  tools} through a single chokepoint guarded by five fail-closed layers: PIN pairing,
+  on-device approval, per-tool READ/WRITE scopes, and a SensitivePolicy engine that
+  hard-blocks banking/auth apps and card/PIN text. Perception fuses the accessibility tree
+  with on-device YOLOv8\,+\,ML\,Kit OCR, merged by IoU into Set-of-Marks IDs so the agent
+  picks numbered elements, never raw coordinates; a first-party Koog agent drives the same
+  tools by voice or text with a swappable LLM brain (Groq/OpenRouter/Gemini, BYOK).
+  Migrated from a Python/LangGraph predecessor --- a 15-node state graph orchestrating 9
+  agents through an Accessibility-API\,$\to$\,YOLOv8\,$\to$\,VLM perception pipeline with OPA
+  Rego safety --- rewritten natively to run the whole perceive$\to$act$\to$verify loop on-device.}
+
+  \item \projentry{GravitycARgo}{https://github.com/Dinesh210805/GravitycARgo}%
+                  {Python, Flask, Random-Key GA, Three.js, Flutter, Unity AR, OSRM, Open-Meteo}
+  \desc{Rebuilt a 3D container-loading optimiser into a constraint-aware planning product:
+  a maximal-spaces DBLF decoder driven by a random-key genetic algorithm with pure-code
+  fitness (utilisation, compactness, transit stability), enforcing real freight physics ---
+  $\geq$75\% base support, load-bearing propagation, multi-drop LIFO, CTU-code
+  centre-of-gravity bands, and EN\,12195-1 securing --- then re-validating every plan with
+  machine-readable reason codes. Benchmarked on the academic Bischoff\,\&\,Ratcliff set at
+  \textbf{77.9\% mean fill across 35 instances with zero hard violations}, under a
+  base-support constraint published methods skip; packs a real 144-unit, \textasciitilde9\,t
+  3-drop road manifest in full. One frozen plan format renders three ways --- Flutter app,
+  Three.js viewer, Unity AR --- backed by \textbf{422 automated tests} across
+  \textasciitilde33.5K lines, with OSRM\,+\,Open-Meteo route temperature feeding cold-chain
+  constraints.}
+\end{projlist}
+%-- ACHIEVEMENTS
+\section{Achievements}
+{\footnotesize
+\begin{itemize}[topsep=0.8pt, itemsep=0.4pt]
+  \item \textbf{Top 105} \textemdash{} Google Solution Challenge 2025: GravitycARgo selected from 64,000+ entries across India.
+  \item \textbf{Top 10} \textemdash{} Unisys Innovation Program Y16: GravitycARgo AI\,+\,AR sustainable logistics platform.
+  \item \textbf{2\textsuperscript{nd} Runner Up} (Rs.\,10,000) \textemdash{} Future of Work Hackathon by TGT\,|\,Kroolo: GravitycARgo.
+  \item \textbf{Top 10 Finalist} (Rs.\,5,000) \textemdash{} 0x.day Hacksday: GravitycARgo selected from 150 competing teams.
+  \item \textbf{Finalist} \textemdash{} Aventus 2.0 Hackathon (DSCE, Bangalore): The Light, assistive navigation for visually impaired.
+\end{itemize}
+}
+%-- EDUCATION
+\section{Education}
+\noindent\textbf{Sri Manakula Vinayagar Engineering College}\hfill
+  {\small\textit{Puducherry, India}}\\[-1pt]
+\noindent{\small\textit{B.Tech in Information Technology}}\hfill
+  {\small\textit{CGPA:\,9.07\,/\,10.0\enspace|\enspace Graduated 2026}}\\[1.5pt]
+\noindent\textbf{Amalorpavam Higher Secondary School}\hfill
+  {\small\textit{Puducherry, India}}\\[-1pt]
+\noindent{\small\textit{Class XII - Higher Secondary}}\hfill
+  {\small\textit{91.83\%\enspace|\enspace 2022}}\\[-2pt]
+\noindent{\small\textit{Class X - Secondary}}\hfill
+  {\small\textit{86.2\%\enspace|\enspace 2020}}
+%-- CERTIFICATIONS
+\section{Certifications}
+{\footnotesize
+\begin{itemize}[topsep=0.8pt, itemsep=0.4pt]
+  \item \textbf{Career Essentials in Generative AI} \textemdash{} Microsoft \& LinkedIn \hfill 2024
+  \item \textbf{Diploma in Full Stack Development} \textemdash{} I Shine Info Tech \hfill 2023
+  \item \textbf{NPTEL: Programming in Java \& Database Management System}  \hfill 2023--24
+\end{itemize}
+}
+\end{document}

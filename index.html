@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
+        darkMode: 'class',
         theme: {
           extend: {
             colors: {
@@ -29,6 +30,7 @@
             animation: {
               'shimmer': 'shimmer 2s infinite linear',
               'grid-pan': 'grid-pan 15s linear infinite',
+              'marquee': 'marquee var(--marquee-duration, 40s) linear infinite',
             },
             keyframes: {
               shimmer: {
@@ -38,6 +40,10 @@
               'grid-pan': {
                 '0%': { transform: 'translateY(0)' },
                 '100%': { transform: 'translateY(80px)' },
+              },
+              marquee: {
+                '0%': { transform: 'translateX(0)' },
+                '100%': { transform: 'translateX(-50%)' },
               }
             }
           },
@@ -54,7 +60,9 @@
     <style>
       html {
         height: auto;
-        overflow-x: hidden;
+        /* clip (not hidden) prevents horizontal scroll WITHOUT creating a
+           scroll container — required so position: sticky keeps working. */
+        overflow-x: clip;
       }
       body {
         width: 100%;
@@ -63,12 +71,25 @@
         padding: 0;
         background-color: #050505;
         color: #F4F4F5;
-        overflow-x: hidden;
+        overflow-x: clip;
         cursor: none;
       }
       
       a, button, [role="button"] {
-        cursor: none; 
+        cursor: none;
+      }
+
+      /* Hide the native scrollbar (Lenis drives smooth scroll) */
+      html::-webkit-scrollbar,
+      body::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        display: none;
+      }
+      html,
+      body {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
       }
 
       .writing-vertical-rl {

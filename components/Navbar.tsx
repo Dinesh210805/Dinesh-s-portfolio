@@ -1,51 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from 'next-themes';
 import Magnetic from './Magnetic';
+import { goToSection } from '../lib/navigation';
 
 const navLinks = [
   { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
-  { name: 'Awards', href: '#achievements' },
-  { name: 'Skills', href: '#capabilities' },
+  { name: 'Services', href: '#services' },
+  { name: 'Skills', href: '#skills' },
   { name: 'Works', href: '#works' },
+  { name: 'Awards', href: '#achievements' },
   { name: 'Certs', href: '#certifications' },
   { name: 'History', href: '#experience' },
-  { name: 'Contact', href: '#contact' },
 ];
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLightSection, setIsLightSection] = useState(false);
+  const [isPastHero, setIsPastHero] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent hydration mismatch
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-
-      // Detect if the navbar is overlapping a white background section
-      const header = document.querySelector('header');
-      if (!header) return;
-      
-      const headerRect = header.getBoundingClientRect();
-      const navbarCenterY = headerRect.top + headerRect.height / 2;
-
-      // Find all elements with white backgrounds inside the main content (ignoring the navbar itself)
-      const whiteSections = document.querySelectorAll('main .bg-white');
-      let isOverLight = false;
-
-      whiteSections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        if (navbarCenterY >= rect.top && navbarCenterY <= rect.bottom) {
-          isOverLight = true;
-        }
-      });
-
-      setIsLightSection(isOverLight);
+      setIsPastHero(window.scrollY > window.innerHeight - 100);
     };
 
     window.addEventListener('scroll', handleScroll);
-    // Run once initially to set correct theme state
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
@@ -54,25 +41,39 @@ const Navbar: React.FC = () => {
   const scrollToSection = (e: React.MouseEvent, href: string) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    const targetId = href.replace('#', '');
-    
-    if (href === '#home' || href === '#') {
-      window.lenis?.scrollTo(0, { duration: 2, easing: (t) => 1 - Math.pow(1 - t, 4) });
-    } else {
-      const element = document.getElementById(targetId);
-      if (element) {
-        window.lenis?.scrollTo(element, {
-          offset: -20,
-          duration: 2,
-          easing: (t) => 1 - Math.pow(1 - t, 4),
-        });
-      }
-    }
-    
+
+    // Cross-page aware: scrolls on home, or routes home first from a sub-page.
+    goToSection(href === '#' ? 'home' : href.replace('#', ''));
+
     if (isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
     }
+  };
+
+  // Determine navbar styling based on position and theme
+  // Over Hero: Always dark styling (white text)
+  // Past Hero: Inherit global theme
+  const getNavContainerClasses = () => {
+    if (!isScrolled) return 'w-[95%] md:w-[1400px] bg-transparent';
+    // Scrolled: hug content (md:w-auto) so links + Connect never overflow the pill.
+    if (!isPastHero) return 'w-[90%] md:w-auto max-w-[95%] bg-white/5 backdrop-blur-xl border border-white/10 shadow-lg';
+    // Past Hero, adapt to theme using Tailwind classes
+    return 'w-[90%] md:w-auto max-w-[95%] bg-white/70 dark:bg-black/50 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-sm dark:shadow-lg';
+  };
+
+  const getTextColor = () => {
+    if (!isPastHero) return 'text-white';
+    return 'text-black dark:text-white';
+  };
+
+  const getMutedTextColor = () => {
+    if (!isPastHero) return 'text-white/70 hover:text-white';
+    return 'text-black/60 hover:text-black dark:text-white/70 dark:hover:text-white';
+  };
+
+  const getCtaClasses = () => {
+    if (!isPastHero) return 'bg-white text-black hover:bg-accent';
+    return 'bg-black text-white hover:bg-accent hover:text-black dark:bg-white dark:text-black dark:hover:bg-accent';
   };
 
   return (
@@ -82,23 +83,17 @@ const Navbar: React.FC = () => {
       >
         <div className={`
           pointer-events-auto
-          flex items-center justify-between
+          flex items-center justify-between gap-4 md:gap-8
           px-6 py-3
           rounded-full
           transition-all duration-500 ease-out
-          ${isScrolled 
-            ? isLightSection 
-              ? 'w-[90%] md:w-[750px] bg-black/5 backdrop-blur-xl border border-black/10 shadow-sm'
-              : 'w-[90%] md:w-[750px] bg-white/5 backdrop-blur-xl border border-white/10 shadow-lg' 
-            : 'w-[95%] md:w-[1400px] bg-transparent'}
+          ${getNavContainerClasses()}
         `}>
           <Magnetic strength={20}>
             <a 
               href="#home" 
               onClick={(e) => scrollToSection(e, '#home')}
-              className={`block p-2 text-xl font-display font-bold tracking-tight cursor-none transition-colors duration-300 ${
-                isLightSection ? 'text-black' : 'text-white'
-              }`}
+              className={`block p-2 text-xl font-display font-bold tracking-tight cursor-none transition-colors duration-300 ${getTextColor()}`}
             >
               D<span className="text-accent">.</span>
             </a>
@@ -110,11 +105,7 @@ const Navbar: React.FC = () => {
               <Magnetic key={link.name} strength={15}>
                 <button
                   onClick={(e) => scrollToSection(e, link.href)}
-                  className={`px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 cursor-none ${
-                    isLightSection 
-                      ? 'text-black/60 hover:text-black' 
-                      : 'text-white/70 hover:text-white'
-                  }`}
+                  className={`px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 cursor-none ${getMutedTextColor()}`}
                 >
                   {link.name}
                 </button>
@@ -122,16 +113,23 @@ const Navbar: React.FC = () => {
             ))}
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
+             {/* Theme Toggle */}
+             {mounted && (
+               <button
+                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                 className={`p-2 rounded-full transition-colors duration-300 ${getTextColor()} hover:text-accent`}
+                 aria-label="Toggle Theme"
+               >
+                 {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+               </button>
+             )}
+
              {/* CTA on Navbar */}
              <Magnetic strength={40}>
                <button 
                  onClick={(e) => scrollToSection(e, '#contact')}
-                 className={`hidden md:flex items-center justify-center text-[10px] font-bold px-5 py-2 rounded-full transition-colors duration-300 uppercase tracking-widest cursor-none ${
-                   isLightSection 
-                     ? 'bg-black text-white hover:bg-accent hover:text-black' 
-                     : 'bg-white text-black hover:bg-accent'
-                 }`}
+                 className={`hidden md:flex items-center justify-center text-[10px] font-bold px-5 py-2 rounded-full transition-colors duration-300 uppercase tracking-widest cursor-none ${getCtaClasses()}`}
                >
                  Connect
                </button>
@@ -139,9 +137,7 @@ const Navbar: React.FC = () => {
 
              {/* Mobile Menu Toggle */}
              <button
-               className={`md:hidden p-2 transition-colors duration-300 ${
-                 isLightSection ? 'text-black' : 'text-white'
-               }`}
+               className={`md:hidden p-2 transition-colors duration-300 ${getTextColor()}`}
                onClick={() => setIsMobileMenuOpen(true)}
              >
                <Menu size={20} />

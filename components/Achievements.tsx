@@ -79,13 +79,13 @@ const achievements = [
 
 const Achievements: React.FC = () => {
   return (
-    <section id="achievements" className="relative py-16 md:py-32 bg-white overflow-hidden border-t border-black/10 transition-colors duration-500">
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
-        <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] [background-size:100px_100px]" />
+    <section id="achievements" className="relative py-16 md:py-32 bg-white dark:bg-background overflow-hidden border-t border-black/10 dark:border-white/10 transition-colors duration-500">
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05] text-black dark:text-white">
+        <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,currentColor_1px,transparent_1px),linear-gradient(to_bottom,currentColor_1px,transparent_1px)] [background-size:100px_100px]" />
       </div>
 
       <div className="px-6 md:px-10 lg:px-20 max-w-[1500px] mx-auto relative z-10">
-        <div className="mb-12 md:mb-32 flex flex-col lg:flex-row lg:items-end justify-between gap-8 md:gap-12 border-b border-black/10 pb-10 md:pb-20">
+        <div className="mb-12 md:mb-32 flex flex-col lg:flex-row lg:items-end justify-between gap-8 md:gap-12 border-b border-black/10 dark:border-white/10 pb-10 md:pb-20">
           <div className="max-w-3xl">
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
@@ -96,17 +96,17 @@ const Achievements: React.FC = () => {
               <div className="w-10 md:w-16 h-[1px] bg-accent" />
               <span className="font-mono text-accent font-bold text-[10px] md:text-sm tracking-[0.4em] md:tracking-[0.5em] uppercase">Honor Ledger</span>
             </motion.div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-display font-bold text-black tracking-tighter leading-[1] uppercase">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-display font-bold text-black dark:text-white tracking-tighter leading-[1] uppercase">
               RECOGNITION.
             </h2>
           </div>
           
           <div className="flex flex-col gap-6 font-mono lg:min-w-[300px]">
-            <div className="flex justify-between text-[10px] text-black/60 tracking-[0.2em] border-b border-black/10 pb-2">
+            <div className="flex justify-between text-[10px] text-black/60 dark:text-white/60 tracking-[0.2em] border-b border-black/10 dark:border-white/10 pb-2">
               <span className="font-bold">TOTAL_ENTRIES</span>
               <span className="text-accent font-bold">0{achievements.length}</span>
             </div>
-            <p className="text-[9px] text-neutral-600 leading-relaxed uppercase tracking-widest max-w-[280px]">
+            <p className="text-[9px] text-neutral-600 dark:text-neutral-400 leading-relaxed uppercase tracking-widest max-w-[280px]">
               Validated registry of national and global hackathon achievements, selecting for architectural rigor and systemic impact.
             </p>
           </div>
@@ -178,13 +178,13 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
     >
       {/* Background Number Decal - Hidden on very small screens to avoid overflow */}
       <div className={`hidden sm:block absolute -top-16 md:-top-32 ${isEven ? 'right-0 lg:-right-10' : 'left-0 lg:-left-10'} pointer-events-none select-none z-0`}>
-        <span className="text-[15vw] md:text-[18vw] font-display font-black text-black/5 leading-none uppercase">
+        <span className="text-[15vw] md:text-[18vw] font-display font-black text-black/5 dark:text-white/5 leading-none uppercase">
           0{index + 1}
         </span>
       </div>
 
       <div className={`lg:col-span-6 relative group ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
-        <div className="relative overflow-hidden bg-neutral-100 border border-black/10 aspect-video w-full group shadow-2xl isolation-isolate">
+        <div className="relative overflow-hidden bg-neutral-100 dark:bg-[#111111] border border-black/10 dark:border-white/10 aspect-video w-full group shadow-2xl isolation-isolate">
           <motion.img 
             key={currentImageIndex}
             initial={{ opacity: 0 }}
@@ -192,17 +192,17 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
             transition={{ duration: 0.5 }}
             style={{ y: imgY, scale: shouldCover ? 1.15 : 1 }}
             src={currentImage} 
-            className={`w-full h-full ${shouldCover ? 'object-cover' : 'object-contain'} bg-neutral-100 brightness-95 group-hover:brightness-100 transition-all duration-1000 ease-out`}
+            className={`w-full h-full ${shouldCover ? 'object-cover' : 'object-contain'} bg-neutral-100 dark:bg-black/20 brightness-95 group-hover:brightness-100 transition-all duration-1000 ease-out`}
             alt={ach.title}
             loading="lazy"
           />
           
           <div className="absolute top-4 left-4 md:top-8 md:left-8 flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <div className={`w-8 h-8 md:w-12 md:h-12 ${ach.prestige ? 'bg-accent text-black' : 'bg-black/10 text-black'} rounded-full flex items-center justify-center shadow-lg`}>
-                 <Trophy size={14} className={ach.prestige ? 'text-black' : 'text-black'} />
+              <div className={`w-8 h-8 md:w-12 md:h-12 ${ach.prestige ? 'bg-accent text-black' : 'bg-black/10 dark:bg-white/10 text-black dark:text-white'} rounded-full flex items-center justify-center shadow-lg`}>
+                 <Trophy size={14} className={ach.prestige ? 'text-black' : 'text-black dark:text-white'} />
               </div>
-              <div className="px-3 py-1 md:px-4 md:py-2 bg-white/90 backdrop-blur-xl border border-black/10 font-mono text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-black">
+              <div className="px-3 py-1 md:px-4 md:py-2 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/10 font-mono text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-black dark:text-white">
                 {ach.rank}
               </div>
             </div>
@@ -222,7 +222,7 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
                   <div 
                     key={idx}
                     className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      idx === currentImageIndex ? 'bg-accent w-6' : 'bg-black/20'
+                      idx === currentImageIndex ? 'bg-accent w-6' : 'bg-black/20 dark:bg-white/20'
                     }`}
                   />
                 ))}
@@ -231,7 +231,7 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
           )}
 
           <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 text-right hidden md:block">
-             <div className="font-mono text-[8px] text-black/40 font-bold uppercase tracking-[0.4em] mb-1">Year</div>
+             <div className="font-mono text-[8px] text-black/40 dark:text-white/40 font-bold uppercase tracking-[0.4em] mb-1">Year</div>
              <div className="font-mono text-[10px] text-accent font-bold uppercase">{ach.authority}</div>
           </div>
         </div>
@@ -243,26 +243,26 @@ const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => 
             <div className="px-2 py-0.5 md:px-3 md:py-1 border border-accent/20 bg-accent/5 font-mono text-[8px] md:text-[9px] text-accent font-bold uppercase tracking-widest">
               {ach.category}
             </div>
-            <div className="h-[1px] flex-1 bg-black/10" />
-            <span className="font-mono text-[10px] text-black/50 font-bold tracking-widest">{ach.date}</span>
+            <div className="h-[1px] flex-1 bg-black/10 dark:bg-white/10" />
+            <span className="font-mono text-[10px] text-black/50 dark:text-white/50 font-bold tracking-widest">{ach.date}</span>
           </div>
 
-          <h3 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-black leading-[1.1] md:leading-[0.9] tracking-tighter uppercase group-hover:text-accent transition-colors break-words">
+          <h3 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-black dark:text-white leading-[1.1] md:leading-[0.9] tracking-tighter uppercase group-hover:text-accent transition-colors break-words">
             {ach.title}
           </h3>
 
-          <p className="text-neutral-700 text-base md:text-lg font-light leading-relaxed max-w-2xl">
+          <p className="text-neutral-700 dark:text-neutral-300 text-base md:text-lg font-light leading-relaxed max-w-2xl">
             {ach.description}
           </p>
 
-          <div className="py-6 md:py-10 border-y border-black/10 space-y-6">
-            <div className="flex items-center gap-2 font-mono text-[8px] text-black/40 font-bold uppercase tracking-[0.3em] md:tracking-[0.4em]">
+          <div className="py-6 md:py-10 border-y border-black/10 dark:border-white/10 space-y-6">
+            <div className="flex items-center gap-2 font-mono text-[8px] text-black/40 dark:text-white/40 font-bold uppercase tracking-[0.3em] md:tracking-[0.4em]">
               <Terminal size={12} className="text-accent" />
               <span>Technical_Stack_Index</span>
             </div>
             <div className="flex flex-wrap gap-2">
               {ach.tech.map((t: string) => (
-                <span key={t} className="px-2 py-0.5 md:px-3 md:py-1 bg-black/5 border border-black/10 font-mono text-[8px] md:text-[9px] text-black/70 font-bold uppercase">
+                <span key={t} className="px-2 py-0.5 md:px-3 md:py-1 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 font-mono text-[8px] md:text-[9px] text-black/70 dark:text-white/70 font-bold uppercase">
                   {t}
                 </span>
               ))}
