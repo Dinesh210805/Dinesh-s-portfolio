@@ -73,8 +73,8 @@ const Footer: React.FC = () => {
             </div>
             
             <div className="flex gap-6 md:gap-8">
-              <a href="#" className="font-mono text-secondary hover:text-white text-[10px] md:text-sm uppercase tracking-widest">Portfolio V.1.0</a>
-              <a href="#" className="font-mono text-secondary hover:text-white text-[10px] md:text-sm uppercase tracking-widest">Resume</a>
+              <span className="font-mono text-secondary text-[10px] md:text-sm uppercase tracking-widest">Portfolio V.1.0</span>
+              <a href="/Dinesh_Kumar_Resume.pdf" target="_blank" rel="noopener noreferrer" className="font-mono text-secondary hover:text-white text-[10px] md:text-sm uppercase tracking-widest">Resume</a>
             </div>
          </div>
 

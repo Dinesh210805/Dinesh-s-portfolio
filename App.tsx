@@ -17,8 +17,8 @@ import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Cursor from './components/Cursor';
+import ThemeToggle from './components/ThemeToggle';
 import Preloader from './components/Preloader';
-import ChatBot from './components/ChatBot';
 import ScrollToTop from './components/ScrollToTop';
 import AllWorks from './components/AllWorks';
 import ProjectPage from './components/ProjectPage';
@@ -93,18 +93,19 @@ const App: React.FC = () => {
       {!isLoading && (
         <div className="w-full bg-white dark:bg-background selection:bg-accent selection:text-black">
           <Navbar />
+          <ThemeToggle />
 
           {route.name === 'home' && (
             <main className="relative z-20 bg-white dark:bg-background shadow-[0_50px_100px_rgba(0,0,0,0.9)]">
               <Hero />
-              <Marquee />
+              {/* <Marquee /> */}
               <ProfileHeader />
-              <Services />
-              <Skills />
               <Works />
+              <Skills />
+              <Services />
+              <Experience />
               <Achievements />
               <Certifications />
-              <Experience />
               <Contact />
             </main>
           )}
@@ -113,7 +114,6 @@ const App: React.FC = () => {
           {route.name === 'project' && <ProjectPage slug={route.slug} />}
 
           <Footer />
-          <ChatBot />
           <ScrollToTop />
           <Analytics />
         </div>

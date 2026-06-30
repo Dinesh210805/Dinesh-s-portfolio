@@ -23,8 +23,6 @@ const Marquee: React.FC = () => {
         { text: 'BUILT TO HOLD UP • BUILT TO HOLD UP •', direction: 'right' },
         { text: 'FROM FIRST IDEA TO REAL USE •', direction: 'left' },
       ]}
-      fromBg="#050505"
-      toBg="#ffffff"
     />
   );
 };

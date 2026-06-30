@@ -23,6 +23,8 @@
               display: ['Syne', 'sans-serif'],
               mono: ['JetBrains Mono', 'monospace'],
               tech: ['"Space Grotesk"', 'sans-serif'],
+              script: ['"Great Vibes"', 'cursive'],
+              serif: ['"Playfair Display"', 'serif'],
             },
             backgroundImage: {
               'glass': 'linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%)',
@@ -53,10 +55,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@300;400;500;600&family=Syne:wght@600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@300;400;500;600&family=Syne:wght@600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.28/build/spline-viewer.js"></script>
+    <script>
+      (function() {
+        try {
+          var localTheme = localStorage.getItem('theme');
+          if (localTheme === 'dark' || (!localTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
     <style>
       html {
         height: auto;
@@ -69,14 +83,26 @@
         min-height: 100%;
         margin: 0;
         padding: 0;
-        background-color: #050505;
-        color: #F4F4F5;
+        background-color: #FAFAFA;
+        color: #050505;
         overflow-x: clip;
         cursor: none;
+      }
+      html.dark body {
+        background-color: #050505;
+        color: #F4F4F5;
       }
       
       a, button, [role="button"] {
         cursor: none;
+      }
+
+      /* Touch devices have no pointer — restore the native cursor and skip the custom one */
+      @media (hover: none), (pointer: coarse) {
+        body,
+        a, button, [role="button"] {
+          cursor: auto;
+        }
       }
 
       /* Hide the native scrollbar (Lenis drives smooth scroll) */

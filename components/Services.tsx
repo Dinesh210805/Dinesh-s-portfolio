@@ -111,18 +111,18 @@ const Services: React.FC = () => {
           <ScrollReveal>
             <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.5em] text-neutral-400 dark:text-neutral-600">
               <span className="h-px w-8 bg-current" />
-              Services
+              Work With Me
             </div>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             <h2 className="mt-6 font-display text-5xl font-bold tracking-tighter md:text-7xl">
-              What I can build.
+              What I’ll build for you.
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-neutral-500 dark:text-neutral-400 md:text-lg">
-              A belief only counts <Em>if it ships</Em>. These are the things I <Em>actually build</Em>{' '}
-              — most of them <Em>end to end</Em>, usually on my own.
+              Need something built? Pick what fits — I’ll <Em>design and ship it end to end</Em>,{' '}
+              usually on my own. These are the engagements I <Em>take on</Em> and deliver.
             </p>
           </ScrollReveal>
         </div>

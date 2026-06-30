@@ -77,10 +77,10 @@ const Certifications: React.FC = () => {
               className="flex items-center gap-4"
             >
               <div className="w-16 h-[1px] bg-accent" />
-              <span className="font-mono text-accent text-[10px] tracking-[0.6em] uppercase italic font-bold">Credential Protocol</span>
+              <span className="font-mono text-accent text-[10px] tracking-[0.6em] uppercase italic font-bold">Recognition // Credentials</span>
             </motion.div>
-            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-display font-bold text-black dark:text-white tracking-tighter leading-[0.9] uppercase">
-              VERIFIED <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>ARCHIVE.</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-black dark:text-white tracking-tighter leading-[0.95] uppercase">
+              Verified <span className="text-transparent" style={{ WebkitTextStroke: '1px #CCFF00' }}>Certifications.</span>
             </h2>
           </div>
 

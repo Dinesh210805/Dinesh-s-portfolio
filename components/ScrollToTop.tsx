@@ -44,7 +44,7 @@ const ScrollToTop: React.FC = () => {
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           transition={{ duration: 0.3 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 left-8 z-50 group pointer-events-auto"
+          className="fixed bottom-8 left-8 z-50 group pointer-events-auto hidden md:block"
           aria-label="Scroll to top"
         >
           <div className="relative">

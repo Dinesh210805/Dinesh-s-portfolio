@@ -1,208 +1,171 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useInView, useSpring } from 'framer-motion';
+import React from 'react';
+import ScrollReveal from './ui/scroll-reveal';
+import { Em } from './ui/emphasis';
 
-const experiences = [
+/* ─────────────────────────────────────────────────────────────
+ * Experience — an editorial career ledger. Full-width 12-column
+ * rows (period · role + story · a hard number), hairline-separated,
+ * reverse-chronological, split Work → Education. Monochrome, matches
+ * the home sections' shell and the 12-col grid used elsewhere.
+ * ───────────────────────────────────────────────────────────── */
+
+const GRAIN =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+
+interface Entry {
+  period: string;
+  role: string;
+  org: string;
+  stat: string;
+  statLabel: string;
+  detail: string;
+}
+
+const WORK: Entry[] = [
   {
-    id: 5,
-    year: '2024',
-    dateRange: 'OCT 2024 – NOV 2024',
+    period: 'Oct — Nov 2024',
     role: 'Generative AI Intern',
-    company: 'AICTE 1M1B Flaunch',
-    status: 'COMPLETED',
-    achievement: 'LangLearn & EcoBot',
-    details: 'Built LangLearn (JSON schema-enforced learning platform) & EcoBot (Fine-tuned LLaMA 3 8B with QLoRA, RAG pipeline).'
+    org: 'AICTE · 1M1B Flaunch',
+    stat: '2',
+    statLabel: 'Products shipped',
+    detail:
+      'Built LangLearn, a learning platform with JSON-schema-enforced model output, and EcoBot — a waste classifier fine-tuned on LLaMA 3 8B with QLoRA and a retrieval pipeline.',
   },
   {
-    id: 4,
-    year: '2024',
-    dateRange: 'JUL 2024 – OCT 2024',
+    period: 'Jul — Oct 2024',
     role: 'Associate AI Intern',
-    company: 'Nuevera Infotech Pvt. Ltd.',
-    status: 'COMPLETED',
-    achievement: 'StayBot Dev',
-    details: 'Architected an AI travel assistant using LangGraph ReAct agent (LLaMA 3.3-70B) routing across 15 specialised tools & Pinecone.'
+    org: 'Nuevera Infotech',
+    stat: '15',
+    statLabel: 'Tools orchestrated',
+    detail:
+      'Architected StayBot, an AI travel assistant: a LangGraph ReAct agent on LLaMA 3.3-70B routing across fifteen tools, with Pinecone-backed retrieval for real bookings.',
   },
-  {
-    id: 3,
-    year: '2022 – 2026',
-    dateRange: '2022 – PRESENT',
-    role: 'B.Tech IT',
-    company: 'SMV Engineering College',
-    status: 'IN_PROGRESS',
-    achievement: '9.07 CGPA',
-    details: 'Core engineering, system design, and advanced algorithmic studies.'
-  },
-  {
-    id: 2,
-    year: '2021 – 2022',
-    dateRange: '2021 – 2022',
-    role: 'HSC Education',
-    company: 'Amalorpavam HSS',
-    status: 'MASTERED',
-    achievement: '91.83%',
-    details: 'Focus on Mathematics and Computer Science fundamentals.'
-  },
-  {
-    id: 1,
-    year: '2019 – 2020',
-    role: 'High School',
-    dateRange: '2019 – 2020',
-    company: 'Amalorpavam HSS',
-    status: 'MASTERED',
-    achievement: '86.2%',
-    details: 'Early academic foundation and logic development.'
-  }
 ];
 
-const Experience: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"]
-  });
+const EDUCATION: Entry[] = [
+  {
+    period: '2022 — Present',
+    role: 'B.Tech, Information Technology',
+    org: 'SMV Engineering College',
+    stat: '9.07',
+    statLabel: 'CGPA',
+    detail:
+      'Systems, databases, and algorithms — the groundwork under the roles above. Currently in the final year.',
+  },
+  {
+    period: '2021 — 2022',
+    role: 'Higher Secondary',
+    org: 'Amalorpavam HSS',
+    stat: '91.83%',
+    statLabel: 'Class XII',
+    detail: 'Computer Science with Mathematics.',
+  },
+  {
+    period: '2019 — 2020',
+    role: 'Secondary School',
+    org: 'Amalorpavam HSS',
+    stat: '86.2%',
+    statLabel: 'Class X',
+    detail: 'SSLC — Amalorpavam Higher Secondary School.',
+  },
+];
 
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  const lineHeight = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
-  const scannerY = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
-
-  return (
-    <section ref={containerRef} id="experience" className="relative py-16 md:py-40 px-6 md:px-10 lg:px-20 mx-auto w-full bg-white dark:bg-background transition-colors duration-500 overflow-visible">
-      
-      <div className="max-w-[1400px] mx-auto w-full relative">
-        {/* SECTION HEADER */}
-        <div className="mb-12 md:mb-32 relative z-20">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="flex items-center gap-3 mb-6 md:mb-8"
-          >
-            <div className="w-8 md:w-12 h-[1px] bg-accent" />
-            <span className="font-mono text-accent font-bold text-[10px] md:text-sm tracking-[0.4em] uppercase">Career Timeline</span>
-          </motion.div>
-          
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-display font-bold text-black dark:text-white tracking-tighter leading-[1] mb-4 uppercase">
-            CAREER <br /> <span className="text-transparent [-webkit-text-stroke:1.5px_#000000] dark:[-webkit-text-stroke:1.5px_#ffffff]">LEVELS.</span>
-          </h2>
-        </div>
-
-        <div className="relative">
-          {/* Main Background Track */}
-          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[1px] bg-black/10 dark:bg-white/10 -translate-x-1/2" />
-          
-          {/* Active Data Path */}
-          <motion.div 
-            style={{ height: lineHeight }}
-            className="absolute left-6 md:left-1/2 top-0 w-[1px] bg-black dark:bg-white -translate-x-1/2 z-10 origin-top shadow-[0_0_15px_rgba(0,0,0,0.2)] dark:shadow-[0_0_15px_rgba(255,255,255,0.2)]"
-          />
-
-          {/* Floating Laser Scanner Marker - Only visible on medium+ screens */}
-          <motion.div 
-            style={{ top: scannerY }}
-            className="absolute left-6 md:left-1/2 w-32 md:w-40 h-[1px] bg-black dark:bg-white -translate-x-1/2 z-30 pointer-events-none hidden md:block"
-          >
-             <div className="absolute -top-6 left-1/2 -translate-x-1/2 font-mono text-[8px] text-black dark:text-white font-bold tracking-widest whitespace-nowrap">
-               SCAN_PATH...
-             </div>
-          </motion.div>
-
-          <div className="space-y-20 md:space-y-40 lg:space-y-64 pb-12 md:pb-40">
-            {experiences.map((exp, index) => (
-              <TimelineNode 
-                key={exp.id} 
-                exp={exp} 
-                index={index} 
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const TimelineNode: React.FC<{ exp: any, index: number }> = ({ exp, index }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, margin: "-20%" });
-  const isEven = index % 2 === 0;
-
-  return (
-    <div ref={ref} className="relative flex flex-col md:flex-row items-start md:items-center group min-h-[400px]">
-      
-      {/* Background Level Text - Animated & Glowing - Positioned in empty half */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
-        whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-        viewport={{ once: false, margin: "-20%" }}
-        transition={{ duration: 0.8 }}
-        className={`absolute inset-y-0 ${isEven ? 'left-0 md:left-[50%]' : 'right-0 md:right-[50%]'} w-full md:w-[50%] hidden md:flex justify-center items-center pointer-events-none select-none z-0`}
-      >
-         <span 
-           className="text-[2rem] md:text-[3rem] lg:text-[4rem] font-display font-black text-transparent leading-none uppercase tracking-tighter whitespace-nowrap [-webkit-text-stroke:2px_#000000] dark:[-webkit-text-stroke:2px_#ffffff]"
-           style={{ 
-             filter: 'drop-shadow(0 0 20px rgba(0, 0, 0, 0.1))'
-           }}
-         >
-           LEVEL 0{exp.id}
-         </span>
-      </motion.div>
-
-      <div className="absolute left-6 md:left-1/2 top-0 md:top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-        <motion.div 
-          animate={isInView ? { scale: 1.1 } : { scale: 1 }}
-          className={`w-10 h-10 md:w-12 md:h-12 border-2 flex items-center justify-center transition-all duration-500 overflow-hidden ${isInView ? 'bg-black dark:bg-white border-black dark:border-white' : 'bg-white dark:bg-background border-black/20 dark:border-white/20'}`}
-        >
-          <span className={`font-mono font-black text-xs md:text-sm transition-colors duration-500 ${isInView ? 'text-white dark:text-black' : 'text-neutral-400'}`}>
-            0{exp.id}
-          </span>
-        </motion.div>
+const Row: React.FC<{ entry: Entry }> = ({ entry }) => (
+  <ScrollReveal>
+    <div className="group grid grid-cols-1 gap-x-8 gap-y-5 border-t border-black/10 py-9 transition-colors duration-500 hover:bg-black/[0.015] dark:border-white/10 dark:hover:bg-white/[0.015] md:grid-cols-12 md:gap-x-10 md:py-12">
+      {/* Period */}
+      <div className="md:col-span-3">
+        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-neutral-400 dark:text-neutral-500">
+          {entry.period}
+        </p>
       </div>
 
-      <div className={`w-full md:w-1/2 pl-16 md:pl-0 ${isEven ? 'md:pr-24 md:text-right' : 'md:ml-auto md:pl-24'}`}>
-        <motion.div
-          initial={{ opacity: 0, x: isEven ? -40 : 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="relative group/card"
-        >
-          <div className={`flex flex-col mb-4 md:mb-6 ${isEven ? 'md:items-end' : 'md:items-start'}`}>
-            <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-2">
-              <span className="font-mono text-[8px] md:text-[9px] text-accent font-bold tracking-[0.3em] uppercase">Entry_0{exp.id}</span>
-              <div className="w-6 md:w-8 h-[1px] bg-black/20" />
-              <span className={`font-mono font-bold text-[8px] md:text-[9px] tracking-widest ${exp.status === 'IN_PROGRESS' ? 'text-accent animate-pulse' : 'text-neutral-500 dark:text-neutral-400'}`}>
-                {exp.status}
-              </span>
-            </div>
-            <p className="font-mono text-[9px] md:text-[10px] text-black/40 dark:text-white/40 uppercase tracking-[0.2em]">{exp.dateRange}</p>
-          </div>
+      {/* Role · org · story */}
+      <div className="md:col-span-6">
+        <h3 className="font-display text-2xl font-bold leading-[1.05] tracking-tight md:text-[2rem]">
+          {entry.role}
+        </h3>
+        <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-500">
+          {entry.org}
+        </p>
+        <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400 md:text-base">
+          {entry.detail}
+        </p>
+      </div>
 
-          <div className="relative p-0.5 bg-black/10 dark:bg-white/10 group-hover/card:bg-black/20 dark:group-hover/card:bg-white/20 transition-all duration-700">
-             <div className="bg-white/90 dark:bg-black/90 backdrop-blur-3xl p-6 md:p-10 relative overflow-hidden">
-                <div className={`absolute top-0 ${isEven ? 'left-0' : 'right-0'} px-3 py-1 bg-accent/10 border-b border-accent/20 text-accent font-mono text-[7px] md:text-[8px] font-bold tracking-widest`}>
-                  {exp.achievement}
-                </div>
-
-                <h3 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-black dark:text-white mb-4 md:mb-6 leading-tight uppercase group-hover/card:text-accent transition-colors duration-500 break-words">
-                   {exp.role}
-                </h3>
-                
-                <p className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 font-light mb-6 md:mb-8 group-hover/card:text-black dark:group-hover/card:text-white transition-colors">
-                  {exp.company}
-                </p>
-
-                <div className={`flex items-start gap-3 md:gap-4 ${isEven ? 'md:flex-row-reverse' : ''}`}>
-                   <div className="w-1 h-1 md:w-1.5 md:h-1.5 bg-accent mt-1.5 shrink-0" />
-                   <p className="text-xs md:text-sm text-black/70 dark:text-white/70 leading-relaxed font-mono tracking-tight max-w-sm">
-                     {exp.details}
-                   </p>
-                </div>
-             </div>
-          </div>
-        </motion.div>
+      {/* Hard number */}
+      <div className="flex items-baseline gap-3 md:col-span-3 md:flex-col md:items-end md:gap-1 md:text-right">
+        <p className="font-display text-4xl font-bold tracking-tighter md:text-[3.25rem] md:leading-none">
+          {entry.stat}
+        </p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400 dark:text-neutral-500">
+          {entry.statLabel}
+        </p>
       </div>
     </div>
+  </ScrollReveal>
+);
+
+const ChapterLabel: React.FC<{ children: React.ReactNode; className?: string }> = ({
+  children,
+  className = '',
+}) => (
+  <ScrollReveal>
+    <div
+      className={`font-mono text-[10px] uppercase tracking-[0.45em] text-neutral-400 dark:text-neutral-600 ${className}`}
+    >
+      {children}
+    </div>
+  </ScrollReveal>
+);
+
+const Experience: React.FC = () => {
+  return (
+    <section
+      id="experience"
+      className="relative w-full overflow-hidden border-t border-black/10 bg-white py-20 text-black transition-colors duration-500 dark:border-white/10 dark:bg-background dark:text-white md:py-28"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0 opacity-[0.035] mix-blend-multiply dark:opacity-[0.06] dark:mix-blend-screen"
+        style={{ backgroundImage: GRAIN }}
+      />
+
+      <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 md:px-10 lg:px-16">
+        {/* Header */}
+        <div className="mb-12 max-w-2xl md:mb-16">
+          <ScrollReveal>
+            <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.5em] text-neutral-400 dark:text-neutral-600">
+              <span className="h-px w-8 bg-current" />
+              Experience
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={0.1}>
+            <h2 className="mt-6 font-display text-5xl font-bold tracking-tighter md:text-7xl">
+              How I got here.
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal delay={0.2}>
+            <p className="mt-6 max-w-lg text-base leading-relaxed text-neutral-500 dark:text-neutral-400 md:text-lg">
+              Two AI internships and a B.Tech in Information Technology — the roles,{' '}
+              <Em>what I built in them</Em>, and the dates. Most recent first.
+            </p>
+          </ScrollReveal>
+        </div>
+
+        {/* Work */}
+        <ChapterLabel className="mb-7">Work</ChapterLabel>
+        {WORK.map((e) => (
+          <Row key={e.role} entry={e} />
+        ))}
+
+        {/* Education */}
+        <ChapterLabel className="mb-7 mt-16 md:mt-20">Education</ChapterLabel>
+        {EDUCATION.map((e) => (
+          <Row key={e.role} entry={e} />
+        ))}
+      </div>
+    </section>
   );
 };
 

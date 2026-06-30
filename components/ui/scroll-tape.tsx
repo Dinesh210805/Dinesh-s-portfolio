@@ -10,9 +10,6 @@ interface TapeStripProps {
   x: MotionValue<string>;
   opacity: MotionValue<number>;
   isSolid: boolean;
-  bgColor: MotionValue<string>;
-  textColor: MotionValue<string>;
-  strokeColor: MotionValue<string>;
   zIndex: number;
 }
 
@@ -21,21 +18,17 @@ const TapeStrip: React.FC<TapeStripProps> = ({
   x,
   opacity,
   isSolid,
-  bgColor,
-  textColor,
-  strokeColor,
   zIndex,
 }) => {
   return (
     <motion.div
-      className={`w-full overflow-hidden flex items-center select-none will-change-transform ${
-        isSolid ? 'py-4 sm:py-5 md:py-7 shadow-[0_12px_40px_rgba(0,0,0,0.4)]' : 'py-2 md:py-3'
+      className={`w-full overflow-hidden flex items-center select-none will-change-transform transition-colors duration-500 ${
+        isSolid 
+          ? 'py-4 sm:py-5 md:py-7 shadow-[0_12px_40px_rgba(0,0,0,0.15)] dark:shadow-[0_12px_40px_rgba(255,255,255,0.05)] bg-black dark:bg-white' 
+          : 'py-2 md:py-3 bg-transparent border-y border-transparent'
       }`}
       style={{ 
-        opacity, 
-        backgroundColor: isSolid ? bgColor : 'transparent',
-        borderTop: isSolid ? 'none' : '1px solid transparent', 
-        borderBottom: isSolid ? 'none' : '1px solid transparent',
+        opacity,
         zIndex,
         transformOrigin: 'center center'
       }}
@@ -47,13 +40,14 @@ const TapeStrip: React.FC<TapeStripProps> = ({
         {[...Array(8)].map((_, i) => (
           <motion.span
             key={i}
-            className={`text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase mx-4 sm:mx-6 md:mx-10 tracking-tight ${
-              isSolid ? '' : 'text-transparent'
+            className={`text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase mx-4 sm:mx-6 md:mx-10 tracking-tight transition-colors duration-500 ${
+              isSolid 
+                ? 'text-white dark:text-black' 
+                : 'text-black dark:text-white'
             }`}
             style={{
-              color: isSolid ? textColor : 'transparent',
-              WebkitTextStroke: isSolid ? 'none' : '1.2px',
-              WebkitTextStrokeColor: isSolid ? 'none' : strokeColor,
+              WebkitTextFillColor: isSolid ? 'currentColor' : 'transparent',
+              WebkitTextStroke: isSolid ? 'none' : '1.2px currentColor',
             }}
           >
             {children}
@@ -75,14 +69,10 @@ interface StripConfig {
 
 interface ScrollTapeProps {
   strips: StripConfig[];
-  fromBg?: string;
-  toBg?: string;
 }
 
 const ScrollTape: React.FC<ScrollTapeProps> = ({
   strips,
-  fromBg = '#050505',
-  toBg = '#ffffff',
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -97,27 +87,6 @@ const ScrollTape: React.FC<ScrollTapeProps> = ({
     stiffness: 190,
     mass: 0.25,
   });
-
-  // ── Background (shared by spacer + overlay) ──
-  const backgroundColor = useTransform(
-    progress, [0.25, 0.65], [fromBg, toBg]
-  );
-
-  // ── Dynamic Color Logic (monochrome: band bg morphs black ↔ white) ──
-  const isLightToDark = fromBg === '#ffffff';
-
-  const tapeBgStart = isLightToDark ? "#ffffff" : "#000000";
-  const tapeBgEnd = isLightToDark ? "#000000" : "#ffffff";
-
-  const tapeTextStart = isLightToDark ? "#000000" : "#ffffff";
-  const tapeTextEnd = isLightToDark ? "#ffffff" : "#000000";
-
-  // ── Colors for Solid Middle Tape ──
-  const solidBg = useTransform(progress, [0.25, 0.65], [tapeBgStart, tapeBgEnd]);
-  const solidText = useTransform(progress, [0.25, 0.65], [tapeTextStart, tapeTextEnd]);
-
-  // ── Colors for Hollow Stroke Text (follows text colour so it stays readable) ──
-  const strokeColor = useTransform(progress, [0.25, 0.65], [tapeTextStart, tapeTextEnd]);
 
   // ── Overlay overall opacity ──
   const overlayOpacity = useTransform(
@@ -155,10 +124,9 @@ const ScrollTape: React.FC<ScrollTapeProps> = ({
   return (
     <>
       {/* ── SPACER ── */}
-      <motion.div
+      <div
         ref={containerRef}
-        className="relative w-full h-[150vh] md:h-[250vh] lg:h-[320vh]"
-        style={{ backgroundColor }}
+        className="relative w-full h-[150vh] md:h-[250vh] lg:h-[320vh] bg-[#FAFAFA] dark:bg-[#050505] transition-colors duration-500 text-black/20 dark:text-white/20"
       />
 
       {/* ── FIXED OVERLAY ── */}
@@ -178,9 +146,6 @@ const ScrollTape: React.FC<ScrollTapeProps> = ({
               x={anim.x}
               opacity={anim.opacity}
               isSolid={isSolid}
-              bgColor={solidBg}
-              textColor={solidText}
-              strokeColor={strokeColor}
               zIndex={10 + i}
             >
               {strip.text}

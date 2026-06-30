@@ -21,7 +21,7 @@ const card: Variants = {
 
 const AllWorks: React.FC = () => {
   return (
-    <main className="relative w-full overflow-hidden bg-white pb-28 pt-32 text-black transition-colors duration-500 dark:bg-background dark:text-white md:pt-40">
+    <main className="relative z-20 w-full overflow-hidden bg-white pb-28 pt-32 text-black transition-colors duration-500 dark:bg-background dark:text-white md:pt-40">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-0 opacity-[0.035] mix-blend-multiply dark:opacity-[0.06] dark:mix-blend-screen"
@@ -57,40 +57,55 @@ const AllWorks: React.FC = () => {
           variants={container}
           initial="hidden"
           animate="show"
-          className="mt-14 grid grid-cols-1 gap-5 md:mt-20 md:grid-cols-2 md:gap-7"
+          className="mt-14 grid grid-cols-1 gap-x-6 gap-y-10 md:mt-20 md:grid-cols-2 md:gap-x-8 md:gap-y-14"
         >
           {PROJECTS.map((p) => (
-            <motion.a
-              key={p.slug}
-              variants={card}
-              href={`#/work/${p.slug}`}
-              className="group relative block aspect-[16/10] overflow-hidden rounded-2xl border border-black/12 bg-neutral-50 transition-transform duration-500 hover:-translate-y-1 dark:border-white/12 dark:bg-[#0d0d0f]"
-            >
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-multiply dark:opacity-[0.07] dark:mix-blend-screen"
-                style={{ backgroundImage: GRAIN }}
-              />
-              <div className="relative z-10 flex h-full flex-col justify-between p-7 md:p-9">
-                <div className="flex items-start justify-between font-mono text-[11px] uppercase tracking-widest text-neutral-400 dark:text-neutral-600">
+            <motion.div key={p.slug} variants={card} className="group">
+              <a
+                href={`#/work/${p.slug}`}
+                data-cursor-text="View"
+                data-cursor-variant="bubble"
+                aria-label={`View ${p.title} — ${p.category}`}
+                className="relative block aspect-[16/10] cursor-none overflow-hidden rounded-3xl"
+              >
+                <div
+                  className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                  style={{ backgroundColor: p.color ?? '#171717' }}
+                >
+                  <div
+                    className="absolute inset-0"
+                    style={{ background: 'radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.18), transparent 60%)' }}
+                  />
+                  <div className="absolute inset-0 grid place-items-center px-6">
+                    <span className="select-none font-display text-5xl font-bold uppercase leading-none tracking-tighter text-white/10 md:text-7xl">
+                      {p.title}
+                    </span>
+                  </div>
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-overlay"
+                    style={{ backgroundImage: GRAIN }}
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                </div>
+                <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between p-6 font-mono text-[11px] uppercase tracking-widest text-white/75 md:p-7">
                   <span>{p.index}</span>
                   <span>{p.year}</span>
                 </div>
-                <div className="flex items-end justify-between gap-4">
-                  <div>
-                    <h2 className="font-display text-4xl font-bold uppercase leading-[0.9] tracking-tighter text-transparent transition-all duration-500 [-webkit-text-stroke:1px_rgba(0,0,0,0.45)] group-hover:text-black group-hover:[-webkit-text-stroke:0px] dark:[-webkit-text-stroke:1px_rgba(255,255,255,0.4)] dark:group-hover:text-white md:text-5xl">
-                      {p.title}
-                    </h2>
-                    <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-500">
-                      {p.category}
-                    </p>
-                  </div>
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-black/20 transition-all duration-500 group-hover:rotate-45 group-hover:border-transparent group-hover:bg-black group-hover:text-white dark:border-white/20 dark:group-hover:bg-white dark:group-hover:text-black">
-                    <ArrowUpRight size={16} />
-                  </span>
+              </a>
+
+              <div className="mt-5 flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">{p.title}</h2>
+                  <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
+                    {p.category}
+                  </p>
                 </div>
+                <span className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full border border-black/15 transition-all duration-500 group-hover:rotate-45 group-hover:border-transparent group-hover:bg-black group-hover:text-white dark:border-white/15 dark:group-hover:bg-white dark:group-hover:text-black">
+                  <ArrowUpRight size={16} />
+                </span>
               </div>
-            </motion.a>
+            </motion.div>
           ))}
         </motion.div>
       </div>

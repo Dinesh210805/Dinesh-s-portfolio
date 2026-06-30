@@ -1,174 +1,62 @@
-  import React, { Suspense, useRef, useState } from 'react';
-  import { motion, useScroll, useTransform, useInView, useReducedMotion, type Variants } from 'framer-motion';
-  import { Scene } from './Scene';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 
-  /* ─────────────────────────────────────────────────────────────
-  * Hero — minimal, monochrome. The robot is the subject (cropped to
-  * a bust), framed by the name (split to the corners) and three
-  * domain pills. Dark stage by design: chrome only reads on black.
-  * ───────────────────────────────────────────────────────────── */
+const Hero: React.FC = () => {
+  const containerRef = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
 
-  const EASE = [0.16, 1, 0.3, 1] as const;
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 600], [0, -80]);
+  const opacity = useTransform(scrollY, [0, 450], [1, 0]);
 
-  const DOMAINS = ['Generative AI', 'Machine Learning', 'AI Agents'];
-
-  const GRAIN =
-    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
-
-  const reveal: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    show: (i: number = 0) => ({
-      opacity: 1,
-      y: 0,
-      transition: { duration: 1, ease: EASE, delay: 0.25 + i * 0.12 },
-    }),
-  };
-
-  interface PillProps {
-    children: React.ReactNode;
-    className?: string;
-    index?: number;
-  }
-  const Pill: React.FC<PillProps> = ({ children, className = '', index = 0 }) => (
-    <motion.span
-      custom={index}
-      variants={reveal}
-      className={`inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-5 py-2.5 text-[13px] font-medium tracking-wide text-white/90 backdrop-blur-md shadow-[0_6px_30px_rgba(0,0,0,0.45)] ${className}`}
+  return (
+    <section
+      ref={containerRef}
+      id="home"
+      className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#FAFAFA] text-black transition-colors duration-500 dark:bg-[#050505] dark:text-white z-10"
     >
-      <span className="h-1 w-1 rounded-full bg-white/50" />
-      {children}
-    </motion.span>
-  );
+      {/* Light Leak / Background Gradient */}
+      <div className="pointer-events-none absolute top-[-10%] left-1/2 -translate-x-1/2 w-[120vw] h-[80vh] bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,0.04),transparent_60%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_60%)] blur-[120px] opacity-70" />
+      <div className="pointer-events-none absolute top-20 left-10 w-[40vw] h-[40vw] rounded-full bg-[radial-gradient(circle,rgba(0,0,0,0.02),transparent_70%)] dark:bg-[radial-gradient(circle,rgba(255,255,255,0.03),transparent_70%)] blur-[80px]" />
 
-  const Hero: React.FC = () => {
-    const containerRef = useRef<HTMLElement>(null);
-    const isInView = useInView(containerRef, { amount: 0.2 });
-    const [loaded, setLoaded] = useState(false);
-    const reduceMotion = useReducedMotion();
-
-    const { scrollY } = useScroll();
-    const y = useTransform(scrollY, [0, 800], [0, -120]);
-    const opacity = useTransform(scrollY, [0, 500], [1, 0]);
-
-    const initial = reduceMotion ? 'show' : 'hidden';
-
-    return (
-      <section
-        ref={containerRef}
-        id="home"
-        className="relative min-h-screen w-full overflow-hidden bg-[#050505] text-white"
+      <motion.div
+        style={{ y, opacity }}
+        initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-10 flex flex-col items-center text-center px-6 w-full max-w-7xl mx-auto"
       >
-        {/* Graphite stage */}
-        <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_62%_55%_at_50%_42%,#121216_0%,#08080a_58%,#050505_100%)]" />
-
-        {/* Subtle light leaks */}
-        <motion.div
-          aria-hidden
-          className="absolute left-[8%] top-[6%] z-[1] h-[60vh] w-[60vh] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.10),transparent_60%)] blur-[110px] mix-blend-screen pointer-events-none"
-          animate={reduceMotion ? undefined : { x: [0, 40, 0], y: [0, 24, 0], opacity: [0.5, 0.85, 0.5] }}
-          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <div
-          aria-hidden
-          className="absolute bottom-[8%] right-[6%] z-[1] h-[50vh] w-[50vh] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.07),transparent_62%)] blur-[120px] mix-blend-screen pointer-events-none"
-        />
-
-        {/* Grain */}
-        <div
-          aria-hidden
-          className="absolute inset-0 z-[1] opacity-[0.06] mix-blend-screen pointer-events-none"
-          style={{ backgroundImage: GRAIN }}
-        />
-
-        {/* Robot — centred subject, zoom-out on load */}
-        <motion.div
-          style={{ y, opacity }}
-          initial={{ scale: reduceMotion ? 1 : 1.25, opacity: 0 }}
-          animate={loaded ? { scale: 1, opacity: 1 } : { scale: reduceMotion ? 1 : 1.25, opacity: 0 }}
-          transition={{ duration: 1.7, ease: EASE }}
-          className="absolute inset-0 z-[3]"
-        >
-          <Suspense fallback={<div className="absolute inset-0 bg-[#050505]" />}>
-            <Scene isInView={isInView} onLoaded={() => setLoaded(true)} />
-          </Suspense>
-        </motion.div>
-
-        {/* Crop the legs: fade the lower third into the stage */}
-        <div className="absolute inset-x-0 bottom-0 z-[4] h-[34%] bg-gradient-to-t from-[#050505] via-[#050505]/85 to-transparent pointer-events-none" />
-
-        {/* ── Framing: name + domain pills + scroll, height-robust flex ── */}
-        <motion.div
-          style={{ opacity }}
-          variants={reveal}
-          initial={initial}
-          animate="show"
-          className="pointer-events-none relative z-20 flex min-h-screen flex-col justify-between px-6 pt-28 pb-12 md:px-[6%] md:pt-32 md:pb-14"
-        >
-          {/* Top — name (split on desktop, stacked centred on mobile) */}
-          <div className="flex justify-center md:justify-between">
-            <motion.span
-              custom={0}
-              variants={reveal}
-              className="hidden font-display text-5xl font-bold uppercase leading-none tracking-tighter text-white md:block lg:text-6xl xl:text-7xl"
-            >
-              Dinesh
-            </motion.span>
-            <motion.span
-              custom={0}
-              variants={reveal}
-              className="hidden font-display text-5xl font-bold uppercase leading-none tracking-tighter text-white md:block lg:text-6xl xl:text-7xl"
-            >
-              Kumar
-            </motion.span>
-            <motion.h1
-              custom={0}
-              variants={reveal}
-              className="text-center font-display text-[14vw] font-bold uppercase leading-[0.85] tracking-tighter text-white md:hidden"
-            >
-              Dinesh
-              <br />
-              Kumar
-            </motion.h1>
-          </div>
-
-          {/* Middle — side pills (desktop) */}
-          <div className="hidden items-center justify-between md:flex">
-            <Pill index={1}>{DOMAINS[0]}</Pill>
-            <Pill index={2}>{DOMAINS[1]}</Pill>
-          </div>
-
-          {/* Bottom — remaining pill (desktop) / all pills (mobile) + scroll cue */}
-          <div className="flex flex-col items-center gap-5">
-            <Pill index={3} className="hidden md:inline-flex">
-              {DOMAINS[2]}
-            </Pill>
-            <div className="flex flex-wrap items-center justify-center gap-2.5 md:hidden">
-              {DOMAINS.map((d, i) => (
-                <Pill key={d} index={i + 1} className="px-4 py-2 text-[11px]">
-                  {d}
-                </Pill>
-              ))}
+        <h1 className="font-display text-[12vw] sm:text-[10vw] md:text-[7.5vw] lg:text-[6.5vw] xl:text-[5.5vw] leading-[1.1] tracking-[-0.03em] text-black dark:text-white font-medium flex flex-wrap items-center justify-center gap-x-2 sm:gap-x-3 md:gap-x-4 gap-y-2 sm:gap-y-0">
+          <div className="flex items-center gap-x-2 sm:gap-x-3 md:gap-x-4">
+            <span>Hi!,</span>
+            <span>I'm</span>
+            <span className="italic font-serif text-black/40 dark:text-white/40 font-normal">Dinesh</span>
+            <div className="shrink-0 w-[14vw] sm:w-[12vw] md:w-[8.5vw] lg:w-[7.5vw] xl:w-[6vw] h-[14vw] sm:h-[12vw] md:h-[8.5vw] lg:h-[7.5vw] xl:h-[6vw] rounded-full overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.2)] dark:shadow-[0_20px_40px_-15px_rgba(255,255,255,0.1)] p-1.5 bg-black/5 dark:bg-white/10 backdrop-blur-xl border border-white/80 dark:border-white/20">
+               <img src="/DineshProfile2.jpeg" alt="Dinesh Kumar" className="w-full h-full object-cover rounded-full" />
             </div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.6, duration: 1 }}
-              className="flex flex-col items-center gap-2"
-            >
-              <span className="font-mono text-[7px] uppercase tracking-[0.5em] text-white/40">Scroll</span>
-              <div className="relative h-10 w-px overflow-hidden bg-white/10">
-                <motion.div
-                  className="absolute top-0 h-1/2 w-full bg-white/70"
-                  animate={reduceMotion ? undefined : { y: ['-100%', '200%'] }}
-                  transition={{ repeat: Infinity, duration: 1.6, ease: 'linear' }}
-                />
-              </div>
-            </motion.div>
+            <span>,</span>
           </div>
-        </motion.div>
-      </section>
-    );
-  };
+          
+          <div className="flex items-center mt-1 sm:mt-0 gap-x-2 sm:gap-x-3 md:gap-x-4">
+            <span>a</span>
+            <span className="italic font-serif text-black/40 dark:text-white/40 font-normal">Gen-AI</span>
+            <span>Engineer</span>
+          </div>
+        </h1>
 
-  export default Hero;
+        <p className="mt-10 sm:mt-12 text-black/45 dark:text-white/45 max-w-[28rem] sm:max-w-xl mx-auto text-[15px] sm:text-base md:text-lg font-sans tracking-wide leading-relaxed font-medium">
+          Building intelligent systems &amp; cognitive solutions at the intersection of AI and engineering. Working on useful and mindful products together with startups and known brands.
+        </p>
+
+        <div
+          className="mt-12 sm:mt-14 inline-flex items-center justify-center gap-2 rounded-full bg-black text-white px-8 py-3.5 sm:px-10 sm:py-4 text-[13px] sm:text-sm font-semibold tracking-wide dark:bg-white dark:text-black shadow-xl"
+        >
+          Scroll Down
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="rotate-90 ml-1"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
+export default Hero;

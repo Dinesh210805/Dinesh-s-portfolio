@@ -20,6 +20,7 @@ export interface ProjectData {
   category: string;
   year: string;
   featured: boolean;
+  color?: string; // solid placeholder color for cards (until screenshots land)
   tagline: string; // one line for cards
   summary: string; // detail-page hero description
   stack: string[];
@@ -35,6 +36,7 @@ export const PROJECTS: ProjectData[] = [
     category: 'On-Device AI Agent',
     year: '2025',
     featured: true,
+    color: '#4338CA',
     tagline: 'A phone that an AI can actually operate.',
     summary:
       'An Android phone turned into a peer-to-peer MCP server — exposing 36 live-verified tools to any AI client over WebRTC, with no root, no ADB, and no cloud.',
@@ -76,6 +78,7 @@ export const PROJECTS: ProjectData[] = [
     category: 'Logistics AI · AR',
     year: '2025',
     featured: true,
+    color: '#C2410C',
     tagline: 'Packing plans that hold up in the real world.',
     summary:
       'A constraint-aware 3D container-loading optimizer that turns cargo data into safer, denser packing plans — with 3D and AR-ready output.',
@@ -103,6 +106,7 @@ export const PROJECTS: ProjectData[] = [
     category: 'AI Travel Assistant',
     year: '2024',
     featured: true,
+    color: '#0F766E',
     tagline: 'One agent, fifteen tools, real bookings.',
     summary:
       'A travel assistant built on a single LangGraph ReAct agent routing 15 specialized tools across 450+ stays and 4,500+ reviews.',
@@ -130,6 +134,7 @@ export const PROJECTS: ProjectData[] = [
     category: 'Multimodal Waste AI',
     year: '2024',
     featured: true,
+    color: '#15803D',
     tagline: 'Tell it, show it, or say it — one clean answer.',
     summary:
       'A multimodal waste-classification backend: a fine-tuned LLaMA 3 plus a 4-stage RAG pipeline returning structured disposal guidance.',
@@ -158,6 +163,7 @@ export const PROJECTS: ProjectData[] = [
     category: 'AI Language Platform',
     year: '2024',
     featured: false,
+    color: '#6D28D9',
     tagline: 'Forty languages, taught from real video.',
     summary:
       'A 40+ language learning platform with schema-locked lesson generation and browser-native voice-to-voice translation.',

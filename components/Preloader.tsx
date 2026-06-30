@@ -63,7 +63,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
           )}
         />
         
-        <div className="relative flex flex-col items-center justify-center z-10 mix-blend-difference w-full px-4">
+        <div className="relative flex flex-col items-center justify-center z-10 w-full px-4">
           <div className="h-[12vw] md:h-[6vw] flex items-center justify-center relative w-full mb-8">
             <AnimatePresence>
               <motion.h1 
@@ -94,7 +94,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         </div>
       </div>
       
-      <div className="absolute bottom-10 right-10 flex gap-4 text-[10px] md:text-xs font-mono text-white/30 tracking-[0.2em] uppercase mix-blend-difference">
+      <div className="absolute bottom-10 right-10 flex gap-4 text-[10px] md:text-xs font-mono text-white/30 tracking-[0.2em] uppercase">
           <span>System Initializing</span>
           <span className="animate-pulse">_</span>
       </div>
