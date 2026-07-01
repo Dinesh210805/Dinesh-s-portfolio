@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { ArrowUpLeft, ArrowUpRight } from 'lucide-react';
 import ScrollReveal from './ui/scroll-reveal';
-import { PROJECTS } from '../constants/projects';
+import { PROJECTS, type ProjectData } from '../constants/projects';
 
 /* ─────────────────────────────────────────────────────────────
  * AllWorks — the full archive page. Every project as a card that
@@ -60,61 +60,7 @@ const AllWorks: React.FC = () => {
           className="mt-14 grid grid-cols-1 gap-x-6 gap-y-10 md:mt-20 md:grid-cols-2 md:gap-x-8 md:gap-y-14"
         >
           {PROJECTS.map((p) => (
-            <motion.div key={p.slug} variants={card} className="group">
-              <a
-                href={`#/work/${p.slug}`}
-                data-cursor-text="View"
-                data-cursor-variant="bubble"
-                aria-label={`View ${p.title} — ${p.category}`}
-                className="relative block aspect-[16/10] cursor-none overflow-hidden rounded-3xl bg-neutral-100 dark:bg-white/[0.03]"
-              >
-                {p.cover ? (
-                  <img
-                    src={p.cover}
-                    alt={`${p.title} — ${p.category}`}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                  />
-                ) : (
-                  <div
-                    className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                    style={{ backgroundColor: p.color ?? '#171717' }}
-                  >
-                    <div
-                      className="absolute inset-0"
-                      style={{ background: 'radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.18), transparent 60%)' }}
-                    />
-                    <div className="absolute inset-0 grid place-items-center px-6">
-                      <span className="select-none font-display text-5xl font-bold uppercase leading-none tracking-tighter text-white/10 md:text-7xl">
-                        {p.title}
-                      </span>
-                    </div>
-                  </div>
-                )}
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-overlay"
-                  style={{ backgroundImage: GRAIN }}
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between p-6 font-mono text-[11px] uppercase tracking-widest text-white/75 md:p-7">
-                  <span>{p.index}</span>
-                  <span>{p.year}</span>
-                </div>
-              </a>
-
-              <div className="mt-5 flex items-start justify-between gap-4">
-                <div>
-                  <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">{p.title}</h2>
-                  <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
-                    {p.category}
-                  </p>
-                </div>
-                <span className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full border border-black/15 transition-all duration-500 group-hover:rotate-45 group-hover:border-transparent group-hover:bg-black group-hover:text-white dark:border-white/15 dark:group-hover:bg-white dark:group-hover:text-black">
-                  <ArrowUpRight size={16} />
-                </span>
-              </div>
-            </motion.div>
+            <ArchiveCard key={p.slug} p={p} />
           ))}
         </motion.div>
       </div>

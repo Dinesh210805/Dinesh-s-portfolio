@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import ScrollReveal from './ui/scroll-reveal';
@@ -24,25 +24,27 @@ const card: Variants = {
 
 const FeaturedCard: React.FC<{ p: ProjectData; reduce: boolean | null }> = ({ p, reduce }) => {
   const fill = p.color ?? '#171717';
+  const [coverFailed, setCoverFailed] = useState(false);
+  const showCover = Boolean(p.cover) && !coverFailed;
 
   return (
     <motion.div variants={card} className="group">
-      {/* Media block — solid-color placeholder, swappable for an <img> later */}
+      {/* Media block — cover fills the frame; falls back to a colour block
+          if the cover is missing/not yet added. */}
       <a
         href={`#/work/${p.slug}`}
         data-cursor-text="View"
         data-cursor-variant="bubble"
         aria-label={`View ${p.title} — ${p.category}`}
-        className="relative block aspect-[4/3] cursor-none overflow-hidden rounded-3xl bg-neutral-100 dark:bg-white/[0.03]"
+        className="relative block aspect-[4/3] cursor-none overflow-hidden rounded-3xl"
       >
-        {/* Cover mockup — object-contain so the shot is shown whole, never
-            cropped on the sides; sits on a neutral matte. */}
-        {p.cover ? (
+        {showCover ? (
           <img
             src={p.cover}
             alt={`${p.title} — ${p.category}`}
             loading="lazy"
-            className={`absolute inset-0 h-full w-full object-contain p-3 md:p-4 ${reduce ? '' : 'transition-transform duration-700 ease-out group-hover:scale-[1.03]'}`}
+            onError={() => setCoverFailed(true)}
+            className={`absolute inset-0 h-full w-full object-cover ${reduce ? '' : 'transition-transform duration-700 ease-out group-hover:scale-[1.05]'}`}
           />
         ) : (
           <div

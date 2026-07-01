@@ -38,6 +38,7 @@ export const PROJECTS: ProjectData[] = [
     year: '2025',
     featured: true,
     color: '#4338CA',
+    cover: '/auracoverimage.jpeg',
     tagline: 'A phone that an AI can actually operate.',
     summary:
       'An Android phone turned into a peer-to-peer MCP server — exposing 36 live-verified tools to any AI client over WebRTC, with no root, no ADB, and no cloud.',
