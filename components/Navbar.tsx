@@ -8,24 +8,24 @@ import { goToSection } from '../lib/navigation';
 const navLinks = [
   { name: 'About', href: '#about', icon: User },
   { name: 'Work', href: '#works', icon: LayoutGrid },
+  { name: 'Recognition', href: '#achievements', icon: Award },
   { name: 'Skills', href: '#skills', icon: Code2 },
   { name: 'Services', href: '#services', icon: Wrench },
   { name: 'Experience', href: '#experience', icon: Briefcase },
-  { name: 'Recognition', href: '#achievements', icon: Award },
 ];
 
 // Scroll-spy targets in page order. Certifications maps onto Recognition.
-const SECTION_IDS = ['about', 'works', 'skills', 'services', 'experience', 'achievements', 'certifications'];
+const SECTION_IDS = ['about', 'works', 'achievements', 'skills', 'services', 'experience', 'certifications'];
 
 const navIndexForSection = (id: string): number => {
   switch (id) {
     case 'about': return 0;
     case 'works': return 1;
-    case 'skills': return 2;
-    case 'services': return 3;
-    case 'experience': return 4;
     case 'achievements':
-    case 'certifications': return 5;
+    case 'certifications': return 2;
+    case 'skills': return 3;
+    case 'services': return 4;
+    case 'experience': return 5;
     default: return -1;
   }
 };
@@ -34,6 +34,8 @@ const Navbar: React.FC = () => {
   // progress 0 → 1 across the first stretch of scroll (drives the glass forming + shrink)
   const [progress, setProgress] = useState(0);
   const [activeSection, setActiveSection] = useState('');
+  // true only while the full-bleed Recognition card spans the viewport
+  const [hideNav, setHideNav] = useState(false);
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme !== 'light';
 
@@ -49,6 +51,15 @@ const Navbar: React.FC = () => {
         if (el && el.getBoundingClientRect().top <= line) current = id;
       }
       setActiveSection(current);
+
+      // hide the bar only while the Recognition card actually covers the screen
+      const ach = document.getElementById('achievements');
+      if (ach) {
+        const r = ach.getBoundingClientRect();
+        setHideNav(r.top <= 0 && r.bottom >= window.innerHeight);
+      } else {
+        setHideNav(false);
+      }
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
@@ -91,10 +102,16 @@ const Navbar: React.FC = () => {
   return (
     <>
       {/* ── Desktop top bar ── */}
-      <header className="pointer-events-none fixed top-6 left-0 right-0 z-50 hidden justify-center md:flex">
+      <header
+        className={`pointer-events-none fixed top-6 left-0 right-0 z-50 hidden justify-center transition-opacity duration-500 md:flex ${
+          hideNav ? 'opacity-0' : 'opacity-100'
+        }`}
+      >
         <div
           style={surfaceStyle}
-          className="pointer-events-auto relative flex flex-nowrap items-center justify-between gap-6 rounded-full border px-6 py-2.5"
+          className={`relative flex flex-nowrap items-center justify-between gap-6 rounded-full border px-6 py-2.5 ${
+            hideNav ? 'pointer-events-none' : 'pointer-events-auto'
+          }`}
         >
           {/* specular sheen (fades in with scroll) */}
           <div
@@ -153,8 +170,12 @@ const Navbar: React.FC = () => {
       </header>
 
       {/* ── Mobile bottom bar (detached floating glass, icon-only) ── */}
-      <nav className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 md:hidden">
-        <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-black/10 bg-white/65 px-2 py-2 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_10px_34px_rgba(0,0,0,0.18)] dark:border-white/10 dark:bg-white/[0.08]">
+      <nav
+        className={`pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 transition-opacity duration-500 md:hidden ${
+          hideNav ? 'opacity-0' : 'opacity-100'
+        }`}
+      >
+        <div className={`flex items-center gap-1 rounded-full border border-black/10 bg-white/65 px-2 py-2 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_10px_34px_rgba(0,0,0,0.18)] dark:border-white/10 dark:bg-white/[0.08] ${hideNav ? 'pointer-events-none' : 'pointer-events-auto'}`}>
           {navLinks.map((link, i) => {
             const Icon = link.icon;
             const active = activeIndex === i;

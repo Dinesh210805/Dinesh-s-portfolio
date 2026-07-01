@@ -101,10 +101,10 @@ const App: React.FC = () => {
               {/* <Marquee /> */}
               <ProfileHeader />
               <Works />
+              <Achievements />
               <Skills />
               <Services />
               <Experience />
-              <Achievements />
               <Certifications />
               <Contact />
             </main>

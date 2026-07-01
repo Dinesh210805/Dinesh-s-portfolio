@@ -1,280 +1,173 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { ShieldCheck, Trophy, Terminal, Fingerprint, ChevronRight } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 
-const achievements = [
-  {
-    id: 'VAL_25_GSC',
-    rank: 'TOP 105 NATIONAL',
-    title: 'Google Solution Challenge 2025',
-    category: 'GLOBAL_LOGISTICS_AI',
-    authority: '2025',
-    description: 'GravitycARgo selected from 64,000+ National entries for its AI+AR logistics innovation.',
-    images: ['/googlesolchallenge.png'],
-    tech: ['LLM', 'Python', 'Flask', 'Optigenix Algorithm', 'Unity', 'NumPy', 'scikit-learn'],
-    date: 'MAR 2025',
-    prestige: true
-  },
-  {
-    id: 'VAL_25_FOW',
-    rank: '2ND RUNNER UP',
-    title: 'The Future of Work Hackathon',
-    category: 'WORKPLACE_EFFICIENCY',
-    authority: '2025',
-    description: 'Recognized for GravitycARgo, an AI+AR driven logistics solution for smarter, efficient packing strategies.',
-    images: ['/FutureOfWork01.jpg', '/FutureOfWork02.jpg'],
-    tech: ['LLM', 'Python', 'Flask', 'Optigenix Algorithm', 'Unity', 'Plotly'],
-    date: 'JUL 2025',
-    prestige: true
-  },
-  {
-    id: 'VAL_25_UNI',
-    rank: 'TOP 10',
-    title: 'Unisys Innovation Program Y16',
-    category: 'SUSTAINABLE_SYSTEMS',
-    authority: '2025',
-    description: 'Recognized for GravitycARgo, an AI+AR driven sustainable logistics platform.',
-    images: ['/unisys.png'],
-    tech: ['LLM', 'Python', 'Flask', 'Optigenix', 'Unity', 'scikit-learn'],
-    date: 'JAN 2025',
-    prestige: true
-  },
-  {
-    id: 'VAL_24_OXD',
-    rank: 'TOP 10 FINALIST',
-    title: '0x.day Hacksday Hackathon',
-    category: 'CARBON_OPTIMIZATION',
-    authority: '2024',
-    description: 'Built GravitycARgo, an AI system improving container space usage and reducing CO2.',
-    images: ['/0xday1.JPG', '/0xday2.jpg'],
-    tech: ['LLM', 'Python', 'Flask', 'Optigenix', 'NumPy', 'pandas', 'Plotly'],
-    date: 'OCT 2024',
-    prestige: false
-  },
-  {
-    id: 'VAL_24_AVN',
-    rank: 'FINALIST',
-    title: 'Aventus 2.0 Hackathon',
-    category: 'ASSISTIVE_MFA_TECH',
-    authority: '2024',
-    description: 'Developed The Light, Assistive app for the visually impaired with touch based secure authentication(SSFD).',
-    images: ['/aventus1.jpg', '/aventus2.jpg'],
-    tech: ['Flutter', 'TensorFlow', 'YOLO', 'OpenCV', 'Python', 'Flask'],
-    date: 'MAY 2024',
-    prestige: false
-  },
-  {
-    id: 'VAL_24_YTK',
-    rank: 'REGIONAL PREFINALIST',
-    title: 'Youth Talk 2024',
-    category: 'TECHNICAL_LEADERSHIP',
-    authority: '2024',
-    description: 'Participated in regional prefinals of ICT Academy Youth Talk Tamil Nadu.',
-    images: ['/youthtalk.png'],
-    tech: ['Public Speaking', 'System Design', 'Visionary Delivery'],
-    date: '2024',
-    prestige: false
-  }
+/* ─────────────────────────────────────────────────────────────
+ * Recognition — a cinematic expand-and-sequence. As the section
+ * rises toward the centre of the viewport a black card grows from a
+ * thin margin to full-bleed (corners flattening); it holds while
+ * honor stills cross-fade one at a time — B&W, grainy, Oppenheimer —
+ * then eases back to its margin as it leaves. The whole arc is
+ * scroll-linked, so it fills gradually with the wheel, not in a snap.
+ * One image per honor, minimal bright-white caption.
+ * ───────────────────────────────────────────────────────────── */
+
+const GRAIN =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+
+const SHADOW = '[text-shadow:0_2px_28px_rgba(0,0,0,0.65)]';
+
+interface Honor {
+  n: string;
+  rank: string;
+  sub?: string;
+  event: string;
+  year: string;
+  img: string;
+  fit: 'cover' | 'contain';
+}
+
+const HONORS: Honor[] = [
+  { n: '01', rank: 'Hackathon Winner', sub: '2nd Runner-Up', event: 'Kroolo', year: '2025', img: '/FutureOfWork01.jpg', fit: 'cover' },
+  { n: '02', rank: 'Top 10 Finalist', event: '0x.day Hacksday', year: '2024', img: '/0xday1.JPG', fit: 'cover' },
+  { n: '03', rank: 'Top 105 · National', event: 'Google Solution Challenge', year: '2025', img: '/googlesolchallenge.png', fit: 'contain' },
+  { n: '04', rank: 'Finalist', event: 'Aventus 2.0 Hackathon', year: '2024', img: '/aventus1.jpg', fit: 'cover' },
+  { n: '05', rank: 'Regional Prefinalist', event: 'Youth Talk', year: '2024', img: '/youthtalkimage.png', fit: 'cover' },
+  { n: '06', rank: 'Top 10', event: 'Unisys Innovation Program', year: '2025', img: '/unisysinnovationprogram.png', fit: 'contain' },
 ];
 
+const N = HONORS.length;
+const FADE = 0.02;
+// pinned window inside the full passage (['start end','end start'])
+const HOLD_START = 0.16;
+const HOLD_END = 0.84;
+const pad = (n: number) => String(n).padStart(2, '0');
+
 const Achievements: React.FC = () => {
+  const pinRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  // track the whole passage of the section through the viewport, so the
+  // card can grow on approach and shrink on exit (not just once pinned)
+  const { scrollYProgress } = useScroll({ target: pinRef, offset: ['start end', 'end start'] });
+
+  const margin = useTransform(scrollYProgress, [0, 0.12, 0.88, 1], ['3.5vw', '0vw', '0vw', '3.5vw']);
+  const radius = useTransform(scrollYProgress, [0, 0.12, 0.88, 1], ['30px', '2px', '2px', '30px']);
+
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    const local = (v - HOLD_START) / (HOLD_END - HOLD_START);
+    const i = Math.min(N - 1, Math.max(0, Math.floor(local * N)));
+    setActive((p) => (p === i ? p : i));
+  });
+
+  // per-honor cross-fade windows across the pinned hold; the first holds
+  // through the grow-in, the last through the shrink-out
+  const seg = (HOLD_END - HOLD_START) / N;
+  const opacities = HONORS.map((_, i) => {
+    const s = HOLD_START + i * seg;
+    const e = HOLD_START + (i + 1) * seg;
+    const input = i === 0 ? [0, e - FADE, e + FADE] : i === N - 1 ? [s - FADE, s + FADE, 1] : [s - FADE, s + FADE, e - FADE, e + FADE];
+    const output = i === 0 ? [1, 1, 0] : i === N - 1 ? [0, 1, 1] : [0, 1, 1, 0];
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    return useTransform(scrollYProgress, input, output);
+  });
+
   return (
-    <section id="achievements" className="relative py-16 md:py-32 bg-white dark:bg-background overflow-hidden border-t border-black/10 dark:border-white/10 transition-colors duration-500">
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05] text-black dark:text-white">
-        <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,currentColor_1px,transparent_1px),linear-gradient(to_bottom,currentColor_1px,transparent_1px)] [background-size:100px_100px]" />
+    <section id="achievements" className="relative z-10 w-full bg-white text-black transition-colors duration-500 dark:bg-background dark:text-white">
+      {/* centered heading */}
+      <div className="relative z-10 mx-auto max-w-2xl px-6 pb-14 pt-24 text-center md:pb-16 md:pt-28">
+        <div className="flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-[0.5em] text-neutral-400">
+          <span className="h-px w-8 bg-current" />
+          Recognition
+          <span className="h-px w-8 bg-current" />
+        </div>
+        <h2 className="mt-6 font-display text-5xl font-bold tracking-tighter text-black md:text-7xl dark:text-white">
+          Recognition.
+        </h2>
+        <p className="mx-auto mt-6 max-w-md text-base leading-relaxed text-neutral-500 md:text-lg">
+          National and global hackathons — the ones that made the cut.
+        </p>
       </div>
 
-      <div className="px-6 md:px-10 lg:px-20 max-w-[1500px] mx-auto relative z-10">
-        <div className="mb-12 md:mb-32 flex flex-col lg:flex-row lg:items-end justify-between gap-8 md:gap-12 border-b border-black/10 dark:border-white/10 pb-10 md:pb-20">
-          <div className="max-w-3xl">
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="flex items-center gap-4 mb-8 md:mb-10"
-            >
-              <div className="w-10 md:w-16 h-[1px] bg-accent" />
-              <span className="font-mono text-accent font-bold text-[10px] md:text-sm tracking-[0.4em] md:tracking-[0.5em] uppercase">Honor Ledger</span>
-            </motion.div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-display font-bold text-black dark:text-white tracking-tighter leading-[1] uppercase">
-              RECOGNITION.
-            </h2>
-          </div>
-          
-          <div className="flex flex-col gap-6 font-mono lg:min-w-[300px]">
-            <div className="flex justify-between text-[10px] text-black/60 dark:text-white/60 tracking-[0.2em] border-b border-black/10 dark:border-white/10 pb-2">
-              <span className="font-bold">TOTAL_ENTRIES</span>
-              <span className="text-accent font-bold">0{achievements.length}</span>
-            </div>
-            <p className="text-[9px] text-neutral-600 dark:text-neutral-400 leading-relaxed uppercase tracking-widest max-w-[280px]">
-              Validated registry of national and global hackathon achievements, selecting for architectural rigor and systemic impact.
-            </p>
-          </div>
-        </div>
+      {/* pin-track — grow · sequence · shrink */}
+      <div ref={pinRef} className="relative" style={{ height: '500vh' }}>
+        <div className="sticky top-0 h-screen w-full overflow-hidden">
+          <motion.div
+            style={{ margin, borderRadius: radius }}
+            className="absolute inset-0 overflow-hidden bg-black shadow-[0_40px_100px_-40px_rgba(0,0,0,0.5)]"
+          >
+            {/* stacked stills */}
+            {HONORS.map((h, i) => (
+              <motion.div key={h.n} style={{ opacity: opacities[i] }} className="absolute inset-0">
+                <img
+                  src={h.img}
+                  alt={`${h.event} — ${h.rank}`}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  className={`h-full w-full contrast-[1.05] saturate-[1.08] ${
+                    h.fit === 'cover' ? 'object-cover' : 'object-contain p-6 md:p-16'
+                  }`}
+                />
+              </motion.div>
+            ))}
 
-        <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.2,
-                delayChildren: 0.1
-              }
-            }
-          }}
-          className="space-y-16 md:space-y-32 lg:space-y-48"
-        >
-          {achievements.map((ach, idx) => (
-            <ArchiveEntry key={ach.id} ach={ach} index={idx} />
-          ))}
-        </motion.div>
+            {/* film texture — sits above the images, below the text */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 opacity-[0.16] mix-blend-overlay"
+              style={{ backgroundImage: GRAIN }}
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{ background: 'radial-gradient(ellipse at center, transparent 52%, rgba(0,0,0,0.55) 100%)' }}
+            />
+            <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent" />
+
+            {/* captions — above the texture so the white stays bright */}
+            {HONORS.map((h, i) => (
+              <motion.div
+                key={`cap-${h.n}`}
+                style={{ opacity: opacities[i] }}
+                className={`pointer-events-none absolute inset-x-0 bottom-0 p-8 md:p-16 ${SHADOW}`}
+              >
+                <p className="font-display text-3xl font-bold leading-[1.02] tracking-tight text-white md:text-6xl">
+                  {h.rank}
+                </p>
+                {h.sub && (
+                  <p className="mt-1 font-display text-xl font-bold leading-[1.05] tracking-tight text-white md:text-3xl">
+                    {h.sub}
+                  </p>
+                )}
+                <div className="mt-3 flex items-center gap-3">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-white md:text-xs">{h.event}</p>
+                  <span className="h-px w-6 bg-white/50" />
+                  <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/70 md:text-xs">{h.year}</p>
+                </div>
+              </motion.div>
+            ))}
+
+            {/* top bar */}
+            <div className={`absolute inset-x-0 top-0 flex items-center justify-between p-8 md:p-12 ${SHADOW}`}>
+              <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-white/70">Selected honors</span>
+              <div className="flex items-center gap-4">
+                <div className="hidden items-center gap-1.5 sm:flex">
+                  {HONORS.map((h, i) => (
+                    <span
+                      key={h.n}
+                      className={`h-[3px] rounded-full transition-all duration-500 ${
+                        i === active ? 'w-7 bg-white' : 'w-3 bg-white/30'
+                      }`}
+                    />
+                  ))}
+                </div>
+                <span className="font-mono text-[11px] tracking-[0.25em] text-white">
+                  {pad(active + 1)} <span className="text-white/40">/ {pad(N)}</span>
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
-  );
-};
-
-const ArchiveEntry: React.FC<{ ach: any; index: number }> = ({ ach, index }) => {
-  const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-15%" });
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start end", "end start"] });
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
-
-  const isEven = index % 2 === 0;
-  
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const hasMultipleImages = ach.images && ach.images.length > 1;
-
-  // Auto-advance images every 3 seconds
-  useEffect(() => {
-    if (!hasMultipleImages) return;
-    
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % ach.images.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [hasMultipleImages, ach.images.length]);
-
-  const handleNextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % ach.images.length);
-  };
-
-  const currentImage = ach.images?.[currentImageIndex] || ach.images?.[0];
-  
-  // Apply cover mode for specific achievements
-  const shouldCover = ach.id === 'VAL_24_OXD' || ach.id === 'VAL_24_AVN';
-
-  return (
-    <motion.div
-      ref={containerRef}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-32 items-center relative"
-    >
-      {/* Background Number Decal - Hidden on very small screens to avoid overflow */}
-      <div className={`hidden sm:block absolute -top-16 md:-top-32 ${isEven ? 'right-0 lg:-right-10' : 'left-0 lg:-left-10'} pointer-events-none select-none z-0`}>
-        <span className="text-[15vw] md:text-[18vw] font-display font-black text-black/5 dark:text-white/5 leading-none uppercase">
-          0{index + 1}
-        </span>
-      </div>
-
-      <div className={`lg:col-span-6 relative group ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
-        <div className="relative overflow-hidden bg-neutral-100 dark:bg-[#111111] border border-black/10 dark:border-white/10 aspect-video w-full group shadow-2xl isolation-isolate">
-          <motion.img 
-            key={currentImageIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            style={{ y: imgY, scale: shouldCover ? 1.15 : 1 }}
-            src={currentImage} 
-            className={`w-full h-full ${shouldCover ? 'object-cover' : 'object-contain'} bg-neutral-100 dark:bg-black/20 brightness-95 group-hover:brightness-100 transition-all duration-1000 ease-out`}
-            alt={ach.title}
-            loading="lazy"
-          />
-          
-          <div className="absolute top-4 left-4 md:top-8 md:left-8 flex flex-col gap-4">
-            <div className="flex items-center gap-3">
-              <div className={`w-8 h-8 md:w-12 md:h-12 ${ach.prestige ? 'bg-accent text-black' : 'bg-black/10 dark:bg-white/10 text-black dark:text-white'} rounded-full flex items-center justify-center shadow-lg`}>
-                 <Trophy size={14} className={ach.prestige ? 'text-black' : 'text-black dark:text-white'} />
-              </div>
-              <div className="px-3 py-1 md:px-4 md:py-2 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/10 font-mono text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-black dark:text-white">
-                {ach.rank}
-              </div>
-            </div>
-          </div>
-
-          {/* Image navigation - only show if multiple images */}
-          {hasMultipleImages && (
-            <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 flex items-center gap-3">
-              <button 
-                onClick={handleNextImage}
-                className="w-10 h-10 bg-accent/10 backdrop-blur-xl border border-accent/20 hover:bg-accent hover:border-accent flex items-center justify-center transition-all duration-300 group/btn"
-              >
-                <ChevronRight size={16} className="text-accent group-hover/btn:text-black transition-colors" />
-              </button>
-              <div className="flex gap-1.5">
-                {ach.images.map((_: any, idx: number) => (
-                  <div 
-                    key={idx}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      idx === currentImageIndex ? 'bg-accent w-6' : 'bg-black/20 dark:bg-white/20'
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 text-right hidden md:block">
-             <div className="font-mono text-[8px] text-black/40 dark:text-white/40 font-bold uppercase tracking-[0.4em] mb-1">Year</div>
-             <div className="font-mono text-[10px] text-accent font-bold uppercase">{ach.authority}</div>
-          </div>
-        </div>
-      </div>
-
-      <div className={`lg:col-span-6 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
-        <div className="flex flex-col gap-6 md:gap-8">
-          <div className="flex items-center gap-4">
-            <div className="px-2 py-0.5 md:px-3 md:py-1 border border-accent/20 bg-accent/5 font-mono text-[8px] md:text-[9px] text-accent font-bold uppercase tracking-widest">
-              {ach.category}
-            </div>
-            <div className="h-[1px] flex-1 bg-black/10 dark:bg-white/10" />
-            <span className="font-mono text-[10px] text-black/50 dark:text-white/50 font-bold tracking-widest">{ach.date}</span>
-          </div>
-
-          <h3 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-black dark:text-white leading-[1.1] md:leading-[0.9] tracking-tighter uppercase group-hover:text-accent transition-colors break-words">
-            {ach.title}
-          </h3>
-
-          <p className="text-neutral-700 dark:text-neutral-300 text-base md:text-lg font-light leading-relaxed max-w-2xl">
-            {ach.description}
-          </p>
-
-          <div className="py-6 md:py-10 border-y border-black/10 dark:border-white/10 space-y-6">
-            <div className="flex items-center gap-2 font-mono text-[8px] text-black/40 dark:text-white/40 font-bold uppercase tracking-[0.3em] md:tracking-[0.4em]">
-              <Terminal size={12} className="text-accent" />
-              <span>Technical_Stack_Index</span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {ach.tech.map((t: string) => (
-                <span key={t} className="px-2 py-0.5 md:px-3 md:py-1 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 font-mono text-[8px] md:text-[9px] text-black/70 dark:text-white/70 font-bold uppercase">
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-6 md:gap-10">
-            {/* Removed Registry_Confirmed and ID as per request */}
-          </div>
-        </div>
-      </div>
-    </motion.div>
   );
 };
 
