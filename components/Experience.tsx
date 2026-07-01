@@ -223,7 +223,7 @@ const Experience: React.FC = () => {
   return (
     <section
       id="experience"
-      className="relative w-full bg-white py-20 text-black transition-colors duration-500 dark:bg-background dark:text-white md:py-28"
+      className="relative w-full py-20 text-black transition-colors duration-500 dark:text-white md:py-28"
     >
       <div
         aria-hidden

@@ -1,60 +1,153 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import React from 'react';
+import { motion, useReducedMotion, type Variants } from 'framer-motion';
+import { PROFILE_IMAGE, PROFILE_NAME } from '../constants/profile';
+import { ageLabel } from '../lib/age';
+
+/* Editorial hero, sized to fit within a single viewport (desktop).
+ * - Name rises up letter-by-letter from a mask and NEVER wraps; circled-C
+ *   monogram = surname "C".
+ * - Name (top-left) and portrait (top-right) share the same top line; the whole
+ *   pair is pushed toward the bottom via `content-end` so the photo's bottom gap
+ *   equals its right gap (both = the section's px/pb margin).
+ * - The portrait is sized by HEIGHT (`h-[56vh] w-auto aspect-[4/5]`) so it stays
+ *   a strict 4:5 on every viewport — this keeps the hero→about travel handoff
+ *   from squishing (source and destination must share an aspect ratio). It is
+ *   the travel SOURCE (#hero-portrait-slot).
+ */
+
+const NAME = 'Dinesh';
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+const CircleC: React.FC = () => (
+  <span
+    aria-hidden
+    className="inline-grid shrink-0 place-items-center rounded-full border-current align-middle font-sans font-semibold leading-none
+               border-[1.5px] lg:border-2
+               h-[6vw] w-[6vw] text-[2.7vw]
+               sm:h-[4.6vw] sm:w-[4.6vw] sm:text-[2vw]
+               md:h-[3.6vw] md:w-[3.6vw] md:text-[1.6vw]
+               lg:h-[2.3vw] lg:w-[2.3vw] lg:text-[1vw]
+               -translate-y-[0.95em] ml-[0.12em]"
+  >
+    C
+  </span>
+);
 
 const Hero: React.FC = () => {
-  const containerRef = useRef<HTMLElement>(null);
-  const reduceMotion = useReducedMotion();
+  const reduce = useReducedMotion();
+  const age = ageLabel();
 
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 600], [0, -80]);
-  const opacity = useTransform(scrollY, [0, 450], [1, 0]);
+  const group: Variants = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.085, delayChildren: 0.35 } },
+  };
+  // Slower, softer letter rise out of the mask for a smoother entrance.
+  const rise: Variants = {
+    hidden: { y: '110%' },
+    show: { y: '0%', transition: { duration: 1.35, ease: EASE } },
+  };
+  const fade: Variants = {
+    hidden: { opacity: 0, y: 18 },
+    show: { opacity: 1, y: 0, transition: { duration: 1.05, ease: EASE } },
+  };
 
   return (
     <section
-      ref={containerRef}
       id="home"
-      className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#FAFAFA] text-black transition-colors duration-500 dark:bg-[#050505] dark:text-white z-10"
+      className="relative w-full overflow-hidden text-black transition-colors duration-500 dark:text-white lg:h-[100svh]"
     >
-      {/* Light Leak / Background Gradient */}
-      <div className="pointer-events-none absolute top-[-10%] left-1/2 -translate-x-1/2 w-[120vw] h-[80vh] bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,0.04),transparent_60%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_60%)] blur-[120px] opacity-70" />
-      <div className="pointer-events-none absolute top-20 left-10 w-[40vw] h-[40vw] rounded-full bg-[radial-gradient(circle,rgba(0,0,0,0.02),transparent_70%)] dark:bg-[radial-gradient(circle,rgba(255,255,255,0.03),transparent_70%)] blur-[80px]" />
+      <div className="relative z-10 flex min-h-[100svh] w-full flex-col px-6 pb-12 pt-24 md:px-12 md:pb-12 md:pt-28 lg:h-full">
+        {/* name (top-left) + photo (top-right) share the top line; `content-end`
+            pushes the whole pair down so the photo's bottom gap == its right gap.
+            Mobile: simple stack — name, photo, meta. */}
+        <div className="flex flex-1 flex-col gap-10 py-6 lg:grid lg:grid-cols-[1fr_auto] lg:content-end lg:gap-x-12 lg:py-0">
+          {/* NAME — left column, top of the shared row */}
+          <motion.h1
+            variants={group}
+            initial={reduce ? 'show' : 'hidden'}
+            animate="show"
+            className="font-display font-medium leading-[0.82] tracking-[-0.035em] lg:col-start-1 lg:row-start-1 lg:self-start"
+          >
+            <span className="flex flex-nowrap items-start whitespace-nowrap text-[18vw] leading-[0.82] sm:text-[16vw] md:text-[14vw] lg:text-[12.5vw]">
+              {NAME.split('').map((ch, i) => (
+                <span key={i} className="inline-block overflow-hidden pb-[0.08em]">
+                  <motion.span variants={rise} className="inline-block">
+                    {ch}
+                  </motion.span>
+                </span>
+              ))}
+              <span className="inline-block overflow-hidden">
+                <motion.span variants={rise} className="inline-block">
+                  <CircleC />
+                </motion.span>
+              </span>
+            </span>
+          </motion.h1>
 
-      <motion.div
-        style={{ y, opacity }}
-        initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 flex flex-col items-center text-center px-6 w-full max-w-7xl mx-auto"
-      >
-        <h1 className="font-display text-[12vw] sm:text-[10vw] md:text-[7.5vw] lg:text-[6.5vw] xl:text-[5.5vw] leading-[1.1] tracking-[-0.03em] text-black dark:text-white font-medium flex flex-wrap items-center justify-center gap-x-2 sm:gap-x-3 md:gap-x-4 gap-y-2 sm:gap-y-0">
-          <div className="flex items-center gap-x-2 sm:gap-x-3 md:gap-x-4">
-            <span>Hi!,</span>
-            <span>I'm</span>
-            <span className="italic font-serif text-black/40 dark:text-white/40 font-normal">Dinesh</span>
-            <div className="shrink-0 w-[14vw] sm:w-[12vw] md:w-[8.5vw] lg:w-[7.5vw] xl:w-[6vw] h-[14vw] sm:h-[12vw] md:h-[8.5vw] lg:h-[7.5vw] xl:h-[6vw] rounded-full overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.2)] dark:shadow-[0_20px_40px_-15px_rgba(255,255,255,0.1)] p-1.5 bg-black/5 dark:bg-white/10 backdrop-blur-xl border border-white/80 dark:border-white/20">
-               <img src="/DineshProfile2.jpeg" alt="Dinesh Kumar" className="w-full h-full object-cover rounded-full" />
+          {/* PORTRAIT — right column; height-driven 4:5 (travel SOURCE) */}
+          <motion.div
+            variants={group}
+            initial={reduce ? 'show' : 'hidden'}
+            animate="show"
+            className="relative lg:col-start-2 lg:row-start-1 lg:self-end"
+          >
+            {/* /age — inline above photo on mobile; floats just above the photo top
+                on desktop. Positioning transform lives on this static wrapper so
+                Framer's animated transform (inner) can't clobber it. */}
+            <div className="mb-3 lg:absolute lg:right-0 lg:top-0 lg:z-10 lg:mb-0 lg:-translate-y-[calc(100%+0.6rem)]">
+              <motion.div
+                variants={fade}
+                className="flex items-center gap-3 font-mono text-black/70 dark:text-white/70"
+              >
+                <span className="text-2xl leading-none tracking-tight md:text-[28px]">/{age}</span>
+                <span className="h-px flex-1 bg-black/15 dark:bg-white/15 lg:hidden" />
+              </motion.div>
             </div>
-            <span>,</span>
-          </div>
-          
-          <div className="flex items-center mt-1 sm:mt-0 gap-x-2 sm:gap-x-3 md:gap-x-4">
-            <span>a</span>
-            <span className="italic font-serif text-black/40 dark:text-white/40 font-normal">Gen-AI</span>
-            <span>Engineer</span>
-          </div>
-        </h1>
+            <div
+              id="hero-portrait-slot"
+              className="relative aspect-[4/5] w-full overflow-hidden lg:ml-auto lg:h-[68vh] lg:max-h-[660px] lg:w-auto"
+            >
+              <motion.img
+                id="hero-portrait-img"
+                src={PROFILE_IMAGE}
+                alt={PROFILE_NAME}
+                className="travel-hide h-[112%] w-full object-cover grayscale"
+                initial={reduce ? { clipPath: 'inset(0 0 0 0)' } : { clipPath: 'inset(0 0 100% 0)' }}
+                animate={{ clipPath: 'inset(0 0 0 0)' }}
+                transition={{ duration: 1.3, ease: EASE, delay: 0.5 }}
+              />
+            </div>
+          </motion.div>
 
-        <p className="mt-10 sm:mt-12 text-black/45 dark:text-white/45 max-w-[28rem] sm:max-w-xl mx-auto text-[15px] sm:text-base md:text-lg font-sans tracking-wide leading-relaxed font-medium">
-          Building intelligent systems &amp; cognitive solutions at the intersection of AI and engineering. Working on useful and mindful products together with startups and known brands.
-        </p>
-
-        <div
-          className="mt-12 sm:mt-14 inline-flex items-center justify-center gap-2 rounded-full bg-black text-white px-8 py-3.5 sm:px-10 sm:py-4 text-[13px] sm:text-sm font-semibold tracking-wide dark:bg-white dark:text-black shadow-xl"
-        >
-          Scroll Down
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="rotate-90 ml-1"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          {/* META — left column, bottom of the shared row (with scroll hint) */}
+          <motion.div
+            variants={group}
+            initial={reduce ? 'show' : 'hidden'}
+            animate="show"
+            className="max-w-sm lg:col-start-1 lg:row-start-1 lg:self-end"
+          >
+            <motion.p variants={fade} className="font-mono text-[12px] uppercase tracking-[0.3em] text-black/50 dark:text-white/50">
+              [ Gen-AI&nbsp;·&nbsp;ML Engineer ]
+            </motion.p>
+            <motion.p variants={fade} className="mt-4 text-base font-medium leading-relaxed text-black/70 dark:text-white/70 md:text-lg">
+              Building intelligent systems that hold up outside the demo.
+            </motion.p>
+            <motion.span
+              variants={fade}
+              className="mt-7 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.35em] text-black/60 dark:text-white/60"
+            >
+              Scroll Down
+              <svg
+                width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                className="motion-safe:animate-bounce"
+              >
+                <path d="M12 5v14" /><path d="m19 12-7 7-7-7" />
+              </svg>
+            </motion.span>
+          </motion.div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

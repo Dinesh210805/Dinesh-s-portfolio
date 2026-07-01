@@ -17,6 +17,9 @@
               primary: '#F4F4F5',
               secondary: '#D4D4DC',
               accent: '#CCFF00',
+              // Bone / off-white — the single light-mode surface across all
+              // sections. Warm, low-chroma, deliberately NOT pure white.
+              bone: '#F4F1EA',
             },
             fontFamily: {
               sans: ['Manrope', 'sans-serif'],
@@ -83,7 +86,7 @@
         min-height: 100%;
         margin: 0;
         padding: 0;
-        background-color: #FAFAFA;
+        background-color: #F4F1EA;
         color: #050505;
         overflow-x: clip;
         cursor: none;
@@ -120,6 +123,21 @@
 
       .writing-vertical-rl {
         writing-mode: vertical-rl;
+      }
+
+      /* When the desktop portrait-travel layer is active, the in-flow slot
+         images (hero + about) are hidden — the single fixed traveling image
+         represents them. On mobile / reduced-motion the layer never activates,
+         so these stay visible. The travel layer overrides opacity inline on
+         the about image at the landing frame for a seamless handoff. */
+      [data-portrait-travel='on'] .travel-hide {
+        opacity: 0;
+      }
+      /* The hero slot's own frame (shadow) is suppressed while traveling — the
+         single fixed image carries the frame, so nothing is left behind. */
+      [data-portrait-travel='on'] .travel-hide-frame {
+        box-shadow: none;
+        background: transparent;
       }
 
       .bg-noise {

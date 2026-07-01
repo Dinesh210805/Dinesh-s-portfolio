@@ -72,7 +72,7 @@ const Achievements: React.FC = () => {
   });
 
   return (
-    <section id="achievements" className="relative z-10 w-full bg-white text-black transition-colors duration-500 dark:bg-background dark:text-white">
+    <section id="achievements" className="relative z-10 w-full text-black transition-colors duration-500 dark:text-white">
       {/* centered heading */}
       <div className="relative z-10 mx-auto max-w-2xl px-6 pb-14 pt-24 text-center md:pb-16 md:pt-28">
         <div className="flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-[0.5em] text-neutral-400">

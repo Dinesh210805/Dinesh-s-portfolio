@@ -24,7 +24,8 @@ const ProfileHeader: React.FC = () => {
     target: introRef,
     offset: ['start end', 'end start'],
   });
-  const imgY = useTransform(introProgress, [0, 1], [-30, 30]);
+  // Gentle parallax — kept small so the travel handoff lands cleanly on the card.
+  const imgY = useTransform(introProgress, [0, 1], [-16, 16]);
 
   // Pinned manifesto reveal
   const pinRef = useRef<HTMLDivElement>(null);
@@ -35,7 +36,7 @@ const ProfileHeader: React.FC = () => {
   const barScaleX = useTransform(pinProgress, [0, 0.62], [0, 1]);
 
   return (
-    <section id="about" className="relative w-full bg-white text-black transition-colors duration-500 dark:bg-background dark:text-white">
+    <section id="about" className="relative w-full text-black transition-colors duration-500 dark:text-white">
       {/* grain texture across the whole identity block */}
       <div
         className="pointer-events-none absolute inset-0 z-0 opacity-[0.035] mix-blend-multiply dark:opacity-[0.06] dark:mix-blend-screen"
@@ -43,7 +44,7 @@ const ProfileHeader: React.FC = () => {
       />
 
       {/* ───────── ACT 1 — the intro (face + plain bio) ───────── */}
-      <div ref={introRef} className="relative z-10 mx-auto max-w-[1300px] px-6 pb-24 pt-24 md:px-10 md:pb-32 md:pt-28 lg:px-16">
+      <div ref={introRef} className="relative z-10 mx-auto max-w-[1300px] px-6 pb-24 pt-40 md:px-10 md:pb-32 md:pt-56 lg:px-16">
         <ScrollReveal blur={false}>
           <h2 className="font-display text-[18vw] font-bold leading-[0.85] tracking-tighter md:text-[9rem]">
             Hey.
@@ -58,15 +59,20 @@ const ProfileHeader: React.FC = () => {
             </ScrollReveal>
           </div>
 
-          {/* Portrait */}
-          <div className="lg:col-span-5">
+          {/* Portrait — hidden on mobile (the hero already shows the face; a second
+              copy here reads as a duplicate). Desktop keeps it as the travel target. */}
+          <div className="hidden lg:col-span-5 lg:block">
             <ScrollReveal blur={false}>
-              <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[28px] bg-neutral-200 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.35)] dark:bg-neutral-900">
+              <div
+                id="about-portrait-slot"
+                className="relative mx-auto aspect-[4/5] w-full max-w-[480px] overflow-hidden"
+              >
                 <motion.img
+                  id="about-portrait-img"
                   style={{ y: imgY }}
                   src={PROFILE_IMAGE}
                   alt={PROFILE_NAME}
-                  className="h-[112%] w-full object-cover grayscale"
+                  className="travel-hide h-[112%] w-full object-cover grayscale"
                 />
                 <div
                   className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-overlay"
@@ -76,9 +82,10 @@ const ProfileHeader: React.FC = () => {
             </ScrollReveal>
           </div>
 
-          {/* Right copy + CTA */}
+          {/* Right copy + CTA — right-aligned on mobile to balance the left intro
+              paragraph; reverts to left-aligned from lg up. */}
           <div className="lg:col-span-4">
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col items-end gap-6 text-right lg:items-start lg:text-left">
               <ScrollReveal delay={0.15}>
                 <p className="text-base leading-relaxed text-neutral-500 dark:text-neutral-400 md:text-lg">
                   I’m a <Em>Gen-AI and ML engineer</Em>. I care about the unglamorous parts: the edge

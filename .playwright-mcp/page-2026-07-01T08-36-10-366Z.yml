@@ -1,0 +1,180 @@
+- generic [ref=f1e2]:
+  - generic:
+    - generic:
+      - generic: View
+  - generic [ref=f1e3]:
+    - banner [ref=f1e4]:
+      - generic [ref=f1e5]:
+        - link "Katerina" [ref=f1e6] [cursor=pointer]:
+          - /url: /
+        - generic [ref=f1e7]:
+          - link "Home Home" [ref=f1e8] [cursor=pointer]:
+            - /url: /
+            - generic [ref=f1e9]:
+              - generic [ref=f1e10]: Home
+              - generic [ref=f1e11]: Home
+          - generic [ref=f1e12]: /
+          - link "Works Works" [ref=f1e13] [cursor=pointer]:
+            - /url: /works
+            - generic [ref=f1e14]:
+              - generic [ref=f1e15]: Works
+              - generic [ref=f1e16]: Works
+          - generic [ref=f1e17]: /
+          - link "About About" [ref=f1e18] [cursor=pointer]:
+            - /url: /about
+            - generic [ref=f1e19]:
+              - generic [ref=f1e20]: About
+              - generic [ref=f1e21]: About
+        - link "Contact → →" [ref=f1e22] [cursor=pointer]:
+          - /url: /contact
+          - generic [ref=f1e23]: Contact
+          - generic [ref=f1e24]:
+            - generic [ref=f1e25]: →
+            - generic [ref=f1e26]: →
+        - generic [ref=f1e28]:
+          - generic [ref=f1e29]:
+            - link "Home" [ref=f1e32] [cursor=pointer]:
+              - /url: /
+            - link "works" [ref=f1e35] [cursor=pointer]:
+              - /url: /works
+            - link "About" [ref=f1e38] [cursor=pointer]:
+              - /url: /about
+            - link "Contact" [ref=f1e41] [cursor=pointer]:
+              - /url: /contact
+          - generic [ref=f1e42]:
+            - generic [ref=f1e44]: "[Follow Me]"
+            - generic [ref=f1e45]:
+              - link [ref=f1e46] [cursor=pointer]:
+                - /url: https://facebook.com
+                - img [ref=f1e48]
+              - link [ref=f1e50] [cursor=pointer]:
+                - /url: https://instagram.com
+                - img [ref=f1e52]
+              - link [ref=f1e54] [cursor=pointer]:
+                - /url: https://x.com
+                - img [ref=f1e56]
+              - link [ref=f1e58] [cursor=pointer]:
+                - /url: https://linkedin.com
+                - img [ref=f1e60]
+              - link [ref=f1e62] [cursor=pointer]:
+                - /url: https://youtube.com
+                - img [ref=f1e64]
+    - generic [ref=f1e79]:
+      - generic [ref=f1e81]:
+        - generic [ref=f1e82]: /25
+        - img "Background Image" [ref=f1e85]
+      - generic [ref=f1e86]: "[Intro]"
+      - paragraph [ref=f1e87]: Designing unique visual experiences that capture the essence of brands and stories through art direction, design, and photography.
+      - generic [ref=f1e88]: Scroll Down
+    - generic [ref=f1e92]:
+      - heading "Selected Works" [level=2] [ref=f1e94]
+      - generic [ref=f1e95]:
+        - list [ref=f1e97]:
+          - listitem [ref=f1e98]:
+            - link "Ridgeway 2023" [ref=f1e99] [cursor=pointer]:
+              - /url: /works/ridgeway
+              - generic [ref=f1e101]:
+                - generic [ref=f1e102]: Ridgeway
+                - generic [ref=f1e103]: "2023"
+        - list [ref=f1e105]:
+          - listitem [ref=f1e106]:
+            - link "Garrison & Co 2023" [ref=f1e107] [cursor=pointer]:
+              - /url: /works/garrison-co
+              - generic [ref=f1e109]:
+                - generic [ref=f1e110]: Garrison & Co
+                - generic [ref=f1e111]: "2023"
+        - list [ref=f1e113]:
+          - listitem [ref=f1e114]:
+            - link "Rebrook 2023" [ref=f1e115] [cursor=pointer]:
+              - /url: /works/rebrook
+              - generic [ref=f1e117]:
+                - generic [ref=f1e118]: Rebrook
+                - generic [ref=f1e119]: "2023"
+        - list [ref=f1e121]:
+          - listitem [ref=f1e122]:
+            - link "Emberly 2023" [ref=f1e123] [cursor=pointer]:
+              - /url: /works/emberly
+              - generic [ref=f1e125]:
+                - generic [ref=f1e126]: Emberly
+                - generic [ref=f1e127]: "2023"
+      - link "View All → →" [ref=f1e129] [cursor=pointer]:
+        - /url: /works
+        - generic [ref=f1e130]: View All
+        - generic [ref=f1e131]:
+          - generic [ref=f1e132]: →
+          - generic [ref=f1e133]: →
+    - generic [ref=f1e137]:
+      - heading "Introduction" [level=2] [ref=f1e139]
+      - generic [ref=f1e140]: ABout
+      - generic [ref=f1e141]:
+        - paragraph [ref=f1e142]: I'm a creative at heart, driven by a passion for crafting unique visual experiences that capture the essence of a brand or story. My approach is rooted in curiosity and a love for exploring the intersections of art, design, photography, and storytelling.
+        - paragraph [ref=f1e143]: I believe that good design is not just about aesthetics, but about creating an emotional connection with the audience. I take the time to listen, to understand the nuances of a brand or project, and to craft a visual narrative that resonates.
+        - link "learn more → →" [ref=f1e145] [cursor=pointer]:
+          - /url: /about
+          - generic [ref=f1e146]: learn more
+          - generic [ref=f1e147]:
+            - generic [ref=f1e148]: →
+            - generic [ref=f1e149]: →
+    - generic [ref=f1e153]:
+      - img "Background Image" [ref=f1e155]
+      - generic [ref=f1e156]: Grand Sand Dunes - 37.7658° N, 105.6236° W
+    - generic [ref=f1e160]:
+      - heading "My Services" [level=2] [ref=f1e162]
+      - generic [ref=f1e163]:
+        - generic [ref=f1e164]:
+          - generic [ref=f1e165]: "[01]"
+          - heading "Art Direction" [level=3] [ref=f1e166]
+          - paragraph [ref=f1e169]: 1.1 / Elevating brands through creative vision and strategic guidance. I craft compelling narratives that resonate with audiences and drive results.
+        - generic [ref=f1e170]:
+          - generic [ref=f1e171]: "[02]"
+          - heading "Brand Identity" [level=3] [ref=f1e172]
+          - paragraph [ref=f1e175]: 2.1 / Developing unique visual voices and cohesive brand systems. From logos to color palettes, I create brand identities that are both beautiful and functional.
+        - generic [ref=f1e176]:
+          - generic [ref=f1e177]: "[03]"
+          - heading "Web Design" [level=3] [ref=f1e178]
+          - paragraph [ref=f1e181]: 3.1 / Designing intuitive and visually stunning digital experiences. I balance creative vision with technical expertise to drive engagement and conversion.
+        - generic [ref=f1e182]:
+          - generic [ref=f1e183]: "[04]"
+          - heading "Photos" [level=3] [ref=f1e184]
+          - paragraph [ref=f1e187]: 4.1 / Capturing authentic moments and beauty through the lens. With a keen eye for detail and composition, I tell stories that evoke emotion and connection.
+    - generic [ref=f1e191]:
+      - heading "Let's Connect" [level=2] [ref=f1e192]
+      - generic [ref=f1e193]:
+        - generic [ref=f1e194]: If you're looking for a partner to help you explore new ideas, refine your brand, or simply need someone to bounce ideas off of, I'm here to listen and collaborate.
+        - link "Contact → →" [ref=f1e196] [cursor=pointer]:
+          - /url: /contact
+          - generic [ref=f1e197]: Contact
+          - generic [ref=f1e198]:
+            - generic [ref=f1e199]: →
+            - generic [ref=f1e200]: →
+    - generic [ref=f1e205]:
+      - link "Katerina" [ref=f1e207] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f1e208]:
+        - generic [ref=f1e210]: "[Social]"
+        - generic [ref=f1e211]:
+          - link "Instagram" [ref=f1e212] [cursor=pointer]:
+            - /url: https://instagram.com
+            - generic [ref=f1e213]: Instagram
+          - link "X" [ref=f1e215] [cursor=pointer]:
+            - /url: https://x.com
+            - generic [ref=f1e216]: X
+          - link "Linkedin" [ref=f1e218] [cursor=pointer]:
+            - /url: https://linkedin.com
+            - generic [ref=f1e219]: Linkedin
+          - link "Dribbble" [ref=f1e221] [cursor=pointer]:
+            - /url: https://dribbble.com
+            - generic [ref=f1e222]: Dribbble
+      - generic [ref=f1e224]:
+        - generic [ref=f1e226]: "[Contact]"
+        - link "hi@katerina.com" [ref=f1e228] [cursor=pointer]:
+          - /url: mailto:hi@katerina.com?subject=Hi
+          - generic [ref=f1e229]: hi@katerina.com
+      - generic [ref=f1e231]: 34.0549° N, 118.2426° W
+      - generic [ref=f1e232]:
+        - generic [ref=f1e233]: ©2024. All right reserved
+        - link "(Powered by Webflow)" [ref=f1e234] [cursor=pointer]:
+          - /url: https://webflow.com
+        - link "License" [ref=f1e236] [cursor=pointer]:
+          - /url: /info/license
+          - generic [ref=f1e237]: License

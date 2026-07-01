@@ -126,7 +126,7 @@ const ScrollTape: React.FC<ScrollTapeProps> = ({
       {/* ── SPACER ── */}
       <div
         ref={containerRef}
-        className="relative w-full h-[150vh] md:h-[250vh] lg:h-[320vh] bg-[#FAFAFA] dark:bg-[#050505] transition-colors duration-500 text-black/20 dark:text-white/20"
+        className="relative w-full h-[150vh] md:h-[250vh] lg:h-[320vh] bg-bone dark:bg-[#050505] transition-colors duration-500 text-black/20 dark:text-white/20"
       />
 
       {/* ── FIXED OVERLAY ── */}

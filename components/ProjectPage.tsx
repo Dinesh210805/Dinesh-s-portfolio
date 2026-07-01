@@ -16,7 +16,7 @@ const ProjectPage: React.FC<{ slug: string }> = ({ slug }) => {
 
   if (!p) {
     return (
-      <main className="relative z-20 flex min-h-screen flex-col items-center justify-center gap-6 bg-white text-black dark:bg-background dark:text-white">
+      <main className="relative z-20 flex min-h-screen flex-col items-center justify-center gap-6 bg-bone text-black dark:bg-background dark:text-white">
         <h1 className="font-display text-4xl font-bold">Project not found.</h1>
         <a href="#/work" className="font-mono text-xs uppercase tracking-[0.3em] underline">
           ← All work
@@ -28,7 +28,7 @@ const ProjectPage: React.FC<{ slug: string }> = ({ slug }) => {
   const others = PROJECTS.filter((x) => x.slug !== p.slug).slice(0, 2);
 
   return (
-    <main className="relative z-20 w-full overflow-hidden bg-white pb-28 pt-32 text-black transition-colors duration-500 dark:bg-background dark:text-white md:pt-40">
+    <main className="relative z-20 w-full overflow-hidden bg-bone pb-28 pt-32 text-black transition-colors duration-500 dark:bg-background dark:text-white md:pt-40">
       {/* grain */}
       <div
         aria-hidden

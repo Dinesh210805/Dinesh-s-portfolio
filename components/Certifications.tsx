@@ -59,7 +59,7 @@ const certifications: (Certification & { slug: string; id_hex: string; link: str
 
 const Certifications: React.FC = () => {
   return (
-    <section id="certifications" className="py-16 md:py-32 bg-white dark:bg-background relative overflow-hidden transition-colors duration-500">
+    <section id="certifications" className="py-16 md:py-32 relative overflow-hidden transition-colors duration-500">
       {/* BACKGROUND GRID ARCHIVE */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05] text-black dark:text-[#CCFF00]">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(currentColor_1px,transparent_1px)] [background-size:40px_40px]" />
@@ -128,7 +128,7 @@ const CredentialModule: React.FC<{ cert: any; index: number }> = ({ cert, index 
       transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
       className="group relative bg-neutral-100 dark:bg-[#0a0a0a] border border-black/10 dark:border-white/5 p-1 hover:border-accent/40 transition-all duration-700 overflow-hidden"
     >
-      <div className="bg-white dark:bg-[#080808] p-8 lg:p-12 h-full flex flex-col justify-between relative overflow-hidden transition-colors duration-500">
+      <div className="bg-[#FBFAF5] dark:bg-[#080808] p-8 lg:p-12 h-full flex flex-col justify-between relative overflow-hidden transition-colors duration-500">
         
         {/* HUD DECORATIVE OVERLAY */}
         <div className="absolute top-4 right-4 flex flex-col items-end gap-1 opacity-10 group-hover:opacity-30 transition-opacity">

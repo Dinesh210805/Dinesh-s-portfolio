@@ -84,7 +84,7 @@ const Skills: React.FC = () => {
   return (
     <section
       id="skills"
-      className="relative w-full overflow-hidden bg-white py-20 text-black transition-colors duration-500 dark:bg-background dark:text-white md:py-28"
+      className="relative w-full overflow-hidden py-20 text-black transition-colors duration-500 dark:text-white md:py-28"
     >
       {/* grain */}
       <div

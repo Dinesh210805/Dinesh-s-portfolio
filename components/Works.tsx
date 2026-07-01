@@ -34,31 +34,41 @@ const FeaturedCard: React.FC<{ p: ProjectData; reduce: boolean | null }> = ({ p,
         aria-label={`View ${p.title} — ${p.category}`}
         className="relative block aspect-[4/3] cursor-none overflow-hidden rounded-3xl"
       >
-        {/* zooming color layer (replace this div with an <img> when screenshots land) */}
-        <div
-          className={`absolute inset-0 ${reduce ? '' : 'transition-transform duration-700 ease-out group-hover:scale-[1.06]'}`}
-          style={{ backgroundColor: fill }}
-        >
-          {/* soft top sheen for depth */}
-          <div
-            className="absolute inset-0"
-            style={{ background: 'radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.18), transparent 60%)' }}
+        {/* Cover mockup (falls back to a solid-color placeholder until one lands) */}
+        {p.cover ? (
+          <img
+            src={p.cover}
+            alt={`${p.title} — ${p.category}`}
+            loading="lazy"
+            className={`absolute inset-0 h-full w-full object-cover ${reduce ? '' : 'transition-transform duration-700 ease-out group-hover:scale-[1.06]'}`}
           />
-          {/* faint tone-on-tone title so the placeholder reads as intentional */}
-          <div className="absolute inset-0 grid place-items-center px-6">
-            <span className="select-none font-display text-6xl font-bold uppercase leading-none tracking-tighter text-white/10 md:text-8xl">
-              {p.title}
-            </span>
+        ) : (
+          <div
+            className={`absolute inset-0 ${reduce ? '' : 'transition-transform duration-700 ease-out group-hover:scale-[1.06]'}`}
+            style={{ backgroundColor: fill }}
+          >
+            {/* soft top sheen for depth */}
+            <div
+              className="absolute inset-0"
+              style={{ background: 'radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.18), transparent 60%)' }}
+            />
+            {/* faint tone-on-tone title so the placeholder reads as intentional */}
+            <div className="absolute inset-0 grid place-items-center px-6">
+              <span className="select-none font-display text-6xl font-bold uppercase leading-none tracking-tighter text-white/10 md:text-8xl">
+                {p.title}
+              </span>
+            </div>
           </div>
-          {/* grain */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-overlay"
-            style={{ backgroundImage: GRAIN }}
-          />
-          {/* base darken for metadata legibility */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-        </div>
+        )}
+
+        {/* grain over the media */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-overlay"
+          style={{ backgroundImage: GRAIN }}
+        />
+        {/* base darken for metadata legibility */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
         {/* index / year overlay */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between p-6 font-mono text-[11px] uppercase tracking-widest text-white/75 md:p-7">
@@ -89,7 +99,7 @@ const Works: React.FC = () => {
   return (
     <section
       id="works"
-      className="relative w-full overflow-hidden border-t border-black/10 bg-white py-20 text-black transition-colors duration-500 dark:border-white/10 dark:bg-background dark:text-white md:py-28"
+      className="relative w-full overflow-hidden border-t border-black/10 py-20 text-black transition-colors duration-500 dark:border-white/10 dark:text-white md:py-28"
     >
       <div
         aria-hidden

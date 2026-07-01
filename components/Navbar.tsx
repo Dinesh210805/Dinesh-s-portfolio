@@ -205,7 +205,7 @@ const Navbar: React.FC = () => {
           <button
             onClick={(e) => scrollToSection(e, '#contact')}
             aria-label="Connect"
-            className="ml-0.5 grid h-10 w-10 place-items-center rounded-full bg-accent text-black"
+            className="ml-0.5 grid h-10 w-10 place-items-center rounded-full bg-black text-white dark:bg-white dark:text-black"
           >
             <Mail size={18} strokeWidth={2.2} />
           </button>

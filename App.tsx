@@ -6,6 +6,8 @@ import { Analytics } from '@vercel/analytics/react';
 import './types'; // Ensure global types are loaded
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import HeroPortraitTravel from './components/HeroPortraitTravel';
+import AlignGuides from './components/AlignGuides';
 import Marquee from './components/Marquee';
 import ProfileHeader from './components/ProfileHeader';
 import Services from './components/Services';
@@ -91,13 +93,15 @@ const App: React.FC = () => {
       </AnimatePresence>
 
       {!isLoading && (
-        <div className="w-full bg-white dark:bg-background selection:bg-accent selection:text-black">
+        <div className="w-full bg-bone dark:bg-background selection:bg-accent selection:text-black">
           <Navbar />
           <ThemeToggle />
+          <AlignGuides />
 
           {route.name === 'home' && (
-            <main className="relative z-20 bg-white dark:bg-background shadow-[0_50px_100px_rgba(0,0,0,0.9)]">
+            <main className="relative z-20 bg-bone dark:bg-background shadow-[0_50px_100px_rgba(0,0,0,0.9)]">
               <Hero />
+              <HeroPortraitTravel />
               {/* <Marquee /> */}
               <ProfileHeader />
               <Works />

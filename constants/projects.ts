@@ -20,7 +20,8 @@ export interface ProjectData {
   category: string;
   year: string;
   featured: boolean;
-  color?: string; // solid placeholder color for cards (until screenshots land)
+  color?: string; // solid placeholder color for cards (fallback when no cover)
+  cover?: string; // cover mockup image (root-relative path in /public)
   tagline: string; // one line for cards
   summary: string; // detail-page hero description
   stack: string[];
@@ -79,6 +80,7 @@ export const PROJECTS: ProjectData[] = [
     year: '2025',
     featured: true,
     color: '#C2410C',
+    cover: '/GravitycARgocoverphoto.png',
     tagline: 'Packing plans that hold up in the real world.',
     summary:
       'A constraint-aware 3D container-loading optimizer that turns cargo data into safer, denser packing plans — with 3D and AR-ready output.',
@@ -107,6 +109,7 @@ export const PROJECTS: ProjectData[] = [
     year: '2024',
     featured: true,
     color: '#0F766E',
+    cover: '/staybotcoverphoto.png',
     tagline: 'One agent, fifteen tools, real bookings.',
     summary:
       'A travel assistant built on a single LangGraph ReAct agent routing 15 specialized tools across 450+ stays and 4,500+ reviews.',
@@ -164,6 +167,7 @@ export const PROJECTS: ProjectData[] = [
     year: '2024',
     featured: false,
     color: '#6D28D9',
+    cover: '/langlearncoverphoto.png',
     tagline: 'Forty languages, taught from real video.',
     summary:
       'A 40+ language learning platform with schema-locked lesson generation and browser-native voice-to-voice translation.',

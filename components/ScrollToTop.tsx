@@ -48,19 +48,19 @@ const ScrollToTop: React.FC = () => {
           aria-label="Scroll to top"
         >
           <div className="relative">
-            {/* Main Button */}
-            <div className="w-12 h-12 bg-accent text-black flex items-center justify-center border border-accent/50 hover:bg-accent/90 transition-all duration-300 group-hover:scale-110">
+            {/* Main Button — crimson with a white arrow */}
+            <div className="w-12 h-12 bg-[#DC143C] text-white flex items-center justify-center border border-[#DC143C]/60 hover:bg-[#c01236] transition-all duration-300 group-hover:scale-110">
               <ArrowUp size={20} className="group-hover:translate-y-[-2px] transition-transform" />
             </div>
 
             {/* Glow Effect */}
-            <div className="absolute inset-0 bg-accent/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-            
+            <div className="absolute inset-0 bg-[#DC143C]/25 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+
             {/* Corner Accents */}
-            <div className="absolute -top-1 -left-1 w-2 h-2 border-t border-l border-accent/40" />
-            <div className="absolute -top-1 -right-1 w-2 h-2 border-t border-r border-accent/40" />
-            <div className="absolute -bottom-1 -left-1 w-2 h-2 border-b border-l border-accent/40" />
-            <div className="absolute -bottom-1 -right-1 w-2 h-2 border-b border-r border-accent/40" />
+            <div className="absolute -top-1 -left-1 w-2 h-2 border-t border-l border-[#DC143C]/50" />
+            <div className="absolute -top-1 -right-1 w-2 h-2 border-t border-r border-[#DC143C]/50" />
+            <div className="absolute -bottom-1 -left-1 w-2 h-2 border-b border-l border-[#DC143C]/50" />
+            <div className="absolute -bottom-1 -right-1 w-2 h-2 border-b border-r border-[#DC143C]/50" />
           </div>
 
           {/* Tooltip */}

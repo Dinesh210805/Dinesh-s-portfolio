@@ -21,7 +21,7 @@ const card: Variants = {
 
 const AllWorks: React.FC = () => {
   return (
-    <main className="relative z-20 w-full overflow-hidden bg-white pb-28 pt-32 text-black transition-colors duration-500 dark:bg-background dark:text-white md:pt-40">
+    <main className="relative z-20 w-full overflow-hidden bg-bone pb-28 pt-32 text-black transition-colors duration-500 dark:bg-background dark:text-white md:pt-40">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-0 opacity-[0.035] mix-blend-multiply dark:opacity-[0.06] dark:mix-blend-screen"
@@ -68,26 +68,35 @@ const AllWorks: React.FC = () => {
                 aria-label={`View ${p.title} — ${p.category}`}
                 className="relative block aspect-[16/10] cursor-none overflow-hidden rounded-3xl"
               >
-                <div
-                  className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                  style={{ backgroundColor: p.color ?? '#171717' }}
-                >
-                  <div
-                    className="absolute inset-0"
-                    style={{ background: 'radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.18), transparent 60%)' }}
+                {p.cover ? (
+                  <img
+                    src={p.cover}
+                    alt={`${p.title} — ${p.category}`}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                   />
-                  <div className="absolute inset-0 grid place-items-center px-6">
-                    <span className="select-none font-display text-5xl font-bold uppercase leading-none tracking-tighter text-white/10 md:text-7xl">
-                      {p.title}
-                    </span>
+                ) : (
+                  <div
+                    className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                    style={{ backgroundColor: p.color ?? '#171717' }}
+                  >
+                    <div
+                      className="absolute inset-0"
+                      style={{ background: 'radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.18), transparent 60%)' }}
+                    />
+                    <div className="absolute inset-0 grid place-items-center px-6">
+                      <span className="select-none font-display text-5xl font-bold uppercase leading-none tracking-tighter text-white/10 md:text-7xl">
+                        {p.title}
+                      </span>
+                    </div>
                   </div>
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-overlay"
-                    style={{ backgroundImage: GRAIN }}
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                </div>
+                )}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-overlay"
+                  style={{ backgroundImage: GRAIN }}
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                 <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between p-6 font-mono text-[11px] uppercase tracking-widest text-white/75 md:p-7">
                   <span>{p.index}</span>
                   <span>{p.year}</span>

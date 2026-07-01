@@ -52,7 +52,7 @@ const Contact: React.FC = () => {
       id="contact" 
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative py-16 md:py-32 bg-white dark:bg-background overflow-hidden border-t border-black/10 dark:border-white/5 transition-colors duration-500"
+      className="relative py-16 md:py-32 overflow-hidden border-t border-black/10 dark:border-white/5 transition-colors duration-500"
     >
       {/* Interactive Mouse Glow */}
       <div 
