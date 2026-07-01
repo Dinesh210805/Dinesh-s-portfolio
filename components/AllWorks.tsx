@@ -66,14 +66,14 @@ const AllWorks: React.FC = () => {
                 data-cursor-text="View"
                 data-cursor-variant="bubble"
                 aria-label={`View ${p.title} — ${p.category}`}
-                className="relative block aspect-[16/10] cursor-none overflow-hidden rounded-3xl"
+                className="relative block aspect-[16/10] cursor-none overflow-hidden rounded-3xl bg-neutral-100 dark:bg-white/[0.03]"
               >
                 {p.cover ? (
                   <img
                     src={p.cover}
                     alt={`${p.title} — ${p.category}`}
                     loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                    className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                   />
                 ) : (
                   <div

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import SectionHeading from './ui/section-heading';
 
 /* ─────────────────────────────────────────────────────────────
  * Recognition — a cinematic expand-and-sequence. As the section
@@ -74,15 +75,10 @@ const Achievements: React.FC = () => {
   return (
     <section id="achievements" className="relative z-10 w-full text-black transition-colors duration-500 dark:text-white">
       {/* centered heading */}
-      <div className="relative z-10 mx-auto max-w-2xl px-6 pb-14 pt-24 text-center md:pb-16 md:pt-28">
-        <div className="flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-[0.5em] text-neutral-400">
-          <span className="h-px w-8 bg-current" />
-          Recognition
-          <span className="h-px w-8 bg-current" />
-        </div>
-        <h2 className="mt-6 font-display text-5xl font-bold tracking-tighter text-black md:text-7xl dark:text-white">
+      <div className="relative z-10 mx-auto max-w-5xl px-6 pb-14 pt-24 text-center md:pb-16 md:pt-28">
+        <SectionHeading eyebrow="Recognition" align="center">
           Recognition.
-        </h2>
+        </SectionHeading>
         <p className="mx-auto mt-6 max-w-md text-base leading-relaxed text-neutral-500 md:text-lg">
           National and global hackathons — the ones that made the cut.
         </p>
@@ -95,17 +91,31 @@ const Achievements: React.FC = () => {
             style={{ margin, borderRadius: radius }}
             className="absolute inset-0 overflow-hidden bg-black shadow-[0_40px_100px_-40px_rgba(0,0,0,0.5)]"
           >
-            {/* stacked stills */}
+            {/* stacked stills — each shown as an uncropped 4:3 still */}
             {HONORS.map((h, i) => (
-              <motion.div key={h.n} style={{ opacity: opacities[i] }} className="absolute inset-0">
+              <motion.div
+                key={h.n}
+                style={{ opacity: opacities[i] }}
+                className="absolute inset-0 flex items-center justify-center"
+              >
+                {/* Ambient blurred backdrop — the same still, scaled up 130–150%
+                    and heavily blurred so only its colours/large shapes remain,
+                    slightly darker + more saturated. Fills the whole screen so
+                    there are no bars; the sharp 4:3 image stays the focus. */}
                 <img
                   src={h.img}
-                  alt={`${h.event} — ${h.rank}`}
-                  loading={i === 0 ? 'eager' : 'lazy'}
-                  className={`h-full w-full contrast-[1.05] saturate-[1.08] ${
-                    h.fit === 'cover' ? 'object-cover' : 'object-contain p-6 md:p-16'
-                  }`}
+                  aria-hidden
+                  className="absolute inset-0 h-full w-full scale-[1.4] object-cover blur-3xl brightness-[0.8] saturate-[1.25]"
                 />
+                {/* sharp, uncropped 4:3 foreground */}
+                <div className="relative aspect-[4/3] max-h-[86%] w-[92%] max-w-[1250px] overflow-hidden shadow-[0_40px_90px_-30px_rgba(0,0,0,0.8)] md:h-[82%] md:w-auto">
+                  <img
+                    src={h.img}
+                    alt={`${h.event} — ${h.rank}`}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    className="h-full w-full object-cover contrast-[1.05] saturate-[1.08]"
+                  />
+                </div>
               </motion.div>
             ))}
 

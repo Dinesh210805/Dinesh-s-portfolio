@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useInView, useSpring, useReducedMotion } from 'framer-motion';
 import { Em } from './ui/emphasis';
+import SectionHeading from './ui/section-heading';
 
 /* ─────────────────────────────────────────────────────────────
  * Experience — a vertical "levels" timeline. A central spine draws
@@ -231,23 +232,18 @@ const Experience: React.FC = () => {
         style={{ backgroundImage: GRAIN }}
       />
 
-      <div ref={containerRef} className="relative z-10 mx-auto w-full max-w-[1300px] px-6 md:px-10 lg:px-16">
-        {/* header — matches the other sections */}
-        <div className="mb-14 max-w-2xl md:mb-24">
-          <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.5em] text-neutral-400 dark:text-neutral-600">
-            <span className="h-px w-8 bg-current" />
-            Experience
-          </div>
-          <h2 className="mt-6 font-display text-5xl font-bold tracking-tighter md:text-7xl">
-            How I got here.
-          </h2>
+      <div ref={containerRef} className="relative z-10 w-full px-6 md:px-12">
+        {/* header — full-width, aligned to the hero "D" */}
+        <div className="mb-12 md:mb-20">
+          <SectionHeading eyebrow="Experience">Path.</SectionHeading>
           <p className="mt-6 max-w-lg text-base leading-relaxed text-neutral-500 dark:text-neutral-400 md:text-lg">
             Two AI internships and a B.Tech — five levels, <Em>most recent first</Em>. The line draws
             as you go.
           </p>
         </div>
 
-        <div className="relative">
+        {/* timeline kept centered at a readable width */}
+        <div className="relative mx-auto max-w-[1150px]">
           {/* background track */}
           <div className="absolute bottom-0 left-6 top-0 w-px -translate-x-1/2 bg-black/10 dark:bg-white/10 md:left-1/2" />
           {/* active drawn line */}

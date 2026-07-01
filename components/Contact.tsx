@@ -1,37 +1,35 @@
-
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, Activity, Shield, Hash, ArrowRight } from 'lucide-react';
+import { CheckCircle2, ArrowUpRight, ArrowRight, Github, Linkedin } from 'lucide-react';
+import ScrollReveal from './ui/scroll-reveal';
+import SectionHeading from './ui/section-heading';
 import Magnetic from './Magnetic';
+
+/* ─────────────────────────────────────────────────────────────
+ * Contact — clean editorial close. Left: a short invitation with
+ * the real ways to reach out. Right: a minimal underline form
+ * (Web3Forms). Monochrome, full-bleed, heading aligned to the "D".
+ * ───────────────────────────────────────────────────────────── */
+
+const GRAIN =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
 const Contact: React.FC = () => {
   const [formState, setFormState] = useState<'IDLE' | 'SENDING' | 'SUCCESS'>('IDLE');
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const containerRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormState('SENDING');
-    
+
     try {
       const formData = new FormData(formRef.current!);
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: formData
+        body: formData,
       });
-
       const data = await response.json();
-      
+
       if (data.success) {
         setFormState('SUCCESS');
         formRef.current?.reset();
@@ -48,198 +46,162 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section 
-      id="contact" 
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      className="relative py-16 md:py-32 overflow-hidden border-t border-black/10 dark:border-white/5 transition-colors duration-500"
+    <section
+      id="contact"
+      className="relative w-full overflow-hidden border-t border-black/10 py-20 text-black transition-colors duration-500 dark:border-white/5 dark:text-white md:py-28"
     >
-      {/* Interactive Mouse Glow */}
-      <div 
-        className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-500"
-        style={{
-          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(204, 255, 0, 0.04), transparent 80%)`,
-        }}
+      {/* grain */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0 opacity-[0.035] mix-blend-multiply dark:opacity-[0.06] dark:mix-blend-screen"
+        style={{ backgroundImage: GRAIN }}
       />
 
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.02] z-0 text-black dark:text-[#CCFF00]">
-        <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,currentColor_1px,transparent_1px),linear-gradient(to_bottom,currentColor_1px,transparent_1px)] [background-size:60px_60px]" />
-      </div>
+      <div className="relative z-10 w-full px-6 md:px-12">
+        {/* Header */}
+        <div className="mb-12 md:mb-16">
+          <SectionHeading eyebrow="Get in touch">Connect.</SectionHeading>
+        </div>
 
-      <div className="px-6 md:px-12 lg:px-20 max-w-[1400px] mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
-          
-          {/* Left Column: Context & Metadata */}
-          <div className="lg:col-span-5 flex flex-col justify-between space-y-16">
-            <div className="space-y-10">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="flex items-center gap-4"
-              >
-                <div className="w-12 h-[1px] bg-accent" />
-                <span className="font-mono text-accent text-[10px] tracking-[0.5em] uppercase font-bold">Comms_Protocol_v3</span>
-              </motion.div>
+        <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-20">
+          {/* Left — invitation + reach */}
+          <div className="flex flex-col justify-between gap-12 lg:col-span-5">
+            <ScrollReveal>
+              <p className="max-w-md text-lg leading-relaxed text-neutral-600 dark:text-neutral-300 md:text-xl">
+                Open to internships, collaborations, and building AI products that actually ship.
+                The fastest way to reach me is email.
+              </p>
+            </ScrollReveal>
 
-              <div className="space-y-4">
-                <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold text-black dark:text-white tracking-tighter leading-tight uppercase">
-                  INITIATE <br /> 
-                  <span className="text-transparent [-webkit-text-stroke:1px_#000000] dark:[-webkit-text-stroke:1px_#CCFF00]">CHANNEL.</span>
-                </h2>
-                <p className="text-neutral-600 dark:text-secondary text-lg max-w-sm leading-relaxed font-light">
-                  Available for strategic collaborations, industrial-grade engineering, and high-performance system design.
-                </p>
-              </div>
-            </div>
+            <ScrollReveal delay={0.1}>
+              <div className="flex flex-col gap-8">
+                <a
+                  href="mailto:dinesh210805@gmail.com"
+                  className="group inline-flex w-fit items-center gap-3 font-display text-2xl font-bold tracking-tight transition-colors md:text-3xl"
+                >
+                  dinesh210805@gmail.com
+                  <ArrowUpRight
+                    size={22}
+                    className="transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
+                  />
+                </a>
 
-            <div className="space-y-12">
-              {/* HUD Stats Component */}
-              <div className="grid grid-cols-2 gap-8 border-t border-black/10 dark:border-white/5 pt-10">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 font-mono text-[8px] text-black/40 dark:text-white/40 uppercase tracking-widest">
-                    <Shield size={10} className="text-accent" />
-                    <span>Secure_Link</span>
+                <div className="flex flex-wrap items-center gap-x-10 gap-y-6">
+                  <div className="flex flex-col gap-1">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-neutral-400 dark:text-neutral-600">
+                      Based in
+                    </span>
+                    <span className="font-mono text-sm uppercase tracking-widest">Puducherry, IN</span>
                   </div>
-                  <p className="font-mono text-[10px] text-black/60 dark:text-white/60 tracking-wider">AES-256_ENCRYPTED</p>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 font-mono text-[8px] text-black/40 dark:text-white/40 uppercase tracking-widest">
-                    <Activity size={10} className="text-accent" />
-                    <span>Latency</span>
-                  </div>
-                  <p className="font-mono text-[10px] text-black/60 dark:text-white/60 tracking-wider">22MS_STABLE</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-10">
-                <div className="flex flex-col gap-1">
-                  <span className="font-mono text-[8px] text-black/40 dark:text-white/40 uppercase tracking-[0.4em]">Local_Time</span>
-                  <span className="font-mono text-xs text-black dark:text-white uppercase tracking-widest font-medium">PUDUCHERRY, IN</span>
-                </div>
-                <div className="w-[1px] h-8 bg-black/10 dark:bg-white/10" />
-                <div className="flex flex-col gap-1">
-                  <span className="font-mono text-[8px] text-black/40 dark:text-white/40 uppercase tracking-[0.4em]">Status</span>
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                    <span className="font-mono text-xs text-accent uppercase tracking-widest font-black">LIVE_SESSION</span>
+                  <div className="flex flex-col gap-1">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-neutral-400 dark:text-neutral-600">
+                      Status
+                    </span>
+                    <span className="inline-flex items-center gap-2 font-mono text-sm uppercase tracking-widest">
+                      <span className="h-1.5 w-1.5 rounded-full bg-black motion-safe:animate-pulse dark:bg-white" />
+                      Available
+                    </span>
                   </div>
                 </div>
+
+                <div className="flex gap-3">
+                  {[
+                    { icon: <Github size={18} />, href: 'https://github.com/Dinesh210805', label: 'GitHub' },
+                    {
+                      icon: <Linkedin size={18} />,
+                      href: 'https://linkedin.com/in/dinesh-kumar-c-93a38129b',
+                      label: 'LinkedIn',
+                    },
+                  ].map((s) => (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={s.label}
+                      className="grid h-11 w-11 place-items-center rounded-full border border-black/15 transition-colors duration-300 hover:bg-black hover:text-white dark:border-white/15 dark:hover:bg-white dark:hover:text-black"
+                    >
+                      {s.icon}
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
 
-          {/* Right Column: The Form */}
-          <div className="lg:col-span-7 relative">
+          {/* Right — the form */}
+          <div className="lg:col-span-7">
             <AnimatePresence mode="wait">
               {formState === 'SUCCESS' ? (
                 <motion.div
                   key="success"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="h-full min-h-[500px] flex flex-col items-center justify-center p-12 border border-accent/20 bg-accent/[0.02] backdrop-blur-3xl text-center space-y-8"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex min-h-[420px] flex-col items-start justify-center gap-6 border-t border-black/10 pt-10 dark:border-white/10"
                 >
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 200, damping: 12 }}
-                  >
-                    <CheckCircle2 size={80} className="text-accent" />
-                  </motion.div>
-                  <div className="space-y-4">
-                    <h3 className="text-3xl font-display font-bold text-black dark:text-white uppercase tracking-tighter">Transmission Received</h3>
-                    <p className="text-neutral-600 dark:text-secondary font-mono text-[10px] uppercase tracking-widest max-w-xs mx-auto leading-relaxed">
-                      Packet delivered successfully. <br/> Routing to developer core for processing.
+                  <CheckCircle2 size={48} strokeWidth={1.4} />
+                  <div className="space-y-2">
+                    <h3 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
+                      Message sent.
+                    </h3>
+                    <p className="max-w-sm text-base leading-relaxed text-neutral-500 dark:text-neutral-400">
+                      Thanks for reaching out — I’ll get back to you shortly.
                     </p>
                   </div>
-                  <button 
+                  <button
                     onClick={() => setFormState('IDLE')}
-                    className="font-mono text-[10px] text-accent border border-accent/40 px-8 py-4 hover:bg-accent hover:text-black transition-all uppercase tracking-[0.3em] font-bold"
+                    className="font-mono text-[11px] uppercase tracking-[0.3em] text-black underline-offset-4 hover:underline dark:text-white"
                   >
-                    Send_New_Packet
+                    Send another
                   </button>
                 </motion.div>
               ) : (
-                <motion.form 
+                <motion.form
                   key="form"
                   ref={formRef}
                   onSubmit={handleSubmit}
                   initial={{ opacity: 1 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  className="space-y-12 bg-black/[0.02] dark:bg-white/[0.01] border border-black/10 dark:border-white/5 p-8 md:p-12 backdrop-blur-sm"
+                  exit={{ opacity: 0 }}
+                  className="flex flex-col gap-10"
                 >
-                  {/* Web3Forms Access Key */}
+                  {/* Web3Forms */}
                   <input type="hidden" name="access_key" value={import.meta.env.VITE_WEB3FORMS_ACCESS_KEY} />
-                  <input type="hidden" name="subject" value="New Contact from Portfolio" />
+                  <input type="hidden" name="subject" value="New contact from portfolio" />
                   <input type="hidden" name="from_name" value="Portfolio Contact Form" />
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-                    <InputField 
-                      label="Identity_Source" 
-                      name="name"
-                      placeholder="Your Name" 
-                      type="text" 
-                      required 
-                    />
-                    <InputField 
-                      label="Return_Path" 
-                      name="email"
-                      placeholder="email@example.com" 
-                      type="email" 
-                      required 
-                    />
-                  </div>
-                  
-                  <InputField 
-                    label="Project_Scope" 
-                    name="subject"
-                    placeholder="Subject / Company" 
-                    type="text" 
-                  />
 
-                  <div className="relative space-y-4">
-                    <div className="flex justify-between items-center">
-                      <label className="font-mono text-[9px] text-accent tracking-[0.4em] uppercase font-bold">Message_Payload</label>
-                      <span className="font-mono text-[7px] text-black/40 dark:text-white/40 uppercase">Size_Limit: 4.2kb</span>
-                    </div>
-                    <textarea 
+                  <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+                    <Field label="Name" name="name" type="text" placeholder="Your name" required />
+                    <Field label="Email" name="email" type="email" placeholder="you@example.com" required />
+                  </div>
+                  <Field label="Subject" name="subject" type="text" placeholder="Company / project" />
+
+                  <div className="flex flex-col gap-3">
+                    <label className="font-mono text-[10px] uppercase tracking-[0.35em] text-neutral-500 dark:text-neutral-400">
+                      Message
+                    </label>
+                    <textarea
                       name="message"
-                      placeholder="Brief your requirements..."
-                      rows={5}
+                      placeholder="Tell me a little about it…"
+                      rows={4}
                       required
-                      className="w-full bg-black/[0.02] dark:bg-white/[0.02] border-b border-black/10 dark:border-white/10 p-6 text-black dark:text-white text-lg focus:outline-none focus:border-accent transition-all duration-500 placeholder:text-black/30 dark:placeholder:text-white/30 resize-none font-light"
+                      className="w-full resize-none border-b border-black/15 bg-transparent pb-3 text-lg font-light text-black transition-colors duration-300 placeholder:text-black/30 focus:border-black focus:outline-none dark:border-white/15 dark:text-white dark:placeholder:text-white/30 dark:focus:border-white"
                     />
                   </div>
 
-                  <div className="flex flex-col md:flex-row items-center justify-between gap-12 pt-4">
-                    <div className="flex items-center gap-6 opacity-30 hover:opacity-100 transition-opacity">
-                      <div className="flex flex-col gap-2">
-                        <div className="flex gap-1">
-                          {[...Array(6)].map((_, i) => <div key={i} className="w-3 h-1 bg-black/40 dark:bg-white/40" />)}
-                        </div>
-                        <span className="font-mono text-[7px] text-black dark:text-white uppercase tracking-widest font-bold">Integrity_Check: VALID</span>
-                      </div>
-                    </div>
-
-                    <Magnetic strength={40}>
-                      <button 
-                        type="submit"
-                        disabled={formState === 'SENDING'}
-                        className="group relative flex items-center gap-8 py-5 pl-12 pr-6 bg-accent border border-accent hover:shadow-[0_0_40px_rgba(204,255,0,0.25)] transition-all duration-500 overflow-hidden cursor-none"
-                      >
-                        <span className="font-mono text-[11px] font-black text-black uppercase tracking-[0.4em] relative z-10">
-                          {formState === 'SENDING' ? 'Processing...' : 'Execute_Transmit'}
-                        </span>
-                        <div className="w-10 h-10 bg-black text-accent flex items-center justify-center relative z-10 transition-transform group-hover:translate-x-1">
-                          <ArrowRight size={18} />
-                        </div>
-                        
-                        {/* Scanning effect */}
-                        <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:animate-shimmer pointer-events-none" />
-                      </button>
-                    </Magnetic>
-                  </div>
+                  <Magnetic strength={30}>
+                    <button
+                      type="submit"
+                      disabled={formState === 'SENDING'}
+                      className="group inline-flex w-fit cursor-none items-center gap-4 rounded-full bg-black py-4 pl-8 pr-4 text-white transition-colors duration-300 hover:bg-neutral-800 disabled:opacity-60 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
+                    >
+                      <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em]">
+                        {formState === 'SENDING' ? 'Sending…' : 'Send message'}
+                      </span>
+                      <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-black transition-transform group-hover:translate-x-0.5 dark:bg-black dark:text-white">
+                        <ArrowRight size={16} />
+                      </span>
+                    </button>
+                  </Magnetic>
                 </motion.form>
               )}
             </AnimatePresence>
@@ -250,25 +212,27 @@ const Contact: React.FC = () => {
   );
 };
 
-const InputField: React.FC<{ label: string; name: string; placeholder: string; type: string; required?: boolean }> = ({ label, name, placeholder, type, required }) => {
-  return (
-    <div className="relative space-y-3 group">
-      <div className="flex items-center gap-2">
-        <Hash size={10} className="text-accent/30 group-focus-within:text-accent transition-colors" />
-        <label className="font-mono text-[9px] text-black/60 dark:text-white/60 tracking-[0.4em] uppercase font-bold group-focus-within:text-accent transition-colors">
-          {label}
-        </label>
-      </div>
-      <input 
-        name={name}
-        type={type} 
-        required={required}
-        placeholder={placeholder}
-        className="w-full bg-transparent border-b border-black/10 dark:border-white/10 pb-4 text-black dark:text-white text-base md:text-lg focus:outline-none focus:border-accent transition-all duration-500 placeholder:text-black/30 dark:placeholder:text-white/30 font-light"
-      />
-      <div className="absolute bottom-0 left-0 h-[1.5px] bg-accent w-0 group-focus-within:w-full transition-all duration-700 ease-out" />
-    </div>
-  );
-};
+interface FieldProps {
+  label: string;
+  name: string;
+  type: string;
+  placeholder: string;
+  required?: boolean;
+}
+
+const Field: React.FC<FieldProps> = ({ label, name, type, placeholder, required }) => (
+  <div className="flex flex-col gap-3">
+    <label className="font-mono text-[10px] uppercase tracking-[0.35em] text-neutral-500 dark:text-neutral-400">
+      {label}
+    </label>
+    <input
+      name={name}
+      type={type}
+      required={required}
+      placeholder={placeholder}
+      className="w-full border-b border-black/15 bg-transparent pb-3 text-lg font-light text-black transition-colors duration-300 placeholder:text-black/30 focus:border-black focus:outline-none dark:border-white/15 dark:text-white dark:placeholder:text-white/30 dark:focus:border-white"
+    />
+  </div>
+);
 
 export default Contact;

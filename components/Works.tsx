@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import ScrollReveal from './ui/scroll-reveal';
+import SectionHeading from './ui/section-heading';
 import { FEATURED, type ProjectData } from '../constants/projects';
 
 /* ─────────────────────────────────────────────────────────────
@@ -32,15 +33,16 @@ const FeaturedCard: React.FC<{ p: ProjectData; reduce: boolean | null }> = ({ p,
         data-cursor-text="View"
         data-cursor-variant="bubble"
         aria-label={`View ${p.title} — ${p.category}`}
-        className="relative block aspect-[4/3] cursor-none overflow-hidden rounded-3xl"
+        className="relative block aspect-[4/3] cursor-none overflow-hidden rounded-3xl bg-neutral-100 dark:bg-white/[0.03]"
       >
-        {/* Cover mockup (falls back to a solid-color placeholder until one lands) */}
+        {/* Cover mockup — object-contain so the shot is shown whole, never
+            cropped on the sides; sits on a neutral matte. */}
         {p.cover ? (
           <img
             src={p.cover}
             alt={`${p.title} — ${p.category}`}
             loading="lazy"
-            className={`absolute inset-0 h-full w-full object-cover ${reduce ? '' : 'transition-transform duration-700 ease-out group-hover:scale-[1.06]'}`}
+            className={`absolute inset-0 h-full w-full object-contain p-3 md:p-4 ${reduce ? '' : 'transition-transform duration-700 ease-out group-hover:scale-[1.03]'}`}
           />
         ) : (
           <div
@@ -107,52 +109,42 @@ const Works: React.FC = () => {
         style={{ backgroundImage: GRAIN }}
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 md:px-10 lg:px-16">
+      <div className="relative z-10 w-full px-6 md:px-12">
         {/* Header */}
-        <div className="mb-12 flex flex-col gap-8 md:mb-16 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-2xl">
-            <ScrollReveal>
-              <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.5em] text-neutral-400 dark:text-neutral-600">
-                <span className="h-px w-8 bg-current" />
-                Featured Work
-              </div>
-            </ScrollReveal>
-            <ScrollReveal delay={0.1}>
-              <h2 className="mt-6 font-display text-5xl font-bold tracking-tighter md:text-7xl">
-                Things I’ve shipped.
-              </h2>
-            </ScrollReveal>
+        <div className="mb-12 md:mb-16">
+          <SectionHeading eyebrow="Selected Work">Work.</SectionHeading>
+          <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <ScrollReveal delay={0.2}>
-              <p className="mt-6 max-w-lg text-base leading-relaxed text-neutral-500 dark:text-neutral-400 md:text-lg">
-                Four I’m proud of. Each one built end to end — click in for the full story.
+              <p className="max-w-lg text-base leading-relaxed text-neutral-500 dark:text-neutral-400 md:text-lg">
+                Three I’m proud of. Each one built end to end — click in for the full story.
               </p>
             </ScrollReveal>
-          </div>
 
-          <ScrollReveal delay={0.2}>
-            <a
-              href="#/work"
-              className="group inline-flex w-fit items-center gap-3 font-mono text-[11px] uppercase tracking-[0.25em] text-black transition-colors dark:text-white"
-            >
-              <span className="border-b border-black/30 pb-0.5 transition-colors group-hover:border-black dark:border-white/30 dark:group-hover:border-white">
-                View all work
-              </span>
-              <span className="grid h-8 w-8 place-items-center rounded-full border border-black/20 transition-transform duration-300 group-hover:rotate-45 dark:border-white/20">
-                <ArrowUpRight size={14} />
-              </span>
-            </a>
-          </ScrollReveal>
+            <ScrollReveal delay={0.2}>
+              <a
+                href="#/work"
+                className="group inline-flex w-fit items-center gap-3 font-mono text-[11px] uppercase tracking-[0.25em] text-black transition-colors dark:text-white"
+              >
+                <span className="border-b border-black/30 pb-0.5 transition-colors group-hover:border-black dark:border-white/30 dark:group-hover:border-white">
+                  View all work
+                </span>
+                <span className="grid h-8 w-8 place-items-center rounded-full border border-black/20 transition-transform duration-300 group-hover:rotate-45 dark:border-white/20">
+                  <ArrowUpRight size={14} />
+                </span>
+              </a>
+            </ScrollReveal>
+          </div>
         </div>
 
-        {/* Featured grid */}
+        {/* Featured grid — three across on one line */}
         <motion.div
           variants={container}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: '-80px' }}
-          className="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 md:gap-x-8 md:gap-y-14"
+          className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 md:gap-x-8 md:gap-y-14"
         >
-          {FEATURED.map((p) => (
+          {FEATURED.slice(0, 3).map((p) => (
             <FeaturedCard key={p.slug} p={p} reduce={reduce} />
           ))}
         </motion.div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, LayoutGrid, Code2, Wrench, Briefcase, Award, Mail } from 'lucide-react';
+import { User, LayoutGrid, Code2, Wrench, Briefcase, Award, BadgeCheck, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import Magnetic from './Magnetic';
@@ -12,6 +12,7 @@ const navLinks = [
   { name: 'Skills', href: '#skills', icon: Code2 },
   { name: 'Services', href: '#services', icon: Wrench },
   { name: 'Experience', href: '#experience', icon: Briefcase },
+  { name: 'Certs', href: '#certifications', icon: BadgeCheck },
 ];
 
 // Scroll-spy targets in page order. Certifications maps onto Recognition.
@@ -21,11 +22,11 @@ const navIndexForSection = (id: string): number => {
   switch (id) {
     case 'about': return 0;
     case 'works': return 1;
-    case 'achievements':
-    case 'certifications': return 2;
+    case 'achievements': return 2;
     case 'skills': return 3;
     case 'services': return 4;
     case 'experience': return 5;
+    case 'certifications': return 6;
     default: return -1;
   }
 };

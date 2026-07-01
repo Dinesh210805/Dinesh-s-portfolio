@@ -1,0 +1,17 @@
+- generic [active]:
+  - generic:
+    - generic:
+      - generic:
+        - img
+    - generic [ref=f3e1]:
+      - generic:
+        - generic:
+          - generic:
+            - heading "Hi, I'm Dinesh Kumar." [level=1]
+          - generic:
+            - generic:
+              - generic: 0%
+              - generic: Loading Experience
+      - generic [ref=f3e2]:
+        - generic [ref=f3e3]: System Initializing
+        - generic [ref=f3e4]: _

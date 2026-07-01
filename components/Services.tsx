@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import ScrollReveal from './ui/scroll-reveal';
 import { Em } from './ui/emphasis';
+import SectionHeading from './ui/section-heading';
 
 /* ─────────────────────────────────────────────────────────────
  * Services — "the capability ledger".
@@ -105,20 +106,10 @@ const Services: React.FC = () => {
         style={{ backgroundImage: GRAIN }}
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 md:px-10 lg:px-16">
+      <div className="relative z-10 w-full px-6 md:px-12">
         {/* ── Header (narrative tie) ── */}
-        <div className="mb-14 max-w-3xl md:mb-20">
-          <ScrollReveal>
-            <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.5em] text-neutral-400 dark:text-neutral-600">
-              <span className="h-px w-8 bg-current" />
-              Work With Me
-            </div>
-          </ScrollReveal>
-          <ScrollReveal delay={0.1}>
-            <h2 className="mt-6 font-display text-5xl font-bold tracking-tighter md:text-7xl">
-              What I’ll build for you.
-            </h2>
-          </ScrollReveal>
+        <div className="mb-12 md:mb-16">
+          <SectionHeading eyebrow="Work With Me">Services.</SectionHeading>
           <ScrollReveal delay={0.2}>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-neutral-500 dark:text-neutral-400 md:text-lg">
               Need something built? Pick what fits — I’ll <Em>design and ship it end to end</Em>,{' '}
