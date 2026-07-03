@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { User, LayoutGrid, Code2, Wrench, Briefcase, Award, BadgeCheck, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import Magnetic from './Magnetic';
 import { goToSection } from '../lib/navigation';
 
 const navLinks = [
-  { name: 'About', href: '#about', icon: User },
-  { name: 'Work', href: '#works', icon: LayoutGrid },
-  { name: 'Recognition', href: '#achievements', icon: Award },
-  { name: 'Skills', href: '#skills', icon: Code2 },
-  { name: 'Services', href: '#services', icon: Wrench },
-  { name: 'Experience', href: '#experience', icon: Briefcase },
-  { name: 'Certs', href: '#certifications', icon: BadgeCheck },
+  { name: 'About', href: '#about' },
+  { name: 'Work', href: '#works' },
+  { name: 'Recognition', href: '#achievements' },
+  { name: 'Skills', href: '#skills' },
+  { name: 'Services', href: '#services' },
+  { name: 'Experience', href: '#experience' },
+  { name: 'Certs', href: '#certifications' },
 ];
 
 // Scroll-spy targets in page order. Certifications maps onto Recognition.
@@ -133,7 +132,7 @@ const Navbar: React.FC = () => {
             </a>
           </Magnetic>
 
-          <nav className="relative z-10 flex items-center gap-0.5">
+          <nav aria-label="Main navigation" className="relative z-10 flex items-center gap-0.5">
             {navLinks.map((link, i) => {
               const active = activeIndex === i;
               return (
@@ -169,49 +168,6 @@ const Navbar: React.FC = () => {
           </Magnetic>
         </div>
       </header>
-
-      {/* ── Mobile bottom bar (detached floating glass, icon-only) ── */}
-      <nav
-        className={`pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 transition-opacity duration-500 md:hidden ${
-          hideNav ? 'opacity-0' : 'opacity-100'
-        }`}
-      >
-        <div className={`flex items-center gap-1 rounded-full border border-black/10 bg-white/65 px-2 py-2 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_10px_34px_rgba(0,0,0,0.18)] dark:border-white/10 dark:bg-white/[0.08] ${hideNav ? 'pointer-events-none' : 'pointer-events-auto'}`}>
-          {navLinks.map((link, i) => {
-            const Icon = link.icon;
-            const active = activeIndex === i;
-            return (
-              <button
-                key={link.name}
-                onClick={(e) => scrollToSection(e, link.href)}
-                aria-label={link.name}
-                className={`relative grid h-10 w-10 place-items-center rounded-full transition-colors duration-300 ${
-                  active ? 'text-black dark:text-white' : 'text-black/55 dark:text-white/60'
-                }`}
-              >
-                {active && (
-                  <motion.span
-                    layoutId="nav-bubble-mobile"
-                    transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                    className="absolute inset-0 z-0 rounded-full bg-black/10 dark:bg-white/15"
-                  />
-                )}
-                <span className="relative z-10">
-                  <Icon size={18} strokeWidth={2.2} />
-                </span>
-              </button>
-            );
-          })}
-
-          <button
-            onClick={(e) => scrollToSection(e, '#contact')}
-            aria-label="Connect"
-            className="ml-0.5 grid h-10 w-10 place-items-center rounded-full bg-black text-white dark:bg-white dark:text-black"
-          >
-            <Mail size={18} strokeWidth={2.2} />
-          </button>
-        </div>
-      </nav>
     </>
   );
 };

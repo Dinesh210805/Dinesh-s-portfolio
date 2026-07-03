@@ -4,4 +4,4 @@ export const PROFILE_IMAGE = '/DineshProfile2.jpeg';
 
 // Profile details
 export const PROFILE_NAME = 'Dinesh Kumar C';
-export const PROFILE_TITLE = 'GEN_AI / ML ARCHITECT';
+export const PROFILE_TITLE = 'GENAI ENGINEER';

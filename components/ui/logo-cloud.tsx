@@ -4,9 +4,10 @@ import { cn } from '../../lib/utils';
 
 /* Bordered logo grid (replaces the old skills marquee).
  *
- * Monochrome silhouettes via the simple-icons CDN, fetched black and flipped to
- * white in dark mode (`dark:invert`) so they read on both the bone and the
- * near-black surfaces — matching the site's monochrome editorial language.
+ * Full-color original brand logos via the simple-icons CDN. Each sits on a
+ * small always-light chip so brand-black marks (GitHub, etc.) stay visible
+ * against the near-black dark surface without inverting — and colored marks
+ * (Python, TensorFlow, Docker...) keep their real colors in both themes.
  * Corner "+" ticks and the full-bleed top/bottom rules echo the reference. */
 
 export interface LogoItem {
@@ -35,12 +36,14 @@ const LogoCloud: React.FC<LogoCloudProps> = ({ logos, className }) => (
         key={logo.slug + i}
         className="group/logo relative flex flex-col items-center justify-center gap-4 border-b border-r border-black/10 px-4 py-12 transition-colors duration-300 hover:bg-black/[0.02] dark:border-white/10 dark:hover:bg-white/[0.03] md:py-14"
       >
-        <img
-          src={`https://cdn.simpleicons.org/${logo.slug}/171717`}
-          alt={logo.label}
-          loading="lazy"
-          className="h-7 w-auto select-none opacity-60 grayscale transition-opacity duration-300 group-hover/logo:opacity-100 dark:invert md:h-8"
-        />
+        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white/90 shadow-[0_1px_2px_rgba(0,0,0,0.06)] transition-transform duration-300 group-hover/logo:scale-105 md:h-12 md:w-12">
+          <img
+            src={`https://cdn.simpleicons.org/${logo.slug}`}
+            alt={logo.label}
+            loading="lazy"
+            className="h-6 w-auto select-none opacity-90 transition-opacity duration-300 group-hover/logo:opacity-100 md:h-7"
+          />
+        </div>
         <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-neutral-500 dark:text-neutral-400">
           {logo.label}
         </span>

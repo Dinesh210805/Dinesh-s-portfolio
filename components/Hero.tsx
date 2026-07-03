@@ -127,7 +127,7 @@ const Hero: React.FC = () => {
             className="max-w-sm lg:col-start-1 lg:row-start-1 lg:self-end"
           >
             <motion.p variants={fade} className="font-mono text-[12px] uppercase tracking-[0.3em] text-black/50 dark:text-white/50">
-              [ Gen-AI&nbsp;·&nbsp;ML Engineer ]
+              [ GenAI Engineer ]
             </motion.p>
             <motion.p variants={fade} className="mt-4 text-base font-medium leading-relaxed text-black/70 dark:text-white/70 md:text-lg">
               Building intelligent systems that hold up outside the demo.

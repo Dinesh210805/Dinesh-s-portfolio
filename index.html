@@ -4,7 +4,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dinesh Kumar | Creative Developer</title>
+    <title>Dinesh Kumar C | GenAI Engineer — AI/ML Portfolio & Projects</title>
+    <meta
+      name="description"
+      content="Portfolio of Dinesh Kumar C, a GenAI engineer building on-device AI agents, LLM pipelines, and multimodal systems. Explore AURA, GravitycARgo, StayBot, EcoBot, and LangLearn."
+    />
+    <meta name="author" content="Dinesh Kumar C" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://dineshkumar-s-portfolio.vercel.app/" />
+    <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F4F1EA" media="(prefers-color-scheme: light)" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dineshkumar-s-portfolio.vercel.app/" />
+    <meta property="og:site_name" content="Dinesh Kumar C — Portfolio" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Dinesh Kumar C | GenAI Engineer" />
+    <meta
+      property="og:description"
+      content="GenAI engineer building on-device AI agents, LLM pipelines, and multimodal systems. Explore AURA, GravitycARgo, StayBot, EcoBot, and LangLearn."
+    />
+    <meta property="og:image" content="https://dineshkumar-s-portfolio.vercel.app/DineshProfile2.jpeg" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Dinesh Kumar C | GenAI Engineer" />
+    <meta
+      name="twitter:description"
+      content="GenAI engineer building on-device AI agents, LLM pipelines, and multimodal systems."
+    />
+    <meta name="twitter:image" content="https://dineshkumar-s-portfolio.vercel.app/DineshProfile2.jpeg" />
+
+    <link rel="icon" type="image/jpeg" href="/DineshProfile2.jpeg" />
+    <link rel="apple-touch-icon" href="/DineshProfile2.jpeg" />
+    <link rel="preload" as="image" href="/DineshProfile2.jpeg" fetchpriority="high" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -167,7 +202,20 @@
       .lenis.lenis-scrolling iframe {
         pointer-events: none;
       }
-      
+
+      /* Keyboard-only focus ring. The custom cursor sets `cursor: none`
+         globally, so :focus-visible is the sole feedback keyboard users get
+         for where focus is — it never fires for mouse/touch clicks, so
+         pointer-driven visual design is unaffected. */
+      a:focus-visible,
+      button:focus-visible,
+      [role='button']:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible {
+        outline: 2px solid #ccff00;
+        outline-offset: 3px;
+        border-radius: 2px;
+      }
 
     </style>
   <script type="importmap">
@@ -185,6 +233,118 @@
     "@motionone/utils": "https://esm.sh/@motionone/utils@^10.18.0",
     "@google/genai": "https://esm.sh/@google/genai@^1.34.0"
   }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://dineshkumar-s-portfolio.vercel.app/#person",
+      "name": "Dinesh Kumar C",
+      "jobTitle": "GenAI Engineer",
+      "url": "https://dineshkumar-s-portfolio.vercel.app/",
+      "image": "https://dineshkumar-s-portfolio.vercel.app/DineshProfile2.jpeg",
+      "email": "mailto:dinesh210805@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Puducherry",
+        "addressCountry": "IN"
+      },
+      "sameAs": [
+        "https://github.com/Dinesh210805",
+        "https://linkedin.com/in/dinesh-kumar-c-93a38129b"
+      ],
+      "knowsAbout": [
+        "Generative AI",
+        "Large Language Models",
+        "Retrieval-Augmented Generation",
+        "On-device AI",
+        "Multi-agent systems",
+        "Kotlin",
+        "Python",
+        "FastAPI",
+        "LangGraph"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://dineshkumar-s-portfolio.vercel.app/#website",
+      "url": "https://dineshkumar-s-portfolio.vercel.app/",
+      "name": "Dinesh Kumar C — Portfolio",
+      "description": "Portfolio of Dinesh Kumar C, a GenAI engineer building on-device AI agents, LLM pipelines, and multimodal systems.",
+      "publisher": { "@id": "https://dineshkumar-s-portfolio.vercel.app/#person" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://dineshkumar-s-portfolio.vercel.app/#projects",
+      "name": "Featured Projects",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "AURA",
+            "description": "A phone that an AI can actually operate — an on-device MCP server exposing 36 live-verified tools over peer-to-peer WebRTC, no root, no ADB, nothing routed through the cloud.",
+            "url": "https://github.com/Dinesh210805/aura-live-mcp",
+            "creator": { "@id": "https://dineshkumar-s-portfolio.vercel.app/#person" },
+            "keywords": "Kotlin, MCP, WebRTC, on-device AI, YOLOv8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "GravitycARgo",
+            "description": "A constraint-aware container-loading optimizer that turns raw cargo data into packing plans, visualized in 3D and Unity AR.",
+            "url": "https://github.com/Dinesh210805/GravitycARgo",
+            "creator": { "@id": "https://dineshkumar-s-portfolio.vercel.app/#person" },
+            "keywords": "Python, Flask, Genetic Algorithm, Unity AR, logistics AI"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "StayBot",
+            "description": "A travel assistant built around one LangGraph ReAct agent, routing 15 specialized tools across 450+ stays and 4,500+ reviews to reach a real booking.",
+            "url": "https://github.com/Dinesh210805/StayBot",
+            "creator": { "@id": "https://dineshkumar-s-portfolio.vercel.app/#person" },
+            "keywords": "FastAPI, LangGraph, Groq, Pinecone, AI travel assistant"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "EcoBot",
+            "description": "A multimodal waste-classification backend — describe it, photograph it, or say it out loud — powered by a fine-tuned model and a 4-stage RAG pipeline.",
+            "url": "https://github.com/Dinesh210805/EcoBot",
+            "creator": { "@id": "https://dineshkumar-s-portfolio.vercel.app/#person" },
+            "keywords": "FastAPI, QLoRA, LLaMA 3, ChromaDB, multimodal AI"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "LangLearn",
+            "description": "A 40+ language learning platform that locks its lesson output to a schema and translates voice-to-voice, right in the browser.",
+            "url": "https://github.com/Dinesh210805/Langlearn-Language-Translation-and-Learning-Tool",
+            "creator": { "@id": "https://dineshkumar-s-portfolio.vercel.app/#person" },
+            "keywords": "Flask, React, Groq, Web Speech API, language learning"
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 </head>

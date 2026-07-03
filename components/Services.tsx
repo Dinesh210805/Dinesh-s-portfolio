@@ -4,6 +4,10 @@ import { Plus } from 'lucide-react';
 import ScrollReveal from './ui/scroll-reveal';
 import { Em } from './ui/emphasis';
 import SectionHeading from './ui/section-heading';
+import { PROJECTS } from '../constants/projects';
+
+const projectSlug = (title: string): string | undefined =>
+  PROJECTS.find((p) => p.title === title)?.slug;
 
 /* ─────────────────────────────────────────────────────────────
  * Services — "the capability ledger".
@@ -28,8 +32,8 @@ const SERVICES: Service[] = [
     title: 'Generative AI Applications',
     desc: (
       <>
-        RAG pipelines and LLM apps that return <Em>structured, reliable output</Em> — not just
-        plausible text.
+        Chatbots and tools that give you a <Em>straight, structured answer</Em> — not a wall of
+        plausible-sounding text you have to fact-check yourself.
       </>
     ),
     proof: ['EcoBot', 'StayBot', 'LangLearn'],
@@ -39,8 +43,8 @@ const SERVICES: Service[] = [
     title: 'AI Agents & Automation',
     desc: (
       <>
-        Multi-agent systems that <Em>plan, call tools, and actually act</Em> — with guardrails,
-        retries, and observability.
+        Software that <Em>plans a few steps ahead and actually does the task</Em> — books things,
+        checks things, follows through — with a safety net so it doesn’t go off script.
       </>
     ),
     proof: ['AURA', 'StayBot'],
@@ -50,8 +54,8 @@ const SERVICES: Service[] = [
     title: 'Web Development',
     desc: (
       <>
-        Full-stack web apps. <Em>React and Next.js</Em> on the front, <Em>Flask and FastAPI</Em>{' '}
-        behind, shipped and deployed.
+        A full website or web app, <Em>front to back, built and shipped</Em> — not just a design
+        file that never became a real product.
       </>
     ),
     proof: ['LangLearn', 'GravitycARgo', 'This site'],
@@ -61,8 +65,8 @@ const SERVICES: Service[] = [
     title: 'Backend & API Development',
     desc: (
       <>
-        APIs that <Em>hold up</Em>: clean contracts, real-time where it counts, containerized and
-        observable.
+        The plumbing behind an app that <Em>keeps working once real people start using it</Em> —
+        not just in a demo in front of one browser tab.
       </>
     ),
     proof: ['StayBot', 'EcoBot', 'AURA'],
@@ -72,7 +76,8 @@ const SERVICES: Service[] = [
     title: 'Mobile App Development',
     desc: (
       <>
-        Android and cross-platform apps — including <Em>on-device AI</Em> and real-time perception.
+        Apps for your phone — including ones smart enough to <Em>see and react to what’s on
+        screen</Em>, not just display it.
       </>
     ),
     proof: ['AURA'],
@@ -82,8 +87,8 @@ const SERVICES: Service[] = [
     title: 'UI/UX Design',
     desc: (
       <>
-        Interfaces with intent: hierarchy, restraint, and motion that clarifies rather than
-        distracts. <Em>This site is the proof.</Em>
+        Interfaces that feel considered: <Em>clear hierarchy, no clutter</Em>, motion that helps
+        rather than shows off. This site is the proof.
       </>
     ),
     proof: ['This site'],
@@ -172,14 +177,21 @@ const Services: React.FC = () => {
                             {s.desc}
                           </p>
                           <div className="flex flex-wrap content-start items-start gap-2 md:col-span-5">
-                            {s.proof.map((p) => (
-                              <span
-                                key={p}
-                                className="rounded-full border border-black/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-neutral-500 dark:border-white/15"
-                              >
-                                {p}
-                              </span>
-                            ))}
+                            {s.proof.map((p) => {
+                              const slug = projectSlug(p);
+                              const className =
+                                'rounded-full border border-black/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-neutral-500 dark:border-white/15' +
+                                (slug ? ' transition-colors duration-300 hover:border-black/40 hover:text-black dark:hover:border-white/40 dark:hover:text-white' : '');
+                              return slug ? (
+                                <a key={p} href={`#/work/${slug}`} className={className}>
+                                  {p}
+                                </a>
+                              ) : (
+                                <span key={p} className={className}>
+                                  {p}
+                                </span>
+                              );
+                            })}
                           </div>
                         </div>
                       </motion.div>

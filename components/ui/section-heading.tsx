@@ -37,7 +37,7 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
       </ScrollReveal>
     )}
     <ScrollReveal delay={0.1} blur={false}>
-      <h2 className="mt-5 font-display font-medium leading-[0.82] tracking-[-0.035em] text-[18vw] sm:text-[16vw] md:text-[14vw] lg:text-[12.5vw]">
+      <h2 className="mt-5 font-display font-medium leading-[0.95] tracking-[-0.035em] text-[18vw] sm:text-[16vw] sm:leading-[0.88] md:text-[14vw] md:leading-[0.82] lg:text-[12.5vw]">
         {children}
       </h2>
     </ScrollReveal>

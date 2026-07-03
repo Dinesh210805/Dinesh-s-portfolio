@@ -41,34 +41,34 @@ export const PROJECTS: ProjectData[] = [
     cover: '/auracoverimage.jpeg',
     tagline: 'A phone that an AI can actually operate.',
     summary:
-      'An Android phone turned into a peer-to-peer MCP server — exposing 36 live-verified tools to any AI client over WebRTC, with no root, no ADB, and no cloud.',
+      'Your Android phone, turned into a peer-to-peer MCP server — 36 live-verified tools exposed to any AI client over WebRTC, no root, no ADB, and nothing routed through the cloud.',
     stack: ['Kotlin', 'MCP', 'WebRTC / DTLS', 'Koog', 'YOLOv8', 'ML Kit OCR', 'Groq / Gemini'],
     links: [{ label: 'GitHub', href: 'https://github.com/Dinesh210805/aura-live-mcp' }],
     sections: [
       {
         heading: 'The premise',
         body: [
-          'Phones are the most capable computers most people own, yet agents still treat them as dumb screens to scrape. AURA started from the opposite idea: make the phone itself a first-class place an AI can think and act.',
+          'Phones are the most capable computers most people carry around, yet most agents still treat them like a screen to scrape from a distance. AURA starts from a different assumption: give the AI a proper seat on the device itself, instead of poking at it from outside.',
         ],
       },
       {
         heading: 'Legacy — the LangChain control plane',
         body: [
-          'The first version was a cloud-side brain. A voice-controlled, multi-agent system built on a LangGraph ReAct architecture (LLaMA via Groq, with Gemini and Google ADK), it could see the screen through a Set-of-Marks perception pipeline — YOLOv8 plus OCR — plan a route through the UI, and act, tap by tap.',
-          'It was held together by OPA / Rego safety policies and a reflexion-retry reliability engine, with tri-provider model routing for cost and uptime. Powerful — but it leaned on the cloud and a fragile accessibility bridge.',
+          'The first version lived in the cloud — a voice-controlled, multi-agent system on a LangGraph ReAct architecture (LLaMA via Groq, with Gemini and Google ADK). It could see the screen through a Set-of-Marks pipeline (YOLOv8 plus OCR), plan a route through the UI, and act on it, tap by tap.',
+          'OPA/Rego safety policies and a reflexion-retry loop held it together, with routing across three model providers for cost and uptime. It worked — but it depended on the cloud and a fairly fragile accessibility bridge.',
         ],
       },
       {
         heading: 'The pivot — an on-device MCP server',
         body: [
-          'The current version flips the architecture. AURA runs an MCP server on the phone itself, written in Kotlin, and pairs peer-to-peer with any client over DTLS-encrypted WebRTC — no root, no ADB, no cloud relay.',
-          'Any MCP-speaking client (Claude included) can now drive the device through 36 live-verified tools: perception, input, and app control. The intelligence moves to whatever model you point at it; the phone just exposes safe, real capabilities.',
+          'The current version flips that. AURA runs its MCP server directly on the phone, written in Kotlin, and pairs peer-to-peer with any client over DTLS-encrypted WebRTC — no root, no ADB, no cloud relay in the middle.',
+          'Any MCP-speaking client — Claude included — can now drive the device through 36 live-verified tools covering perception, input, and app control. The intelligence lives wherever you point it; the phone just exposes real, safe capabilities to use.',
         ],
       },
       {
         heading: 'Why it matters',
         body: [
-          'On-device means private by default, low-latency, and resilient when the network is not. It reframes the phone from something agents poke at into something they can genuinely operate.',
+          "On-device means private by default, fast, and it keeps working when the network doesn't. It turns the phone from something an agent pokes at into something it can actually operate.",
         ],
       },
     ],
@@ -84,20 +84,20 @@ export const PROJECTS: ProjectData[] = [
     cover: '/GravitycARgocoverphoto.png',
     tagline: 'Packing plans that hold up in the real world.',
     summary:
-      'A constraint-aware 3D container-loading optimizer that turns cargo data into safer, denser packing plans — with 3D and AR-ready output.',
+      "A constraint-aware container-loading optimizer that turns raw cargo data into packing plans that are safer and denser — and hold up once they leave the spreadsheet.",
     stack: ['Python', 'Flask', 'Genetic Algorithm', 'Plotly 3D', 'Unity AR', 'OSRM'],
     links: [{ label: 'GitHub', href: 'https://github.com/Dinesh210805/GravitycARgo' }],
     sections: [
       {
         heading: 'About',
         body: [
-          'GravitycARgo turns CSV / Excel cargo data into a packing plan that is practical, not just mathematically dense. It accounts for weight limits, fragility, stackability, load-bearing capacity, and even route temperature.',
+          "Feed it a CSV or Excel sheet of cargo, and GravitycARgo works out a packing plan that's practical, not just mathematically tidy. It accounts for weight limits, fragility, stackability, load-bearing capacity, and even the temperature along the route.",
         ],
       },
       {
         heading: 'Results',
         body: [
-          'A random-key genetic algorithm reaches a 77.9% mean fill with zero hard violations. Plans export to 3D and Unity AR, so the handoff from planner to loader is something you can actually walk around.',
+          "A random-key genetic algorithm gets there — 77.9% mean fill, zero hard violations. Plans export to 3D and Unity AR, so the handoff from planner to the person actually loading the truck is something you can walk around, not just read.",
         ],
       },
     ],
@@ -113,20 +113,20 @@ export const PROJECTS: ProjectData[] = [
     cover: '/staybotcoverphoto.png',
     tagline: 'One agent, fifteen tools, real bookings.',
     summary:
-      'A travel assistant built on a single LangGraph ReAct agent routing 15 specialized tools across 450+ stays and 4,500+ reviews.',
+      'A travel assistant built around one LangGraph ReAct agent, routing 15 specialized tools across 450+ stays and 4,500+ reviews to get from a question to a real booking.',
     stack: ['FastAPI', 'LangGraph', 'Groq', 'Pinecone', 'SQLAlchemy', 'Next.js'],
     links: [{ label: 'GitHub', href: 'https://github.com/Dinesh210805/StayBot' }],
     sections: [
       {
         heading: 'About',
         body: [
-          'StayBot runs on one LangGraph ReAct agent (LLaMA 3.3-70B via Groq) that routes across 15 specialized tools — Pinecone semantic search, SQLAlchemy filtering, a stateful booking engine, and persistent per-user memory — over 450+ listings and 4,500+ reviews.',
+          'One LangGraph ReAct agent (LLaMA 3.3-70B via Groq) does the routing — across Pinecone semantic search, SQLAlchemy filtering, a stateful booking engine, and memory that persists per user — over 450+ listings and 4,500+ reviews.',
         ],
       },
       {
         heading: 'Built to stay up',
         body: [
-          'Multi-key Groq rotation with cooldowns keeps it responsive under rate limits, and an admin layer gives observability over latency, token usage, and tool distribution.',
+          'Multi-key Groq rotation with cooldowns keeps it responsive when rate limits hit, and an admin layer gives visibility into latency, token usage, and which tools actually get used.',
         ],
       },
     ],
@@ -139,23 +139,24 @@ export const PROJECTS: ProjectData[] = [
     year: '2024',
     featured: true,
     color: '#15803D',
+    cover: '/ecobot.png',
     tagline: 'Tell it, show it, or say it — one clean answer.',
     summary:
-      'A multimodal waste-classification backend: a fine-tuned LLaMA 3 plus a 4-stage RAG pipeline returning structured disposal guidance.',
+      'A multimodal waste-classification backend — describe it, photograph it, or say it out loud, and a fine-tuned model plus a 4-stage RAG pipeline hands back one clean, structured answer.',
     stack: ['FastAPI', 'QLoRA', 'LLaMA 3', 'ChromaDB', 'Groq', 'Gemini API'],
     links: [{ label: 'GitHub', href: 'https://github.com/Dinesh210805/EcoBot' }],
     sections: [
       {
         heading: 'About',
         body: [
-          'A user describes, photographs, or speaks about an item; EcoBot returns the bin colour, disposal steps, safety notes, an environmental fact, and nearby facilities — all in a single structured JSON response.',
+          'Describe an item, photograph it, or just say what it is — EcoBot answers with the bin colour, disposal steps, a safety note, an environmental fact, and nearby facilities, all in one structured response.',
         ],
       },
       {
         heading: 'The engine',
         body: [
-          'A LLaMA 3 8B model fine-tuned with QLoRA (rank-16, on a single T4) drives classification, behind a 4-stage RAG pipeline — classify → ChromaDB → Exa fallback → response — across 550+ disposal guides, returning Pydantic-validated output over 7 waste categories.',
-          'Image input runs through LLaMA 4 Scout; voice through Gemini 2.0 Flash.',
+          'Classification runs on a LLaMA 3 8B model fine-tuned with QLoRA (rank-16, on a single T4), behind a 4-stage pipeline — classify → ChromaDB → Exa fallback → response — across 550+ disposal guides, returning validated output over 7 waste categories.',
+          'Photos go through LLaMA 4 Scout; voice goes through Gemini 2.0 Flash.',
         ],
       },
     ],
@@ -171,7 +172,7 @@ export const PROJECTS: ProjectData[] = [
     cover: '/langlearncoverphoto.png',
     tagline: 'Forty languages, taught from real video.',
     summary:
-      'A 40+ language learning platform with schema-locked lesson generation and browser-native voice-to-voice translation.',
+      "A 40+ language learning platform that locks its lesson output to a schema and translates voice-to-voice, right in the browser.",
     stack: ['Flask', 'React', 'Groq', 'Web Speech API', 'YouTube Data API'],
     links: [
       {
@@ -183,13 +184,13 @@ export const PROJECTS: ProjectData[] = [
       {
         heading: 'About',
         body: [
-          'Lessons are generated with schema-enforced JSON for consistent output across 8 exercise types, and translation is voice-to-voice through the browser’s native Speech API — no third-party STT cost.',
+          "Lessons come out as schema-enforced JSON, so all eight exercise types stay consistent, and translation runs voice-to-voice through the browser's native Speech API — no third-party speech-to-text bill.",
         ],
       },
       {
         heading: 'Content pipeline',
         body: [
-          'A YouTube caption pipeline turns real video into vocabulary lists and grammar exercises, so practice material stays current and contextual.',
+          'A YouTube caption pipeline turns real video into vocabulary lists and grammar exercises, so the practice material stays current instead of canned.',
         ],
       },
     ],

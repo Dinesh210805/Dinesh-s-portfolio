@@ -25,6 +25,22 @@ interface Cert {
 const CERTIFICATIONS: Cert[] = [
   {
     id: 'CERT_01',
+    title: 'Claude Code 101',
+    issuer: 'Anthropic',
+    slug: 'anthropic',
+    date: '2025',
+    link: 'https://verify.skilljar.com/c/y7vfre3zzy7m',
+  },
+  {
+    id: 'CERT_02',
+    title: 'Claude 101',
+    issuer: 'Anthropic',
+    slug: 'anthropic',
+    date: '2025',
+    link: 'https://verify.skilljar.com/c/n9vdrrejaxbs',
+  },
+  {
+    id: 'CERT_03',
     title: 'Diploma in Full Stack Development',
     issuer: 'I Shine Info Tech',
     slug: 'react',
@@ -32,7 +48,7 @@ const CERTIFICATIONS: Cert[] = [
     link: 'https://drive.google.com/file/d/1qrIg6CE9CADRlQ58rG0f6GQkcKFhToZw/view?usp=sharing',
   },
   {
-    id: 'CERT_02',
+    id: 'CERT_04',
     title: 'Career Essentials in Generative AI',
     issuer: 'Microsoft & LinkedIn',
     slug: 'linkedin',
@@ -40,7 +56,7 @@ const CERTIFICATIONS: Cert[] = [
     link: 'https://www.linkedin.com/learning/certificates/e4cb08e17e29e60b42bc2f69d154df89c11852782543ffb319372ff9d16f9d5f',
   },
   {
-    id: 'CERT_03',
+    id: 'CERT_05',
     title: 'Programming in Java (NPTEL)',
     issuer: 'NPTEL · IIT Madras',
     slug: 'openjdk',
@@ -48,7 +64,7 @@ const CERTIFICATIONS: Cert[] = [
     link: 'https://drive.google.com/file/d/13DtTDlZQNWFqcaCyCkucnsdh_4QkIbsJ/view?usp=sharing',
   },
   {
-    id: 'CERT_04',
+    id: 'CERT_06',
     title: 'Database Management System (NPTEL)',
     issuer: 'NPTEL · IIT Kharagpur',
     slug: 'sqlite',
@@ -62,16 +78,16 @@ const CERTIFICATIONS: Cert[] = [
 const CertLogo: React.FC<{ slug: string; issuer: string }> = ({ slug, issuer }) => {
   const [failed, setFailed] = useState(false);
   return (
-    <div className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/10 dark:border-white/10 sm:flex">
+    <div className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/90 shadow-[0_1px_2px_rgba(0,0,0,0.06)] sm:flex">
       {failed ? (
-        <span className="font-display text-sm font-bold">{issuer.charAt(0)}</span>
+        <span className="font-display text-sm font-bold text-black">{issuer.charAt(0)}</span>
       ) : (
         <img
-          src={`https://cdn.simpleicons.org/${slug}/171717`}
+          src={`https://cdn.simpleicons.org/${slug}`}
           alt={issuer}
           loading="lazy"
           onError={() => setFailed(true)}
-          className="h-5 w-5 object-contain opacity-80 dark:invert"
+          className="h-5 w-5 object-contain"
         />
       )}
     </div>

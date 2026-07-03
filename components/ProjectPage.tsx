@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import { ArrowUpLeft, ArrowUpRight } from 'lucide-react';
 import ScrollReveal from './ui/scroll-reveal';
+import ProjectCard from './ui/project-card';
 import { getProject, PROJECTS } from '../constants/projects';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 /* ─────────────────────────────────────────────────────────────
  * ProjectPage — per-project detail. Editorial, text-driven for now
@@ -11,8 +14,16 @@ import { getProject, PROJECTS } from '../constants/projects';
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
+const container: Variants = { hidden: {}, show: { transition: { staggerChildren: 0.08 } } };
+
 const ProjectPage: React.FC<{ slug: string }> = ({ slug }) => {
   const p = getProject(slug);
+  const reduce = useReducedMotion();
+  const [coverFailed, setCoverFailed] = useState(false);
+  useDocumentMeta(
+    p ? `${p.title} — ${p.category} | Dinesh Kumar C` : 'Project not found | Dinesh Kumar C',
+    p?.summary
+  );
 
   if (!p) {
     return (
@@ -25,7 +36,8 @@ const ProjectPage: React.FC<{ slug: string }> = ({ slug }) => {
     );
   }
 
-  const others = PROJECTS.filter((x) => x.slug !== p.slug).slice(0, 2);
+  const others = PROJECTS.filter((x) => x.slug !== p.slug).slice(0, 3);
+  const showCover = Boolean(p.cover) && !coverFailed;
 
   return (
     <main className="relative z-20 w-full overflow-hidden bg-bone pb-28 pt-32 text-black transition-colors duration-500 dark:bg-background dark:text-white md:pt-40">
@@ -36,7 +48,7 @@ const ProjectPage: React.FC<{ slug: string }> = ({ slug }) => {
         style={{ backgroundImage: GRAIN }}
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1100px] px-6 md:px-10">
+      <div className="relative z-10 w-full px-6 md:px-12">
         {/* Back */}
         <ScrollReveal blur={false}>
           <a
@@ -52,11 +64,31 @@ const ProjectPage: React.FC<{ slug: string }> = ({ slug }) => {
         <ScrollReveal delay={0.1} blur={false}>
           <div className="mt-10 flex items-start gap-4 md:mt-14">
             <span className="mt-3 font-mono text-sm text-neutral-400 dark:text-neutral-600">{p.index}</span>
-            <h1 className="font-display text-[16vw] font-bold uppercase leading-[0.85] tracking-tighter md:text-[8rem]">
+            <h1 className="font-display text-[16vw] font-bold uppercase leading-[0.9] tracking-tighter sm:leading-[0.85] md:text-[8rem] md:leading-[0.85]">
               {p.title}
             </h1>
           </div>
         </ScrollReveal>
+
+        {/* Cover photo */}
+        {showCover && (
+          <ScrollReveal delay={0.12} blur={false}>
+            <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-3xl md:mt-14">
+              <img
+                src={p.cover}
+                alt={`${p.title} — ${p.category}`}
+                loading="eager"
+                onError={() => setCoverFailed(true)}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 opacity-[0.1] mix-blend-overlay"
+                style={{ backgroundImage: GRAIN }}
+              />
+            </div>
+          </ScrollReveal>
+        )}
 
         {/* Meta + summary */}
         <div className="mt-10 grid grid-cols-1 gap-10 border-t border-black/10 pt-10 dark:border-white/10 md:grid-cols-12">
@@ -141,25 +173,17 @@ const ProjectPage: React.FC<{ slug: string }> = ({ slug }) => {
           <h2 className="mb-8 font-display text-3xl font-bold tracking-tighter md:text-4xl">
             More projects
           </h2>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-7">
+          <motion.div
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 md:gap-x-8 md:gap-y-14"
+          >
             {others.map((o) => (
-              <a
-                key={o.slug}
-                href={`#/work/${o.slug}`}
-                className="group flex items-center justify-between gap-4 rounded-2xl border border-black/12 p-7 transition-colors duration-300 hover:border-black/40 dark:border-white/12 dark:hover:border-white/40"
-              >
-                <div>
-                  <h3 className="font-display text-2xl font-bold tracking-tight md:text-3xl">{o.title}</h3>
-                  <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-500">
-                    {o.category}
-                  </p>
-                </div>
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-black/20 transition-transform duration-300 group-hover:rotate-45 dark:border-white/20">
-                  <ArrowUpRight size={16} />
-                </span>
-              </a>
+              <ProjectCard key={o.slug} p={o} reduce={reduce} />
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </main>

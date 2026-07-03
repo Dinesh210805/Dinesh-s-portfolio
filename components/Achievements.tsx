@@ -34,6 +34,7 @@ const HONORS: Honor[] = [
   { n: '04', rank: 'Finalist', event: 'Aventus 2.0 Hackathon', year: '2024', img: '/aventus1.jpg', fit: 'cover' },
   { n: '05', rank: 'Regional Prefinalist', event: 'Youth Talk', year: '2024', img: '/youthtalkimage.png', fit: 'cover' },
   { n: '06', rank: 'Top 10', event: 'Unisys Innovation Program', year: '2025', img: '/unisysinnovationprogram.png', fit: 'contain' },
+  { n: '07', rank: 'Placed', sub: 'Campus Placement', event: 'Kaar Technologies', year: '2026', img: '/jubliation.JPG', fit: 'cover' },
 ];
 
 const N = HONORS.length;

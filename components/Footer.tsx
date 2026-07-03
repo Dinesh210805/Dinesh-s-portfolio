@@ -47,15 +47,16 @@ const Footer: React.FC = () => {
           
           <div className="flex gap-4 md:gap-6 mt-4">
             {[
-              { icon: <Github size={20} />, href: 'https://github.com/Dinesh210805' },
-              { icon: <Linkedin size={20} />, href: 'https://linkedin.com/in/dinesh-kumar-c-93a38129b' },
-              { icon: <Mail size={20} />, href: 'mailto:dinesh210805@gmail.com' },
+              { icon: <Github size={20} />, href: 'https://github.com/Dinesh210805', label: 'GitHub' },
+              { icon: <Linkedin size={20} />, href: 'https://linkedin.com/in/dinesh-kumar-c-93a38129b', label: 'LinkedIn' },
+              { icon: <Mail size={20} />, href: 'mailto:dinesh210805@gmail.com', label: 'Email' },
             ].map((social, i) => (
               <a
                 key={i}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={social.label}
                 className="p-3 md:p-4 rounded-full border border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 hover:scale-110"
               >
                 {social.icon}
@@ -78,10 +79,10 @@ const Footer: React.FC = () => {
             </div>
          </div>
 
-         <div className="relative w-full overflow-hidden select-none pb-4">
-           <h1 className="text-[18vw] font-display font-bold text-[#111] leading-none text-center tracking-tighter mix-blend-difference will-change-transform uppercase">
+         <div aria-hidden="true" className="relative w-full overflow-hidden select-none pb-4">
+           <p className="text-[18vw] font-display font-bold text-[#111] leading-none text-center tracking-tighter mix-blend-difference will-change-transform uppercase">
              DINESH
-           </h1>
+           </p>
          </div>
       </div>
       

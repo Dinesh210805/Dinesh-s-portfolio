@@ -15,12 +15,15 @@ import SectionHeading from './ui/section-heading';
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
-/* Raised skeuomorphic surface — soft top highlight, grounded drop shadow */
+/* Claymorphic surface — same tone as the page (bone / background), raised
+ * purely through a soft dual-direction shadow (light top-left, dark
+ * bottom-right) rather than a contrasting card color. Large radius, soft
+ * edges, no hard border — reads as "risen from" the surface, not placed on it. */
 const CARD =
-  'rounded-2xl border border-black/[0.07] bg-gradient-to-b from-white to-neutral-100 ' +
-  'shadow-[0_24px_50px_-24px_rgba(0,0,0,0.28),0_3px_8px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] ' +
-  'dark:border-white/[0.06] dark:from-[#181818] dark:to-[#0d0d0d] ' +
-  'dark:shadow-[0_28px_60px_-24px_rgba(0,0,0,0.85),0_3px_8px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.06)]';
+  'rounded-[32px] bg-bone ' +
+  'shadow-[10px_10px_28px_rgba(0,0,0,0.10),-10px_-10px_28px_rgba(255,255,255,0.8),inset_0_1px_1px_rgba(255,255,255,0.6)] ' +
+  'dark:bg-background ' +
+  'dark:shadow-[12px_12px_32px_rgba(0,0,0,0.6),-10px_-10px_28px_rgba(255,255,255,0.025),inset_0_1px_1px_rgba(255,255,255,0.04)]';
 
 interface Entry {
   id: number; // level number — climbs from school (01) to the latest role
@@ -29,8 +32,8 @@ interface Entry {
   org: string;
   status: string;
   live?: boolean; // the one in-progress entry
-  stat: string;
-  statLabel: string;
+  stat?: string;
+  statLabel?: string;
   detail: React.ReactNode;
 }
 
@@ -41,8 +44,6 @@ const ENTRIES: Entry[] = [
     role: 'Generative AI Intern',
     org: 'AICTE · 1M1B Flaunch',
     status: 'Shipped',
-    stat: '2',
-    statLabel: 'Products shipped',
     detail: (
       <>
         Built <Em>LangLearn</Em>, a learning platform with <Em>schema-enforced</Em> model output, and{' '}
@@ -57,8 +58,6 @@ const ENTRIES: Entry[] = [
     role: 'Associate AI Intern',
     org: 'Nuevera Infotech',
     status: 'Shipped',
-    stat: '15',
-    statLabel: 'Tools orchestrated',
     detail: (
       <>
         Architected <Em>StayBot</Em>, an AI travel assistant: a <Em>LangGraph ReAct agent</Em> on
@@ -127,11 +126,11 @@ const TimelineNode: React.FC<{ entry: Entry; index: number }> = ({ entry, index 
         whileInView={reduce ? { opacity: 1 } : { opacity: 1, scale: 1, filter: 'blur(0px)' }}
         viewport={{ once: false, margin: '-20%' }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className={`pointer-events-none absolute inset-y-0 hidden w-1/2 select-none items-center justify-center md:flex ${
-          isEven ? 'left-1/2' : 'right-1/2'
+        className={`pointer-events-none absolute inset-y-0 hidden w-1/2 select-none items-center md:flex ${
+          isEven ? 'left-1/2 justify-end pr-10 lg:pr-16' : 'right-1/2 justify-start pl-10 lg:pl-16'
         }`}
       >
-        <span className="font-display text-[3rem] font-black uppercase leading-none tracking-tighter text-transparent [-webkit-text-stroke:1.5px_rgba(0,0,0,0.14)] dark:[-webkit-text-stroke:1.5px_rgba(255,255,255,0.14)] lg:text-[4.5rem]">
+        <span className="font-display text-[2.25rem] font-black uppercase leading-none tracking-tighter text-transparent [-webkit-text-stroke:1.5px_rgba(0,0,0,0.14)] dark:[-webkit-text-stroke:1.5px_rgba(255,255,255,0.14)] lg:text-[3.5rem]">
           Level 0{entry.id}
         </span>
       </motion.div>
@@ -195,15 +194,17 @@ const TimelineNode: React.FC<{ entry: Entry; index: number }> = ({ entry, index 
             {entry.detail}
           </p>
 
-          {/* hard number */}
-          <div className={`mt-7 flex items-baseline gap-3 ${isEven ? 'md:justify-end' : ''}`}>
-            <span className="font-display text-4xl font-bold leading-none tracking-tighter md:text-5xl">
-              {entry.stat}
-            </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400 dark:text-neutral-500">
-              {entry.statLabel}
-            </span>
-          </div>
+          {/* hard number — only shown when there's a real, verifiable figure */}
+          {entry.stat && (
+            <div className={`mt-7 flex items-baseline gap-3 ${isEven ? 'md:justify-end' : ''}`}>
+              <span className="font-display text-4xl font-bold leading-none tracking-tighter md:text-5xl">
+                {entry.stat}
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400 dark:text-neutral-500">
+                {entry.statLabel}
+              </span>
+            </div>
+          )}
         </motion.div>
       </div>
     </div>
