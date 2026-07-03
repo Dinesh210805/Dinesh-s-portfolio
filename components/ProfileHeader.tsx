@@ -11,7 +11,7 @@ const INTRO_LEFT =
   'I’m Dinesh — I build GenAI systems from Puducherry, India. Most of what I make is boring in the best way: it just works, quietly, after the demo ends.';
 
 const MANIFESTO =
-  'Most of what I know, I taught myself at 2am, one broken build at a time. I don’t put something out until I’ve broken it myself first.';
+   'I build systems that think — and make sure the thinking holds up. Curiosity starts the work; rigor decides whether it ships. What matters is not how much a model can say, but how much of it you can trust.';
 
 /* Self-contained grain texture (monochrome, no asset request). */
 const GRAIN =
