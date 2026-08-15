@@ -39,11 +39,23 @@ export const PROJECTS: ProjectData[] = [
     featured: true,
     color: '#4338CA',
     cover: '/auracoverimage.jpeg',
-    tagline: 'A phone that an AI can actually operate.',
+    tagline: 'Talk to your phone. It actually does it.',
     summary:
-      'Your Android phone, turned into a peer-to-peer MCP server — 36 live-verified tools exposed to any AI client over WebRTC, no root, no ADB, and nothing routed through the cloud.',
-    stack: ['Kotlin', 'MCP', 'WebRTC / DTLS', 'Koog', 'YOLOv8', 'ML Kit OCR', 'Groq / Gemini'],
-    links: [{ label: 'GitHub', href: 'https://github.com/Dinesh210805/aura-live-mcp' }],
+      'A shipped Android assistant that sees your screen and works your real apps — 58 on-device tools, no integrations, no account, and the same phone doubles as an MCP server for developers.',
+    stack: [
+      'Kotlin',
+      'Jetpack Compose',
+      'MCP',
+      'WebRTC / DTLS',
+      'ONNX · YOLOv8',
+      'ML Kit OCR',
+      'Gemini Live',
+    ],
+    links: [
+      { label: 'Website', href: 'https://dinesh210805.github.io/aura-app/' },
+      { label: 'Download', href: 'https://dinesh210805.github.io/aura-app/download.html' },
+      { label: 'Releases', href: 'https://github.com/Dinesh210805/aura-releases/releases' },
+    ],
     sections: [
       {
         heading: 'The premise',
@@ -59,16 +71,16 @@ export const PROJECTS: ProjectData[] = [
         ],
       },
       {
-        heading: 'The pivot — an on-device MCP server',
+        heading: 'The pivot — everything on the phone',
         body: [
-          'The current version flips that. AURA runs its MCP server directly on the phone, written in Kotlin, and pairs peer-to-peer with any client over DTLS-encrypted WebRTC — no root, no ADB, no cloud relay in the middle.',
-          'Any MCP-speaking client — Claude included — can now drive the device through 36 live-verified tools covering perception, input, and app control. The intelligence lives wherever you point it; the phone just exposes real, safe capabilities to use.',
+          'The current version flips that. AURA runs on the device in Kotlin: it reads the screen locally, drives real apps, and exposes 58 tools to the model you choose. You bring your own provider key — Groq, OpenRouter or Gemini — stored encrypted on the handset. There is no AURA account and no AURA server in the path.',
+          'The same tool surface is also an MCP server. Pair a laptop once with a 6-digit PIN over the local network and Claude Code, Cursor or Copilot can drive a real handset directly, through the same safety gate.',
         ],
       },
       {
         heading: 'Why it matters',
         body: [
-          "On-device means private by default, fast, and it keeps working when the network doesn't. It turns the phone from something an agent pokes at into something it can actually operate.",
+          "Perception runs on the phone, so it is fast and it works on apps nobody built an integration for. Every action is followed by a fresh look at the screen — if it didn't change the way it expected, that's a failure, not a success to report and move on from.",
         ],
       },
     ],

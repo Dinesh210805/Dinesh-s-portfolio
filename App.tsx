@@ -24,6 +24,7 @@ import Preloader from './components/Preloader';
 import ScrollToTop from './components/ScrollToTop';
 import AllWorks from './components/AllWorks';
 import ProjectPage from './components/ProjectPage';
+import AuraPage from './components/AuraPage';
 import useDynamicFavicon from './hooks/useDynamicFavicon';
 import { useHashRoute } from './hooks/useHashRoute';
 import { consumePendingSection, navState } from './lib/navigation';
@@ -115,7 +116,11 @@ const App: React.FC = () => {
           )}
 
           {route.name === 'all' && <AllWorks />}
-          {route.name === 'project' && <ProjectPage slug={route.slug} />}
+          {/* AURA has a bespoke case study; every other project renders
+              through the generic data-driven ProjectPage. Same #/work/<slug>
+              URL either way, so existing cards and links keep working. */}
+          {route.name === 'project' &&
+            (route.slug === 'aura' ? <AuraPage /> : <ProjectPage slug={route.slug} />)}
 
           <Footer />
           <ScrollToTop />
